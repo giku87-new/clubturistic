@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClubTuristic.md — Festivaluri, Târguri, Crame & Locuri Verificate din Moldova</title>
+  <meta name="description" content="Ghidul verificat cu surse media și fotografii reale pentru festivaluri, târguri de producători, zilele ușilor deschise la crame și locuri autentice de vizitat în Republica Moldova.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <style>
+    html { scroll-behavior: smooth; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .line-clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+    #moldovaMap { height: 560px; width: 100%; border-radius: 1rem; z-index: 1; }
+  </style>
+</head>
+<body class="bg-stone-50 text-stone-900 min-h-screen flex flex-col">
+
+  <!-- TOP NAVIGATION -->
+  <header class="bg-white/95 backdrop-blur border-b border-stone-200 sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-3">
+      <a href="/" class="flex items-center space-x-2.5 group">
+        <div class="w-9 h-9 rounded-xl bg-rose-900 text-amber-300 flex items-center justify-center font-black text-lg shadow-sm group-hover:bg-rose-800 transition">
+          CT
+        </div>
+        <div>
+          <div class="font-extrabold text-base tracking-tight text-stone-900 leading-none">
+            ClubTuristic<span class="text-rose-800">.md</span>
+          </div>
+          <div class="text-[11px] text-stone-500 font-medium">Ghid Verificat • Moldova Autentică</div>
+        </div>
+      </a>
+
+      <div class="flex items-center space-x-2 sm:space-x-3 text-xs font-semibold">
+        <button onclick="openProposeModal()" class="px-3.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-stone-950 transition shadow-sm flex items-center space-x-1.5">
+          <span>+</span>
+          <span>Propune Eveniment</span>
+        </button>
+        <a href="/admin" class="px-3 py-2 rounded-xl border border-stone-300 text-stone-700 hover:bg-stone-100 transition hidden sm:inline-flex items-center space-x-1">
+          <span>⚙️</span>
+          <span>Admin</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="bg-gradient-to-br from-stone-900 via-rose-950 to-stone-900 text-white py-10 sm:py-14 px-4">
+    <div class="max-w-5xl mx-auto text-center">
+      <div class="inline-flex items-center space-x-2 bg-white/10 border border-white/15 px-3 py-1 rounded-full text-xs text-amber-200 font-medium mb-4">
+        <span>✓</span>
+        <span>100% Verificat cu Surse Media, Imagini Reale &amp; Coordonate GPS</span>
+      </div>
+
+      <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight mb-3">
+        Evenimente, Festivaluri, Târguri &amp; Zilele Ușilor Deschise din Moldova
+      </h1>
+      <p class="text-sm sm:text-base text-stone-300 max-w-3xl mx-auto mb-6">
+        Descoperă doar locuri și evenimente reale unde merită să mergi în weekend — cu detalii despre cum a fost la edițiile anterioare, ce poți gusta și surse oficiale verificabile.
+      </p>
+
+      <!-- SEARCH BOX -->
+      <div class="bg-white p-2 rounded-2xl shadow-2xl max-w-4xl mx-auto flex flex-col md:flex-row gap-2 text-stone-800 mb-5">
+        <div class="flex-1 flex items-center px-3 py-2 border-b md:border-b-0 md:border-r border-stone-200">
+          <span class="text-stone-400 mr-2 text-base">🔍</span>
+          <input id="searchInput" type="text"
+                 placeholder="Caută cireșe, IA MANIA, zeamă, Bostaniada, lavandă, crame, EcoLocal..."
+                 class="w-full bg-transparent text-sm focus:outline-none">
+        </div>
+
+        <div class="flex items-center px-3 py-2 md:border-r border-stone-200 min-w-[140px]">
+          <span class="text-stone-400 mr-1.5 text-sm">📍</span>
+          <select id="regionSelect" class="w-full bg-transparent text-xs sm:text-sm font-medium focus:outline-none cursor-pointer">
+            <option value="Toate">Toată Moldova</option>
+            <option value="Chișinău">Chișinău</option>
+            <option value="Centru">Centru</option>
+            <option value="Nord">Nord</option>
+            <option value="Sud">Sud</option>
+            <option value="UTA Găgăuzia">UTA Găgăuzia</option>
+          </select>
+        </div>
+
+        <div class="flex items-center px-3 py-2 min-w-[130px]">
+          <span class="text-stone-400 mr-1.5 text-sm">🗓️</span>
+          <select id="monthSelect" class="w-full bg-transparent text-xs sm:text-sm font-medium focus:outline-none cursor-pointer">
+            <option value="Toate">Toate Lunile</option>
+            <option value="Ianuarie">Ianuarie</option>
+            <option value="Februarie">Februarie</option>
+            <option value="Martie">Martie</option>
+            <option value="Aprilie">Aprilie</option>
+            <option value="Mai">Mai</option>
+            <option value="Iunie">Iunie</option>
+            <option value="Iulie">Iulie</option>
+            <option value="August">August</option>
+            <option value="Septembrie">Septembrie</option>
+            <option value="Octombrie">Octombrie</option>
+            <option value="Noiembrie">Noiembrie</option>
+            <option value="Decembrie">Decembrie</option>
+          </select>
+        </div>
+
+        <button onclick="applyCurrentSearch()" class="bg-rose-800 hover:bg-rose-700 text-white font-bold text-sm px-6 py-2.5 rounded-xl transition shadow">
+          Caută
+        </button>
+      </div>
+
+      <!-- QUICK DISCOVERY CHIPS -->
+      <div class="flex flex-wrap justify-center gap-2 text-xs">
+        <span class="text-stone-400 py-1 font-medium">Descoperă rapid:</span>
+        <button onclick="setQuickSearch('cireselor')" class="bg-white/10 hover:bg-white/20 px-3 py-1 rounded-full text-amber-200 border border-amber-400/30 transition">🍒 Cireșe &amp; Cireșar</button>
+        <button onclick="setQuickSearch('IA MANIA')" class="bg-white/10 hover:bg-white/20 px-3 py-1 rounded-full text-stone-100 border border-white/15 transition">👚 IA MANIA</button>
+        <button onclick="setQuickSearch('zeama')" class="bg-white/10 hover:bg-white/20 px-3 py-1 rounded-full text-stone-100 border border-white/15 transition">🍲 Zeamă</button>
+        <button onclick="setQuickSearch('Ziua Vinului')" class="bg-white/10 hover:bg-white/20 px-3 py-1 rounded-full text-stone-100 border border-white/15 transition">🍷 Ziua Vinului</button>
+        <button onclick="setQuickSearch('Bostaniada')" class="bg-white/10 hover:bg-white/20 px-3 py-1 rounded-full text-stone-100 border border-white/15 transition">🎃 Bostaniada</button>
+        <button onclick="setQuickSearch('Lavandă')" class="bg-white/10 hover:bg-white/20 px-3 py-1 rounded-full text-stone-100 border border-white/15 transition">💜 Lavandă</button>
+        <button onclick="setQuickSearch('EcoLocal')" class="bg-white/10 hover:bg-white/20 px-3 py-1 rounded-full text-stone-100 border border-white/15 transition">🧺 EcoLocal Sâmbătă</button>
+        <button onclick="setQuickSearch('Orheiul Vechi')" class="bg-white/10 hover:bg-white/20 px-3 py-1 rounded-full text-stone-100 border border-white/15 transition">🏰 Orheiul Vechi</button>
+        <button onclick="setQuickSearch('Hederlez')" class="bg-white/10 hover:bg-white/20 px-3 py-1 rounded-full text-stone-100 border border-white/15 transition">🐎 Hederlez</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN TABS & FILTERS -->
+  <main class="max-w-7xl w-full mx-auto px-4 sm:px-6 py-7 flex-1">
+
+    <!-- 4 PRIMARY SECTION TABS -->
+    <div class="flex flex-wrap items-center justify-between gap-4 border-b border-stone-200 pb-4 mb-5">
+      <div class="flex flex-wrap gap-2" role="tablist">
+        <button onclick="switchTab('evenimente')" id="tab-evenimente"
+                class="tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-rose-900 text-white shadow-sm transition">
+          🎉 Evenimente, Festivaluri &amp; Târguri (<span id="cnt-evenimente">...</span>)
+        </button>
+        <button onclick="switchTab('locatii')" id="tab-locatii"
+                class="tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white border border-stone-300 text-stone-700 hover:bg-stone-100 transition">
+          🍷 Crame, Pensiuni &amp; Locuri (<span id="cnt-locatii">...</span>)
+        </button>
+        <button onclick="switchTab('harta')" id="tab-harta"
+                class="tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white border border-stone-300 text-stone-700 hover:bg-stone-100 transition">
+          🗺️ Hartă Interactivă
+        </button>
+        <button onclick="switchTab('hramuri')" id="tab-hramuri"
+                class="tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white border border-stone-300 text-stone-700 hover:bg-stone-100 transition">
+          ⛪ Hramuri Notabile (<span id="cnt-hramuri">...</span>)
+        </button>
+      </div>
+
+      <p id="resultsSummary" class="text-xs font-medium text-stone-500">Se încarcă datele verificate...</p>
+    </div>
+
+    <!-- SECONDARY FILTERS ROW -->
+    <div id="filtersRow" class="bg-white border border-stone-200 rounded-2xl p-3.5 mb-6 flex flex-wrap items-center justify-between gap-3 shadow-xs">
+      <div class="flex flex-wrap items-center gap-2.5 text-xs">
+        <select id="typeFilter" class="bg-stone-50 border border-stone-300 rounded-lg px-3 py-1.5 font-medium text-stone-800 focus:outline-none">
+          <option value="Toate">Toate tipurile</option>
+        </select>
+
+        <select id="seasonFilter" class="bg-stone-50 border border-stone-300 rounded-lg px-3 py-1.5 font-medium text-stone-800 focus:outline-none">
+          <option value="Toate">Toate anotimpurile</option>
+          <option value="Primăvară">🌱 Primăvară</option>
+          <option value="Vară">☀️ Vară</option>
+          <option value="Toamnă">🍂 Toamnă</option>
+          <option value="Iarnă">❄️ Iarnă</option>
+          <option value="Permanent">🔄 Permanent / Tot anul</option>
+        </select>
+
+        <label id="freeOnlyWrap" class="inline-flex items-center space-x-1.5 bg-stone-50 border border-stone-300 rounded-lg px-3 py-1.5 cursor-pointer font-medium text-stone-700">
+          <input id="freeOnlyCheck" type="checkbox" class="accent-rose-800 rounded">
+          <span>Doar intrare gratuită</span>
+        </label>
+      </div>
+
+      <button onclick="resetAllFilters()" class="text-xs font-semibold text-stone-500 hover:text-rose-800 underline">
+        ✕ Resetează toate filtrele
+      </button>
+    </div>
+
+    <!-- HRAMURI DISCLAIMER BANNER (hidden unless tab === 'hramuri') -->
+    <div id="hramuriNotice" class="hidden bg-amber-50 border border-amber-200 rounded-2xl p-4 mb-6 text-xs sm:text-sm text-amber-950">
+      <strong>Notă editorială transparentă:</strong> Am exclus intenționat cele ~900 de primării de sate cu date neconfirmate sau sintetice.
+      Această secțiune separată afișează exclusiv marile hramuri urbane documentate în presă, cu program public confirmat și interes turistic real.
+    </div>
+
+    <!-- MAP VIEW CONTAINER (hidden unless tab === 'harta') -->
+    <section id="mapSection" class="hidden mb-6">
+      <div class="bg-white border border-stone-200 rounded-2xl p-3 shadow-sm">
+        <div class="flex flex-wrap items-center justify-between gap-2 px-1 pb-2 text-xs text-stone-600">
+          <div class="flex items-center space-x-4">
+            <span class="inline-flex items-center space-x-1.5"><span class="w-3 h-3 rounded-full bg-rose-700 inline-block"></span><span>Evenimente &amp; Festivaluri</span></span>
+            <span class="inline-flex items-center space-x-1.5"><span class="w-3 h-3 rounded-full bg-emerald-700 inline-block"></span><span>Crame, Pensiuni &amp; Obiective</span></span>
+          </div>
+          <span class="text-stone-400">Dă clic pe orice pin pentru previzualizare și detalii</span>
+        </div>
+        <div id="moldovaMap"></div>
+      </div>
+    </section>
+
+    <!-- CARDS GRID -->
+    <section id="cardsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Populat dinamic via /static/js/app.js -->
+    </section>
+
+    <!-- EMPTY STATE -->
+    <div id="emptyState" class="hidden bg-white border border-stone-200 rounded-2xl p-10 text-center max-w-lg mx-auto my-8">
+      <div class="text-4xl mb-2">🔎</div>
+      <h3 class="font-bold text-base text-stone-900 mb-1">Niciun rezultat pentru filtrele selectate</h3>
+      <p class="text-xs text-stone-500 mb-4">Încearcă alt cuvânt cheie sau resetează filtrele pentru a vedea toate evenimentele și locurile verificate.</p>
+      <button onclick="resetAllFilters()" class="px-4 py-2 bg-rose-800 text-white rounded-xl text-xs font-bold hover:bg-rose-700">
+        Arată tot catalogul
+      </button>
+    </div>
+
+  </main>
+
+  <!-- QUICK PREVIEW MODAL -->
+  <div id="previewModal" class="fixed inset-0 bg-black/65 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-2xl w-full shadow-2xl relative max-h-[90vh] overflow-y-auto">
+      <button onclick="closePreviewModal()" class="sticky top-3 float-right mr-3 mt-3 w-8 h-8 rounded-full bg-stone-900/75 text-white hover:bg-stone-900 flex items-center justify-center text-sm font-bold z-10">✕</button>
+      <div id="previewContent"></div>
+    </div>
+  </div>
+
+  <!-- PROPOSE EVENT MODAL -->
+  <div id="proposeModal" class="fixed inset-0 bg-black/65 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+      <button onclick="closeProposeModal()" class="absolute top-4 right-4 text-stone-400 hover:text-stone-700 text-lg font-bold">✕</button>
+      <h2 class="text-lg font-extrabold text-stone-900 mb-1">Propune un Eveniment sau Loc Real</h2>
+      <p class="text-xs text-stone-500 mb-4">Publicăm exclusiv evenimente verificabile. Te rugăm să incluzi un link public oficial (Facebook, site web sau știre media).</p>
+
+      <form id="proposeForm" onsubmit="submitProposal(event)" class="space-y-3 text-xs">
+        <div>
+          <label class="block font-semibold text-stone-700 mb-1">Tip *</label>
+          <select id="propTip" class="w-full border border-stone-300 rounded-xl px-3 py-2 bg-stone-50">
+            <option value="Festival Gastronomic">Festival Gastronomic</option>
+            <option value="Festival Cultural & Muzică">Festival Cultural &amp; Muzică</option>
+            <option value="Târg Producători & Meșteșuguri">Târg Producători &amp; Meșteșuguri</option>
+            <option value="Ziua Ușilor Deschise & Vin">Ziua Ușilor Deschise &amp; Vin</option>
+            <option value="Pensiune / Cramă / Obiectiv">Pensiune / Cramă / Obiectiv Turistic</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-semibold text-stone-700 mb-1">Numele evenimentului sau locației *</label>
+          <input id="propTitlu" required type="text" placeholder="Ex: Festivalul Lavandei din..." class="w-full border border-stone-300 rounded-xl px-3 py-2">
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-semibold text-stone-700 mb-1">Localitatea *</label>
+            <input id="propLocalitate" required type="text" placeholder="Ex: s. Holercani" class="w-full border border-stone-300 rounded-xl px-3 py-2">
+          </div>
+          <div>
+            <label class="block font-semibold text-stone-700 mb-1">Raionul</label>
+            <input id="propRaion" type="text" placeholder="Ex: Dubăsari" class="w-full border border-stone-300 rounded-xl px-3 py-2">
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-semibold text-stone-700 mb-1">Când are loc / Perioada</label>
+          <input id="propData" type="text" placeholder="Ex: A 2-a sâmbătă din Iulie / Săptămânal sâmbăta" class="w-full border border-stone-300 rounded-xl px-3 py-2">
+        </div>
+
+        <div>
+          <label class="block font-semibold text-stone-700 mb-1">Link sursă oficială / Anunț media (obligatoriu) *</label>
+          <input id="propLink" required type="url" placeholder="https://..." class="w-full border border-stone-300 rounded-xl px-3 py-2">
+        </div>
+
+        <div>
+          <label class="block font-semibold text-stone-700 mb-1">Descriere &amp; ce se întâmplă acolo</label>
+          <textarea id="propDesc" rows="3" placeholder="Program, mâncare tradițională, detalii de acces..." class="w-full border border-stone-300 rounded-xl px-3 py-2"></textarea>
+        </div>
+
+        <div>
+          <label class="block font-semibold text-stone-700 mb-1">Contact expeditor (opțional)</label>
+          <input id="propContact" type="text" placeholder="Email sau telefon pentru clarificări" class="w-full border border-stone-300 rounded-xl px-3 py-2">
+        </div>
+
+        <div id="propFeedback" class="hidden p-2.5 rounded-xl text-xs font-semibold"></div>
+
+        <div class="pt-2 flex justify-end space-x-2">
+          <button type="button" onclick="closeProposeModal()" class="px-4 py-2 rounded-xl border border-stone-300 text-stone-700 font-semibold">Anulează</button>
+          <button type="submit" class="px-5 py-2 rounded-xl bg-rose-800 hover:bg-rose-700 text-white font-bold">Trimite spre verificare</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-stone-900 text-stone-400 py-7 px-4 text-xs mt-12">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div>
+        <strong class="text-white">ClubTuristic.md</strong> — Portalul evenimentelor și destinațiilor verificate din Republica Moldova.
+      </div>
+      <div class="flex flex-wrap items-center gap-4">
+        <a href="/admin" class="text-amber-400 hover:underline">Panou Admin</a>
+        <a href="/api/stats" target="_blank" class="hover:text-white">Statistici Live API</a>
+        <a href="/api/evenimente" target="_blank" class="hover:text-white">API Evenimente JSON</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>

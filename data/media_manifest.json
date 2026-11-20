@@ -1,0 +1,230 @@
+{
+  "apples": {
+    "path": "/static/images/apples.jpg",
+    "credit": "George Chernilevsky • Public domain (Wikimedia Commons)",
+    "source_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/30/Apples_in_basket_2018_G1.jpg/960px-Apples_in_basket_2018_G1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "size_bytes": 367602
+  },
+  "butuceni": {
+    "path": "/static/images/butuceni.jpg",
+    "credit": "Анатолий Зубанюк • CC BY 3.0 (Wikimedia Commons)",
+    "source_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4c/Butuceni%2C_Moldova_-_panoramio.jpg/960px-Butuceni%2C_Moldova_-_panoramio.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "size_bytes": 337618
+  },
+  "capriana": {
+    "path": "/static/images/capriana.jpg",
+    "credit": "Diego Delso • CC BY-SA 4.0 (Wikimedia Commons)",
+    "source_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/51/Monasterio_de_C%C4%83priana%2C_C%C4%83priana%2C_Moldavia%2C_2023-11-02%2C_DD_38.jpg/960px-Monasterio_de_C%C4%83priana%2C_C%C4%83priana%2C_Moldavia%2C_2023-11-02%2C_DD_38.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "size_bytes": 199545
+  },
+  "castel_mimi": {
+    "path": "/static/images/castel_mimi.webp",
+    "credit": "Castel Mimi Wine Resort (site oficial)",
+    "source_url": "https://castelmimi.md/wp-content/uploads/2023/05/castel-mimi-cover.webp",
+    "size_bytes": 274726
+  },
+  "cherries": {
+    "path": "/static/images/cherries.jpg",
+    "credit": "Benjamint444, edited by Fir0002 • CC BY-SA 3.0 (Wikimedia Commons)",
+    "source_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bb/Cherry_Stella444.jpg/960px-Cherry_Stella444.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "size_bytes": 57064
+  },
+  "chicken_soup": {
+    "path": "/static/images/chicken_soup.jpg",
+    "credit": "Hoyabird8 • CC BY-SA 3.0 (Wikimedia Commons)",
+    "source_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b3/Chicken_Noodle_Soup.jpg/960px-Chicken_Noodle_Soup.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "size_bytes": 132077
+  },
+  "chisinau": {
+    "path": "/static/images/chisinau.jpg",
+    "credit": "Giku • Public domain (Wikimedia Commons)",
+    "source_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ca/Arcul_de_Triumf_Chisinau.jpg/960px-Arcul_de_Triumf_Chisinau.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "size_bytes": 124982
+  },
+  "christmas_market": {
+    "path": "/static/images/christmas_market.jpg",
+    "credit": "DanielMichaelPerry • CC0 (Wikimedia Commons)",
+    "source_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/22/Cours_Mirabeau_Nuit_D%C3%A9cembre.jpg/960px-Cours_Mirabeau_Nuit_D%C3%A9cembre.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "size_bytes": 256462
+  },
+  "cricova": {
+    "path": "/static/images/cricova.jpg",
+    "credit": "Combinatul de Vinuri Cricova (site oficial)",
+    "source_url": "https://cricova.md/wp-content/uploads/2026/03/c2c2b11dc0a7ae1f1f524d48ab82775e-1-1024x640.jpg",
+    "size_bytes": 121138
+  },
+  "farmers_market": {
+    "path": "/static/images/farmers_market.jpg",
+    "credit": "USDAgov • Public domain (Wikimedia Commons)",
+    "source_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/06/2023_USDA_Farmers_Market_%2820230714-USDA-AMS-RDC-35%29.jpg/960px-2023_USDA_Farmers_Market_%2820230714-USDA-AMS-RDC-35%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "size_bytes": 210215
+  },
+  "gagauz_sofrasi": {
+    "path": "/static/images/gagauz_sofrasi.jpg",
+    "credit": "Society for Birds and Nature Protection of Moldova • CC BY-SA 4.0 (Wikimedia Commons)",
+    "source_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/MD.GE.Cead%C3%AEr-Lunga_-_r%C3%A2pele_de_la_Cead%C3%AEr-Lunga_-_apr_2018_-_01.jpg/960px-MD.GE.Cead%C3%AEr-Lunga_-_r%C3%A2pele_de_la_Cead%C3%AEr-Lunga_-_apr_2018_-_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "size_bytes": 225427
+  },
+  "gagauzia": {
+    "path": "/static/images/gagauzia.jpg",
+    "credit": "Bertramz • CC BY-SA 3.0 (Wikimedia Commons)",
+    "source_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0f/Comrat%2Cmarket-area.jpg/960px-Comrat%2Cmarket-area.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "size_bytes": 222038
+  },
+  "horses_race": {
+    "path": "/static/images/horses_race.jpg",
+    "credit": "Paul • CC BY 2.0 (Wikimedia Commons)",
+    "source_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0d/Race_Horse_On_Gallops_%288236293870%29.jpg/960px-Race_Horse_On_Gallops_%288236293870%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "size_bytes": 149202
+  },
+  "jazz_sax": {
+    "path": "/static/images/jazz_sax.jpg",
+    "credit": "Tore Sætre • CC BY-SA 4.0 (Wikimedia Commons)",
+    "source_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/20/Brede_S%C3%B8rum_Jazz_p%C3%A5_J%C3%B8lst_2026_%28223648%29.jpg/960px-Brede_S%C3%B8rum_Jazz_p%C3%A5_J%C3%B8lst_2026_%28223648%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "size_bytes": 261964
+  },
+  "lacul_beleu": {
+    "path": "/static/images/lacul_beleu.jpg",
+    "credit": "Cezara-Patricia Cumatrenco • CC BY-SA 4.0 (Wikimedia Commons)",
+    "source_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a9/Lacul_Beleu_priveli%C8%99te.jpg/960px-Lacul_Beleu_priveli%C8%99te.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "size_bytes": 275798
+  },
+  "lavender": {
+    "path": "/static/images/lavender.jpg",
+    "credit": "Laslovarga • CC BY-SA 4.0 (Wikimedia Commons)",
+    "source_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/dd/Lavandula_angustifolia_%2816%29.jpg/960px-Lavandula_angustifolia_%2816%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "size_bytes": 149827
+  },
+  "milestii_mici": {
+    "path": "/static/images/milestii_mici.jpg",
+    "credit": "Myrabella • CC BY-SA 3.0 (Wikimedia Commons)",
+    "source_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/21/Caves_Milestii_Mici_Moldavie.jpg/960px-Caves_Milestii_Mici_Moldavie.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "size_bytes": 206457
+  },
+  "moldovan_carpet": {
+    "path": "/static/images/moldovan_carpet.jpg",
+    "credit": "Wikimedia Commons (Public domain)",
+    "source_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9b/Moldovan_carpet.jpg/960px-Moldovan_carpet.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "size_bytes": 269121
+  },
+  "moldovan_ie": {
+    "path": "/static/images/moldovan_ie.jpg",
+    "credit": "Wikimedia Commons (CC0)",
+    "source_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3c/Blouse_MET_23.123.1.jpg/960px-Blouse_MET_23.123.1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "size_bytes": 107165
+  },
+  "nistru": {
+    "path": "/static/images/nistru.jpg",
+    "credit": "DGrozdanov • CC BY 3.0 (Wikimedia Commons)",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/c/c1/Cruise_ship_on_the_Dniester_River.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "size_bytes": 67878
+  },
+  "outdoor_opera": {
+    "path": "/static/images/outdoor_opera.jpg",
+    "credit": "Sean Madden from San Francisco, CA, US • CC BY-SA 2.0 (Wikimedia Commons)",
+    "source_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/eb/HCM_Opera_House_outdoor_performance.jpg/960px-HCM_Opera_House_outdoor_performance.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "size_bytes": 155480
+  },
+  "padurea_domneasca": {
+    "path": "/static/images/padurea_domneasca.jpg",
+    "credit": "Alex Prodan • CC BY-SA 4.0 (Wikimedia Commons)",
+    "source_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e2/Padurea_Domneasca_Glodeni_%281%29.jpg/960px-Padurea_Domneasca_Glodeni_%281%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "size_bytes": 324215
+  },
+  "peaches": {
+    "path": "/static/images/peaches.jpg",
+    "credit": "Allagash Brewing • CC BY 2.0 (Wikimedia Commons)",
+    "source_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/84/Peaches_at_Applecrest_Farm_Orchards_-_20107074158.jpg/960px-Peaches_at_Applecrest_Farm_Orchards_-_20107074158.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "size_bytes": 97018
+  },
+  "plums": {
+    "path": "/static/images/plums.jpg",
+    "credit": "Fir0002 • CC BY-SA 3.0 (Wikimedia Commons)",
+    "source_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6c/Plums.jpg/960px-Plums.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "size_bytes": 175571
+  },
+  "potatoes": {
+    "path": "/static/images/potatoes.jpg",
+    "credit": "Muktee1494 • CC BY-SA 4.0 (Wikimedia Commons)",
+    "source_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cc/Big_and_fresh_potatoes_01.jpg/960px-Big_and_fresh_potatoes_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "size_bytes": 192287
+  },
+  "pottery": {
+    "path": "/static/images/pottery.jpg",
+    "credit": "Milica Buha • CC BY-SA 4.0 (Wikimedia Commons)",
+    "source_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3a/Grncarija_iz_Zlakuse_01.jpg/960px-Grncarija_iz_Zlakuse_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "size_bytes": 272910
+  },
+  "pumpkin_fest": {
+    "path": "/static/images/pumpkin_fest.jpg",
+    "credit": "Michael Barera • CC BY-SA 4.0 (Wikimedia Commons)",
+    "source_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b2/2024_The_Elegant_Farmer_Autumn_Harvest_Fest_01_%28Pumpkin_Patch%29.jpg/960px-2024_The_Elegant_Farmer_Autumn_Harvest_Fest_01_%28Pumpkin_Patch%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "size_bytes": 150857
+  },
+  "purcari": {
+    "path": "/static/images/purcari.jpg",
+    "credit": "Diana.moraru • CC BY-SA 4.0 (Wikimedia Commons)",
+    "source_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/68/Purcari.jpg/960px-Purcari.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "size_bytes": 203180
+  },
+  "rock_folk_fest": {
+    "path": "/static/images/rock_folk_fest.jpg",
+    "credit": "JollyJamboree • CC0 (Wikimedia Commons)",
+    "source_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4d/Calgary_Folk_Festival_2023_main_stage_at_night.jpg/960px-Calgary_Folk_Festival_2023_main_stage_at_night.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "size_bytes": 156970
+  },
+  "soroca": {
+    "path": "/static/images/soroca.jpg",
+    "credit": "Diego Delso • CC BY-SA 4.0 (Wikimedia Commons)",
+    "source_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/31/Fuerte_de_Soroca%2C_Soroca%2C_Moldavia%2C_2023-11-01%2C_DD_06.jpg/960px-Fuerte_de_Soroca%2C_Soroca%2C_Moldavia%2C_2023-11-01%2C_DD_06.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "size_bytes": 171186
+  },
+  "strawberries_honey": {
+    "path": "/static/images/strawberries_honey.jpg",
+    "credit": "veeterzy veeterzy • CC0 (Wikimedia Commons)",
+    "source_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a7/Collection_of_strawberry_%28Unsplash%29.jpg/960px-Collection_of_strawberry_%28Unsplash%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "size_bytes": 237261
+  },
+  "sweets_pastry": {
+    "path": "/static/images/sweets_pastry.jpg",
+    "credit": "Gerda Arendt • CC0 (Wikimedia Commons)",
+    "source_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Dessert_for_Chef%27s_table%2C_Mainz.jpg/960px-Dessert_for_Chef%27s_table%2C_Mainz.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "size_bytes": 171546
+  },
+  "tomatoes": {
+    "path": "/static/images/tomatoes.jpg",
+    "credit": "Alabama Extension • CC0 (Wikimedia Commons)",
+    "source_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6e/Red_Tomatoes_at_a_Farmers_Market.jpg/960px-Red_Tomatoes_at_a_Farmers_Market.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "size_bytes": 188330
+  },
+  "vartely": {
+    "path": "/static/images/vartely.jpg",
+    "credit": "Château Vartely Winery & Resort (site oficial)",
+    "source_url": "https://vartely.md/wp-content/uploads/2017/01/fb.jpg",
+    "size_bytes": 92736
+  },
+  "varzari_placinta": {
+    "path": "/static/images/varzari_placinta.jpg",
+    "credit": "Keksanda • CC BY-SA 4.0 (Wikimedia Commons)",
+    "source_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/76/Pl%C4%83cinta_Fr%C4%83%C8%9Beasc%C4%83.jpg/960px-Pl%C4%83cinta_Fr%C4%83%C8%9Beasc%C4%83.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "size_bytes": 202034
+  },
+  "vineyard_moldova": {
+    "path": "/static/images/vineyard_moldova.jpg",
+    "credit": "USAID Digital Development • CC BY 2.0 (Wikimedia Commons)",
+    "source_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ea/Moldova_Competitiveness_Project%2C_USAID_Moldova_%2848121769796%29.jpg/960px-Moldova_Competitiveness_Project%2C_USAID_Moldova_%2848121769796%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "size_bytes": 165916
+  },
+  "wine_cellar": {
+    "path": "/static/images/wine_cellar.jpg",
+    "credit": "Jeremy Keith from Brighton &amp; Hove, United Kingdom • CC BY 2.0 (Wikimedia Commons)",
+    "source_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/79/Port_tasting_%288907536314%29.jpg/960px-Port_tasting_%288907536314%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "size_bytes": 217839
+  },
+  "yard_sale": {
+    "path": "/static/images/yard_sale.webp",
+    "credit": "Yard Sale Chișinău (site oficial)",
+    "source_url": "https://yardsale.md/assets/yardsale-market-2026-11-14-15.webp",
+    "size_bytes": 497390
+  }
+}

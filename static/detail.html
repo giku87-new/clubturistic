@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>__META_TITLE__</title>
+  <meta name="description" content="__META_DESCRIPTION__">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="__META_TITLE__">
+  <meta property="og:description" content="__META_DESCRIPTION__">
+  <meta property="og:image" content="__OG_IMAGE__">
+  <meta property="og:url" content="__OG_URL__">
+  <script src="https://cdn.tailwindcss.com"></script>
+<!-- JSON-LD Structured Data for Event -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Event",
+  "name": "__META_TITLE__",
+  "description": "__META_DESCRIPTION__",
+  "startDate": "{{event_start_iso}}",
+  "endDate": "{{event_end_iso}}",
+  "location": {
+    "@type": "Place",
+    "name": "{{event_location_name}}",
+    "address": "{{event_address}}"
+  },
+  "image": "{{event_image_url}}",
+  "url": "__OG_URL__"
+}
+</script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <style>
+    html { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    #detailMap { height: 280px; width: 100%; border-radius: 1rem; z-index: 1; }
+  </style>
+</head>
+<body class="bg-stone-50 text-stone-900 min-h-screen flex flex-col">
+
+  <!-- HEADER -->
+  <header class="bg-white border-b border-stone-200 sticky top-0 z-40">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-3">
+      <a href="/" class="inline-flex items-center space-x-2 text-xs sm:text-sm font-bold text-rose-800 hover:text-rose-600 transition">
+        <span>←</span>
+        <span>Înapoi la ClubTuristic.md</span>
+      </a>
+      <div class="flex items-center space-x-2 text-xs font-semibold">
+        <button onclick="copyShareLink()" id="copyBtn" class="px-3 py-1.5 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-800 transition">
+          🔗 Copiază link
+        </button>
+        <a href="/admin" class="px-3 py-1.5 rounded-xl border border-stone-300 text-stone-700 hover:bg-stone-100 transition">
+          ⚙️ Admin
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main id="detailRoot" class="max-w-5xl w-full mx-auto px-4 sm:px-6 py-8 flex-1">
+    <!-- Populat instantaneu din window.__INITIAL_ITEM__ -->
+  </main>
+
+  <footer class="bg-stone-900 text-stone-400 py-6 px-4 text-xs mt-12">
+    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div><strong class="text-white">ClubTuristic.md</strong> — Informație verificată cu surse media din Republica Moldova</div>
+      <a href="/" class="text-amber-400 hover:underline">Toate evenimentele și destinațiile →</a>
+    </div>
+  </footer>
+
+  <script>
+    window.__INITIAL_ITEM__ = __INITIAL_ITEM_JSON__;
+
+    function escapeHtml(val) {
+      if (val === null || val === undefined) return "";
+      return String(val)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function safeUrl(url) {
+      if (!url) return "#";
+      const u = String(url).trim();
+      return (u.startsWith("http://") || u.startsWith("https://") || u.startsWith("/")) ? u : "#";
+    }
+
+    function copyShareLink() {
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(window.location.href).then(() => {
+          const b = document.getElementById("copyBtn");
+          b.innerText = "✓ Link copiat!";
+          setTimeout(() => { b.innerText = "🔗 Copiază link"; }, 2000);
+        });
+      }
+    }
+
+    (function renderDetail() {
+      const payload = window.__INITIAL_ITEM__;
+      if (!payload || !payload.item) return;
+      const isEvent = payload.item_type === "eveniment";
+      const item = payload.item;
+
+      const surseCards = (item.surse_media || []).map(s => `
+        <a href="${escapeHtml(safeUrl(s.url))}" target="_blank" rel="noopener noreferrer"
+           class="flex items-center justify-between p-3 rounded-xl border border-stone-200 bg-white hover:border-rose-400 hover:bg-rose-50/40 transition">
+          <div>
+            <div class="text-xs font-bold text-stone-900">${escapeHtml(s.titlu)}</div>
+            <div class="text-[11px] text-stone-500 mt-0.5">Publicație / Sursă: <strong>${escapeHtml(s.publicatie)}</strong></div>
+          </div>
+          <span class="text-rose-800 text-xs font-bold ml-3 whitespace-nowrap">Deschide ↗</span>
+        </a>
+      `).join("");
+
+      const statusBadge = item.status_data
+        ? `<span class="px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-900 border border-emerald-200">${escapeHtml(item.status_data)}</span>`
+        : `<span class="px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-900 border border-emerald-200">✓ Locație activă verificată</span>`;
+
+      document.getElementById("detailRoot").innerHTML = `
+        <!-- HERO BANNER -->
+        <div class="bg-white rounded-3xl border border-stone-200 overflow-hidden shadow-sm mb-8">
+          <div class="relative aspect-[16/8] sm:aspect-[16/7] bg-stone-200">
+            <img src="${escapeHtml(safeUrl(item.imagine_url))}" alt="${escapeHtml(item.titlu)}" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent"></div>
+            <div class="absolute top-4 left-4 flex flex-wrap gap-2">
+              <span class="bg-rose-900 text-white px-3 py-1 rounded-lg text-xs font-bold shadow">
+                ${escapeHtml(isEvent ? item.tip : item.categorie)}
+              </span>
+              <span class="bg-emerald-700 text-white px-3 py-1 rounded-lg text-xs font-bold shadow">
+                ✓ Verificat Media
+              </span>
+            </div>
+            <div class="absolute bottom-4 left-5 right-5 text-white">
+              <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight">${escapeHtml(item.titlu)}</h1>
+              <div class="text-xs sm:text-sm text-stone-200 mt-1.5 flex flex-wrap items-center gap-3">
+                <span>📍 ${escapeHtml(item.localitate)}, ${escapeHtml(item.raion)} (${escapeHtml(item.regiune)})</span>
+                <span>•</span>
+                <span>Foto: ${escapeHtml(item.imagine_credit)}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-6 sm:p-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- MAIN CONTENT -->
+            <div class="lg:col-span-2 space-y-6">
+              <div>
+                <p class="text-base text-stone-700 leading-relaxed font-medium">${escapeHtml(item.descriere_scurta)}</p>
+              </div>
+
+              <section class="bg-amber-50/70 border border-amber-200 rounded-2xl p-5 space-y-2.5">
+                <h2 class="text-base font-extrabold text-stone-900 flex items-center space-x-2">
+                  <span>📰</span>
+                  <span>${isEvent ? "Cum a fost în realitate (Ediții reale & Atmosferă)" : "Ce merită văzut și făcut aici"}</span>
+                </h2>
+                <p class="text-sm text-stone-800 leading-relaxed">${escapeHtml(isEvent ? item.cum_a_fost_real : item.ce_merita_vazut)}</p>
+              </section>
+
+              ${item.ce_gusti ? `
+              <section class="bg-white border border-stone-200 rounded-2xl p-5">
+                <h2 class="text-base font-extrabold text-stone-900 mb-2">🍽️ Ce guști &amp; Specialități locale</h2>
+                <p class="text-sm text-stone-700 leading-relaxed">${escapeHtml(item.ce_gusti)}</p>
+              </section>
+              ` : ""}
+
+              <section>
+                <h2 class="text-base font-extrabold text-stone-900 mb-3">🔗 Surse Media, Anunțuri &amp; Linkuri Oficiale</h2>
+                <div class="space-y-2.5">
+                  <a href="${escapeHtml(safeUrl(item.link_oficial))}" target="_blank" rel="noopener noreferrer"
+                     class="flex items-center justify-between p-3.5 rounded-xl border-2 border-rose-200 bg-rose-50/50 hover:bg-rose-100/60 transition">
+                    <div>
+                      <div class="text-xs font-extrabold text-rose-900">Website Oficial / Pagină de Referință</div>
+                      <div class="text-xs text-rose-700 break-all">${escapeHtml(item.link_oficial)}</div>
+                    </div>
+                    <span class="px-3 py-1.5 rounded-lg bg-rose-800 text-white text-xs font-bold ml-3 whitespace-nowrap">Vizitează ↗</span>
+                  </a>
+                  ${surseCards}
+                </div>
+              </section>
+            </div>
+
+            <!-- SIDEBAR FACTS & MAP -->
+            <aside class="space-y-5">
+              <div class="bg-stone-50 border border-stone-200 rounded-2xl p-5 space-y-3 text-xs">
+                <div class="flex items-center justify-between">
+                  <span class="font-bold uppercase tracking-wider text-stone-500 text-[11px]">Fișă Practică</span>
+                  ${statusBadge}
+                </div>
+
+                <div class="border-t border-stone-200 pt-3 space-y-2.5">
+                  <div>
+                    <div class="text-stone-500 font-medium">${isEvent ? "📅 Când se petrece" : "🕒 Program de vizită"}</div>
+                    <div class="font-bold text-sm text-stone-900">${escapeHtml(isEvent ? item.data_text : item.program_vizita)}</div>
+                  </div>
+                  ${isEvent ? `
+                  <div>
+                    <div class="text-stone-500 font-medium">🔄 Regulă recurență</div>
+                    <div class="font-semibold text-stone-800">${escapeHtml(item.regula_recurenta)}</div>
+                  </div>
+                  <div>
+                    <div class="text-stone-500 font-medium">🏆 Ultima ediție verificată</div>
+                    <div class="font-semibold text-stone-800">${escapeHtml(item.ultima_editie_verificata)}</div>
+                  </div>
+                  ` : `
+                  <div>
+                    <div class="text-stone-500 font-medium">📞 Rezervare necesară</div>
+                    <div class="font-semibold text-stone-800">${escapeHtml(item.rezervare_necesara)}</div>
+                  </div>
+                  `}
+                  <div>
+                    <div class="text-stone-500 font-medium">🎟️ ${isEvent ? "Preț intrare" : "Buget orientativ"}</div>
+                    <div class="font-bold text-stone-900">${escapeHtml(isEvent ? item.pret_intrare : item.buget_orientativ)}</div>
+                  </div>
+                  <div>
+                    <div class="text-stone-500 font-medium">📍 Locație exactă</div>
+                    <div class="font-semibold text-stone-800">${escapeHtml(isEvent ? item.locatie_exacta : item.adresa)}</div>
+                    <div class="text-[11px] text-stone-500 mt-0.5">${item.distanta_chisinau_km === 0 ? "În Chișinău" : `~${escapeHtml(item.distanta_chisinau_km)} km de Chișinău`}</div>
+                  </div>
+                  ${isEvent ? `
+                  <div>
+                    <div class="text-stone-500 font-medium">🤝 Organizator</div>
+                    <div class="font-semibold text-stone-800">${escapeHtml(item.organizator)}</div>
+                  </div>
+                  ` : ""}
+                </div>
+
+                <div class="pt-3 border-t border-stone-200 flex flex-col gap-2">
+                  ${isEvent ? `
+                  <a href="/api/evenimente/${encodeURIComponent(item.slug)}/ics"
+                     class="w-full text-center bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold py-2.5 rounded-xl transition">
+                    📅 Adaugă în Calendar (.ics)
+                  </a>
+                  ` : ""}
+                  <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${item.lat},${item.lng}`)}" target="_blank" rel="noopener noreferrer"
+                     class="w-full text-center bg-stone-900 hover:bg-stone-800 text-white font-bold py-2.5 rounded-xl transition">
+                    🧭 Navighează pe Google Maps
+                  </a>
+                </div>
+              </div>
+
+              <!-- MINI LEAFLET MAP -->
+              <div class="bg-white border border-stone-200 rounded-2xl p-2.5 shadow-xs">
+                <div id="detailMap"></div>
+                <div class="text-[11px] text-stone-500 text-center mt-2">
+                  Coordonate GPS verificate: ${Number(item.lat).toFixed(4)}, ${Number(item.lng).toFixed(4)}
+                </div>
+              </div>
+            </aside>
+          </div>
+        </div>
+      `;
+
+      const map = L.map("detailMap").setView([item.lat, item.lng], 12);
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 18,
+        attribution: "&copy; OpenStreetMap",
+      }).addTo(map);
+      L.marker([item.lat, item.lng]).addTo(map).bindPopup(escapeHtml(item.titlu)).openPopup();
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+services:
+  clubturistic:
+    build: .
+    container_name: clubturistic_web
+    ports:
+      - "8080:8080"
+    environment:
+      - ADMIN_USER=${ADMIN_USER:-admin}
+      - ADMIN_PASS=${ADMIN_PASS:-clubturistic2026}
+    volumes:
+      - ./clubturistic.db:/app/clubturistic.db
+      - ./static/images:/app/static/images
+    restart: always

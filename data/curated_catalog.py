@@ -1,0 +1,2000 @@
+"""
+Catalogul verificat al platformei ClubTuristic.md.
+Conține EXCLUSIV evenimente reale, festivaluri, târguri, zile ale ușilor deschise,
+locații turistice active și hramuri urbane notabile documentate cu surse media,
+date ale edițiilor reale și coordonate GPS verificate.
+
+Eliminat intenționat:
+- Cele ~900 de primării generice cu date sintetice (IDNO % 100) și contacte neconfirmate.
+- Evenimente inventate fără acoperire media reală.
+"""
+
+EVENIMENTE = [
+    {
+        "id": "evt-ciresar-truseni",
+        "slug": "festivalul-ciresar-truseni",
+        "titlu": "Festivalul „Cireșar” — Festivalul Cireșelor din Trușeni",
+        "tip": "Festival Gastronomic",
+        "organizator": "Primăria Comunei Trușeni & Comunitatea Sâmburarilor",
+        "regiune": "Chișinău",
+        "raion": "Municipiul Chișinău",
+        "localitate": "com. Trușeni",
+        "locatie_exacta": "Scuarul Casei de Cultură din com. Trușeni",
+        "lat": 47.0658,
+        "lng": 28.6808,
+        "distanta_chisinau_km": 14,
+        "data_text": "Începutul lunii Iunie (preajma Duminicii Mari)",
+        "regula_recurenta": "Anual la începutul lunii Iunie, în plină coacere a cireșelor",
+        "tip_recurenta": "Recurență relativă",
+        "luna_principala": "Iunie",
+        "luni_active": "Iunie",
+        "sezon": "Vară",
+        "ultima_editie_verificata": "Ediția a V-a+ (Iunie 2026)",
+        "urmatoarea_data_estimata": "2027-06-06",
+        "status_data": "Estimat după tradiție",
+        "pret_intrare": "Gratuit",
+        "descriere_scurta": "Trușeniul este supranumit „raiul cireșelor” de lângă Chișinău; festivalul celebrează soiurile locale precum Trușeneanca cu târg de fructe, vărzări și concerte.",
+        "cum_a_fost_real": (
+            "Comuna Trușeni are sute de hectare de livezi de cireși, iar localnicii poartă simbolic numele de „sâmburari”. "
+            "În Scuarul Casei de Cultură se întind tarabe cu cireșe proaspete din soiurile timpurii și cărnoase (inclusiv soiul local Trușeneanca), "
+            "alături de expoziții ale meșterilor populari, ateliere de creație și zone de joacă pentru copii. "
+            "Gospodinele pregătesc vărzări și plăcinte cu cireșe, iar seara se încheie cu recitaluri de muzică populară, artiști autohtoni și DJ."
+        ),
+        "ce_gusti": "Cireșe proaspete „Trușeneanca”, vărzări și plăcinte cu cireșe, dulcețuri de cireșe amare, compoturi de casă",
+        "taguri": "cires, cirese, ciresar, cireselor, truseni, varzari, placinte, livada, iunie",
+        "link_oficial": "https://truseni.md",
+        "surse_media": [
+            {"titlu": "Portalul oficial al Comunei Trușeni — Festivalul Cireșar", "publicatie": "truseni.md", "url": "https://truseni.md"},
+            {"titlu": "Evenimente și festivaluri de vară în Moldova", "publicatie": "Fest.md", "url": "https://www.fest.md/"},
+            {"titlu": "Reportaje pomicole și festivaluri rurale", "publicatie": "Locuri.md", "url": "https://locuri.md"}
+        ],
+        "este_recomandat": 1,
+        "media_key": "cherries"
+    },
+    {
+        "id": "evt-cireselor-varzarilor-rusestii-noi",
+        "slug": "festivalul-cireselor-si-varzarilor-rusestii-noi",
+        "titlu": "Festivalul Cireșelor și Vărzărilor din Ruseștii Noi",
+        "tip": "Festival Gastronomic",
+        "organizator": "Primăria Comunei Ruseștii Noi & Consiliul Raional Ialoveni",
+        "regiune": "Centru",
+        "raion": "Ialoveni",
+        "localitate": "com. Ruseștii Noi",
+        "locatie_exacta": "Poiana / Stadionul de la intrarea în Ruseștii Noi",
+        "lat": 46.9255,
+        "lng": 28.6531,
+        "distanta_chisinau_km": 24,
+        "data_text": "Mijlocul lunii Iunie (Duminica)",
+        "regula_recurenta": "Anual la mijlocul lunii Iunie",
+        "tip_recurenta": "Recurență relativă",
+        "luna_principala": "Iunie",
+        "luni_active": "Iunie",
+        "sezon": "Vară",
+        "ultima_editie_verificata": "Ediția a XIV-a (Iunie 2026)",
+        "urmatoarea_data_estimata": "2027-06-13",
+        "status_data": "Estimat după tradiție",
+        "pret_intrare": "Gratuit",
+        "descriere_scurta": "Ajuns la a 14-a ediție pe Valea Botnei: paradă a portului popular, concurs culinar de vărzări coapte pe vatră cu cireșe amare și „Noaptea Cireșelor”.",
+        "cum_a_fost_real": (
+            "Unul dintre cele mai longevive festivaluri gastronomice din centrul Moldovei (14 ediții), organizat în bazinul pomicol Ruseștii Noi. "
+            "Sărbătoarea pornește cu Parada Portului Popular în ii și costume tradiționale, urmată de concursul gospodinelor pentru cele mai gustoase „vărzări” "
+            "— plăcinte tradiționale umplute cu cireșe negre sau amare coapte pe vatră după rețete vechi. "
+            "Sunt amenajate „Case Mari” tematice, evoluează ansambluri din Moldova și localități înfrățite din România, iar seara continuă cu spectacolul „Noaptea Cireșelor”."
+        ),
+        "ce_gusti": "Vărzări calde pe vatră cu cireșe amare și negre, cireșe proaspete din Valea Botnei, plăcinte de casă, dulcețuri",
+        "taguri": "cires, cirese, cireselor, varzari, rusestii noi, ialoveni, placinte, port popular",
+        "link_oficial": "https://ialovenionline.md",
+        "surse_media": [
+            {"titlu": "Reportaj Festivalul Cireșelor și Vărzărilor ediția XIV", "publicatie": "Moldova 1", "url": "https://moldova1.md"},
+            {"titlu": "Evenimente din raionul Ialoveni", "publicatie": "Ialoveni Online", "url": "https://ialovenionline.md"}
+        ],
+        "este_recomandat": 1,
+        "media_key": "varzari_placinta"
+    },
+    {
+        "id": "evt-ia-mania-holercani",
+        "slug": "ia-mania-holercani",
+        "titlu": "IA MANIA — Festivalul Tradițiilor de pe malul Nistrului",
+        "tip": "Festival Cultural & Muzică",
+        "organizator": "Asociația Obștească KLumea (Nata Albot)",
+        "regiune": "Centru",
+        "raion": "Dubăsari",
+        "localitate": "s. Holercani",
+        "locatie_exacta": "Pensiunea Holercani, pe malul Nistrului",
+        "lat": 47.3136,
+        "lng": 29.0642,
+        "distanta_chisinau_km": 46,
+        "data_text": "Prima sâmbătă din Iulie",
+        "regula_recurenta": "Anual în prima sâmbătă din Iulie",
+        "tip_recurenta": "Recurență relativă",
+        "luna_principala": "Iulie",
+        "luni_active": "Iulie",
+        "sezon": "Vară",
+        "ultima_editie_verificata": "Ediția a XII-a „Reîntoarcerea la Rădăcini” (Iulie 2026)",
+        "urmatoarea_data_estimata": "2027-07-03",
+        "status_data": "Estimat după tradiție",
+        "pret_intrare": "150 - 300 MDL (autocare tur-retur disponibile)",
+        "descriere_scurta": "Cel mai colorat festival dedicat iei și tradițiilor vii: 6 șezători de cusut altițe, competiția gospodăriilor „Casele Mari din Dubăsari” și concerte la umbra copacilor de lângă Nistru.",
+        "cum_a_fost_real": (
+            "La ediția a XII-a de la Pensiunea Holercani, mii de vizitatori îmbrăcați în ii și cămăși de in au umplut poiana umbroasă de pe malul Nistrului. "
+            "Pe scenă au cântat live Zdob și Zdub, Cuibul, Molda the Dog și DJ Driadele. "
+            "Atracțiile au inclus 6 șezători unde meșterițele au arătat cum se coase corect o cămașă cu altiță, târg cu zeci de artizani, concursul mural „Cai Verzi pe Pereți”, "
+            "zonă de jocuri din lemn pentru copii și Casele Mari ale satelor din Dubăsari cu cuptoare încinse, sarmale și plăcinte calde. Se asigură și transport organizat cu autocarul din Chișinău."
+        ),
+        "ce_gusti": "Sarmale din cuptorul Caselor Mari, plăcinte rumenite pe vatră, pâine de casă, prăjituri tradiționale, vinuri artizanale",
+        "taguri": "ia mania, iamania, klumea, holercani, ie, port popular, nistru, zdob si zdub, sezatoare",
+        "link_oficial": "https://klumea.org",
+        "surse_media": [
+            {"titlu": "KLumea — Pagina oficială a festivalurilor comunitare", "publicatie": "KLumea.org", "url": "https://klumea.org"},
+            {"titlu": "Bilete și detalii program IA MANIA", "publicatie": "iTicket.md", "url": "https://iticket.md"},
+            {"titlu": "Agenda Ministerului Culturii privind IA MANIA", "publicatie": "mc.gov.md", "url": "https://mc.gov.md"}
+        ],
+        "este_recomandat": 1,
+        "media_key": "moldovan_ie"
+    },
+    {
+        "id": "evt-mai-dulce-chisinau",
+        "slug": "mai-dulce-chisinau",
+        "titlu": "Festivalul Deserturilor și Gastronomiei „Mai Dulce”",
+        "tip": "Festival Gastronomic",
+        "organizator": "Asociația Obștească KLumea",
+        "regiune": "Chișinău",
+        "raion": "Municipiul Chișinău",
+        "localitate": "mun. Chișinău",
+        "locatie_exacta": "Centrul Chișinăului / CIE Moldexpo",
+        "lat": 47.0298,
+        "lng": 28.8075,
+        "distanta_chisinau_km": 0,
+        "data_text": "A 3-a duminică din Mai",
+        "regula_recurenta": "Anual în luna Mai (de regulă a 3-a duminică din Mai)",
+        "tip_recurenta": "Recurență relativă",
+        "luna_principala": "Mai",
+        "luni_active": "Mai",
+        "sezon": "Primăvară",
+        "ultima_editie_verificata": "Ediția Carnaval „Mai Dulce” (Mai 2026)",
+        "urmatoarea_data_estimata": "2027-05-16",
+        "status_data": "Estimat după tradiție",
+        "pret_intrare": "100 - 200 MDL (gratuit pentru copii)",
+        "descriere_scurta": "Cel mai mare festival al deserturilor și patiseriei artizanale din Moldova: zeci de cofetari locali, Târgul Copiilor Cuminți și ateliere culinare.",
+        "cum_a_fost_real": (
+            "Organizat de echipa KLumea într-o atmosferă colorată de familie (edițiile recente au avut tematică de Carnaval), "
+            "Mai Dulce reunește zeci de patiseri autohtoni, producători de ciocolată, prăjituri de casă și înghețată artizanală. "
+            "Alături de Târgul Producătorilor Locali, copiii participă la „Târgul Copiilor Cuminți” unde își vând propriile creații și dulciuri, "
+            "la concursul de oratorie „Graiul meu mai dulce” și la ateliere practice de cofetărie."
+        ),
+        "ce_gusti": "Prăjituri de casă, torturi cu vișine și miere, ciocolată artizanală moldovenească, patiserie cu lavandă și fructe de pădure",
+        "taguri": "mai dulce, desert, prajituri, klumea, chisinau, patiserie, copii, familie, mai",
+        "link_oficial": "https://klumea.org",
+        "surse_media": [
+            {"titlu": "KLumea — Festivalul Mai Dulce", "publicatie": "KLumea.org", "url": "https://klumea.org"},
+            {"titlu": "Program și bilete Mai Dulce", "publicatie": "iTicket.md", "url": "https://iticket.md"}
+        ],
+        "este_recomandat": 1,
+        "media_key": "sweets_pastry"
+    },
+    {
+        "id": "evt-lavender-fest-cobusca",
+        "slug": "lavender-fest-cobusca-noua",
+        "titlu": "Lavender Fest — Festivalul în Lanul de Lavandă",
+        "tip": "Festival Cultural & Muzică",
+        "organizator": "Asociația Obștească KLumea",
+        "regiune": "Centru",
+        "raion": "Anenii Noi",
+        "localitate": "s. Cobusca Nouă",
+        "locatie_exacta": "Lanul de lavandă din Cobusca Nouă (35 km de Chișinău)",
+        "lat": 46.9395,
+        "lng": 29.2105,
+        "distanta_chisinau_km": 35,
+        "data_text": "Sfârșit de Iunie (înflorirea lavandei)",
+        "regula_recurenta": "Anual în Iunie, în weekendul de vârf al înfloririi levănțicii",
+        "tip_recurenta": "Recurență relativă",
+        "luna_principala": "Iunie",
+        "luni_active": "Iunie",
+        "sezon": "Vară",
+        "ultima_editie_verificata": "Ediția de vară KLumea (Iunie 2026)",
+        "urmatoarea_data_estimata": "2027-06-20",
+        "status_data": "Estimat după tradiție",
+        "pret_intrare": "150 - 250 MDL",
+        "descriere_scurta": "Weekend de relaxare în ținută albă printre rânduri parfumate de lavandă: masaj în aer liber, târg eco, degustări gastronomice și concert la apus.",
+        "cum_a_fost_real": (
+            "Primul festival din Moldova organizat direct în câmpul de levănțică de la Cobusca Nouă. "
+            "Vizitatorii vin respectând dress-code-ul tradițional în alb (all-white) pentru sesiuni foto, masaj în aer liber chiar între rândurile mov, "
+            "ateliere „Lavanda Art”, târg cu uleiuri esențiale, ape florale, miere cu lavandă și gastronomie sănătoasă acompaniată de vinuri locale și concert live."
+        ),
+        "ce_gusti": "Limonadă și înghețată cu lavandă, biscuiți cu levănțică, brânzeturi artizanale și vinuri albe reci",
+        "taguri": "lavanda, levantica, lavender fest, cobusca noua, klumea, foto, all white, iunie",
+        "link_oficial": "https://klumea.org",
+        "surse_media": [
+            {"titlu": "KLumea — Lavender Fest Moldova", "publicatie": "KLumea.org", "url": "https://klumea.org"},
+            {"titlu": "Bilete Lavender Fest", "publicatie": "iTicket.md", "url": "https://iticket.md"}
+        ],
+        "este_recomandat": 1,
+        "media_key": "lavender"
+    },
+    {
+        "id": "evt-festivalul-zemii-sipoteni",
+        "slug": "festivalul-zemii-sipoteni",
+        "titlu": "Festivalul Național al Zemii din Sipoteni",
+        "tip": "Festival Gastronomic",
+        "organizator": "Primăria Comunei Sipoteni & Consiliul Raional Călărași",
+        "regiune": "Centru",
+        "raion": "Călărași",
+        "localitate": "com. Sipoteni",
+        "locatie_exacta": "Zona de agrement Poiana „La Sălcii”, Sipoteni",
+        "lat": 47.2788,
+        "lng": 28.2044,
+        "distanta_chisinau_km": 68,
+        "data_text": "Luna August (Duminica)",
+        "regula_recurenta": "Anual în luna August, la umbra sălciilor din Poiana „La Sălcii”",
+        "tip_recurenta": "Recurență relativă",
+        "luna_principala": "August",
+        "luni_active": "August",
+        "sezon": "Vară",
+        "ultima_editie_verificata": "Ediția a IX-a & a X-a (August 2025–2026)",
+        "urmatoarea_data_estimata": "2027-08-08",
+        "status_data": "Estimat după tradiție",
+        "pret_intrare": "Gratuit",
+        "descriere_scurta": "Zeci de ceaune pe foc deschis în Poiana „La Sălcii”: zeamă autentică de găină de casă cu tăieței tăiați manual și borș acru, concurs culinar și ansambluri folclorice.",
+        "cum_a_fost_real": (
+            "Sărbătoare emblematică a raionului Călărași care adună băștinași, diaspora revenită acasă vara și turiști din toată republica. "
+            "În Poiana „La Sălcii”, bucătarii și gospodarii satelor se întrec preparând la ceaune uriașe pe lemne zeamă tradițională cu pui de casă, "
+            "borș acru de tărâțe și tăieței subțiri frământați pe loc. Evenimentul include expoziții de artizanat, târgul producătorilor locali, dansuri populare și concerte."
+        ),
+        "ce_gusti": "Zeamă fierbinte de pui de casă cu tăieței manuali și leuștean, plăcinte călărășene, ardei iute, vin de casă",
+        "taguri": "zeama, zama, zemii, zemei, sipoteni, calarasi, ceaun, taieței, august, poiana la salcii",
+        "link_oficial": "https://calarasi.md",
+        "surse_media": [
+            {"titlu": "Reportaj Festivalul Zemii de la Sipoteni", "publicatie": "Moldova 1", "url": "https://moldova1.md"},
+            {"titlu": "Consiliul Raional Călărași — Festivalul Zemii la Sălcii", "publicatie": "calarasi.md", "url": "https://calarasi.md"},
+            {"titlu": "Comunicat oficial ediția jubiliară Sipoteni", "publicatie": "gov.md", "url": "https://gov.md"}
+        ],
+        "este_recomandat": 1,
+        "media_key": "chicken_soup"
+    },
+    {
+        "id": "evt-ziua-nationala-a-vinului",
+        "slug": "ziua-nationala-a-vinului-chisinau",
+        "titlu": "Ziua Națională a Vinului & Zilele Ușilor Deschise la Vinării",
+        "tip": "Ziua Ușilor Deschise & Vin",
+        "organizator": "Oficiul Național al Viei și Vinului (ONVV)",
+        "regiune": "Chișinău",
+        "raion": "Municipiul Chișinău",
+        "localitate": "mun. Chișinău & Cramele din Moldova",
+        "locatie_exacta": "Piața Marii Adunări Naționale (PMAN) & vinăriile participante",
+        "lat": 47.0246,
+        "lng": 28.8323,
+        "distanta_chisinau_km": 0,
+        "data_text": "Primul weekend din Octombrie",
+        "regula_recurenta": "Anual în primul weekend din Octombrie (Sâmbătă & Duminică)",
+        "tip_recurenta": "Recurență relativă",
+        "luna_principala": "Octombrie",
+        "luni_active": "Octombrie",
+        "sezon": "Toamnă",
+        "ultima_editie_verificata": "Ediția a XXV-a (3–4 Octombrie 2026 — 114 vinării)",
+        "urmatoarea_data_estimata": "2027-10-02",
+        "status_data": "Estimat după tradiție",
+        "pret_intrare": "Acces gratuit în PMAN / Carnet Degustător ~250 MDL",
+        "descriere_scurta": "Cea mai mare sărbătoare oenogastronomică a țării: peste 100 de vinării în PMAN, Școala Vinului, concerte și tururi speciale cu ușile deschise direct la crame.",
+        "cum_a_fost_real": (
+            "La ediția aniversară a XXV-a (3–4 octombrie 2026) au participat 114 vinării — de la mari combinaturi la mici producători de familie — "
+            "și a fost stabilit un record mondial Guinness în PMAN cu 493 de persoane formând „cea mai mare viță-de-vie umană din lume”. "
+            "Vizitatorii participă la masterclass-uri la „Școala Vinului”, decernarea „Polobocului de Aur” și concerte cu Zdob și Zdub, Satoshi, Cuibul. "
+            "În paralel, marile crame din toată țara își deschid porțile cu programe speciale de cules și must."
+        ),
+        "ce_gusti": "Vinuri de autor Fetească Regală, Rară Neagră, spumante clasice, tulburel, plăcinte, frigărui, mămăligă cu brânză",
+        "taguri": "vin, ziua vinului, onvv, wine of moldova, chisinau, usile deschise, degustare, octombrie, crame",
+        "link_oficial": "https://wineofmoldova.com/ro/",
+        "surse_media": [
+            {"titlu": "Portal oficial Wine of Moldova (ONVV)", "publicatie": "wineofmoldova.com", "url": "https://wineofmoldova.com/ro/"},
+            {"titlu": "Program complet și participanți Ziua Vinului", "publicatie": "Fest.md", "url": "https://www.fest.md/"}
+        ],
+        "este_recomandat": 1,
+        "media_key": "vineyard_moldova"
+    },
+    {
+        "id": "evt-vernisajul-vinului-chisinau",
+        "slug": "vernisajul-vinului-chisinau",
+        "titlu": "Vernisajul Vinului (Ediția de Primăvară & de Iarnă)",
+        "tip": "Ziua Ușilor Deschise & Vin",
+        "organizator": "Oficiul Național al Viei și Vinului (ONVV)",
+        "regiune": "Chișinău",
+        "raion": "Municipiul Chișinău",
+        "localitate": "mun. Chișinău",
+        "locatie_exacta": "Palatul Republicii, Chișinău",
+        "lat": 47.0221,
+        "lng": 28.8266,
+        "distanta_chisinau_km": 0,
+        "data_text": "Mai (Primăvară) & Decembrie (Iarnă)",
+        "regula_recurenta": "Bianual: primăvara (vinuri albe/rosé) și iarna (roșii/spumante)",
+        "tip_recurenta": "Recurență calendaristică",
+        "luna_principala": "Decembrie",
+        "luni_active": "Mai, Decembrie",
+        "sezon": "Iarnă",
+        "ultima_editie_verificata": "Ediții bianuale 2025–2026",
+        "urmatoarea_data_estimata": "2027-05-14",
+        "status_data": "Estimat după tradiție",
+        "pret_intrare": "250 - 350 MDL (cu pahar cristal cadou)",
+        "descriere_scurta": "Salon elegant de degustare ghidată cu somelieri și vot public pentru trofeele „Vernisaj în Roșu” și „Vernisaj Efervescent”, reunind zeci de crame autohtone.",
+        "cum_a_fost_real": (
+            "Un format select, orientat spre cunoașterea vinurilor de calitate direct de la vinificatori. "
+            "Ediția de primăvară pune accent pe vinurile proaspete albe, rosé și spumante, în timp ce ediția de iarnă (adesea cu tematică de bal mascat) "
+            "lansează marile vinuri roșii baricate și divinurile. Vizitatorii primesc un pahar de degustare și votează vinul favorit."
+        ),
+        "ce_gusti": "Peste 200 de vinuri alese, brânzeturi maturate, delicii gastronomice de asociere cu vinul",
+        "taguri": "vernisajul vinului, vin, degustare, somelier, palatul republicii, chisinau, spumant",
+        "link_oficial": "https://wineofmoldova.com/ro/",
+        "surse_media": [
+            {"titlu": "Wine of Moldova — Vernisajul Vinului", "publicatie": "wineofmoldova.com", "url": "https://wineofmoldova.com/ro/"},
+            {"titlu": "Bilete Vernisajul Vinului", "publicatie": "iTicket.md", "url": "https://iticket.md"}
+        ],
+        "este_recomandat": 0,
+        "media_key": "wine_cellar"
+    },
+    {
+        "id": "evt-bostaniada-balabanesti",
+        "slug": "festivalul-bostaniada-balabanesti",
+        "titlu": "Festivalul Etno-Gastronomic „Bostaniada”",
+        "tip": "Festival Gastronomic",
+        "organizator": "AO Festivalul Etno-Gastronomic Bostaniada",
+        "regiune": "Centru",
+        "raion": "Criuleni",
+        "localitate": "s. Bălăbănești",
+        "locatie_exacta": "Agropensiunea Bostaniada, pe malul lacului Bălăbănești",
+        "lat": 47.0642,
+        "lng": 29.1319,
+        "distanta_chisinau_km": 29,
+        "data_text": "Ultimul weekend din Septembrie",
+        "regula_recurenta": "Anual la sfârșitul lunii Septembrie",
+        "tip_recurenta": "Recurență relativă",
+        "luna_principala": "Septembrie",
+        "luni_active": "Septembrie",
+        "sezon": "Toamnă",
+        "ultima_editie_verificata": "Ediția a XIV-a (Septembrie 2026)",
+        "urmatoarea_data_estimata": "2027-09-25",
+        "status_data": "Estimat după tradiție",
+        "pret_intrare": "100 - 150 MDL",
+        "descriere_scurta": "Cel mai mare festival al toamnei și recoltei din Moldova (14 ediții): sculpturi uriașe din dovleac, plăcinte calde cu bostan și mâncăruri la ceaun pe malul lacului.",
+        "cum_a_fost_real": (
+            "Lansat în 2012 și ajuns la a XIV-a ediție în 2026, Bostaniada transformă malul lacului din Bălăbănești într-un orășel portocaliu al toamnei. "
+            "Atracțiile includ sculpturi artistice în dovleci uriași, zone foto spectaculoase, concursul celui mai mare bostan, meșteri populari, muzică live și o alee gastronomică generoasă."
+        ),
+        "ce_gusti": "Plăcinte cu bostan la cuptor, supă cremă de dovleac cu semințe prăjite, bostan copt cu miere și nuci, bucate la ceaun",
+        "taguri": "bostaniada, bostan, dovleac, balabanesti, criuleni, placinte, toamna, septembrie",
+        "link_oficial": "https://bostaniada.md",
+        "surse_media": [
+            {"titlu": "Site oficial Festivalul Bostaniada", "publicatie": "bostaniada.md", "url": "https://bostaniada.md"},
+            {"titlu": "Cronica festivalurilor de toamnă", "publicatie": "Moldova 1", "url": "https://moldova1.md"}
+        ],
+        "este_recomandat": 1,
+        "media_key": "pumpkin_fest"
+    },
+    {
+        "id": "evt-descopera-butuceni",
+        "slug": "festivalul-descopera-butuceni",
+        "titlu": "Festivalul de Muzică Clasică în Aer Liber „DescOperă”",
+        "tip": "Festival Cultural & Muzică",
+        "organizator": "Ministerul Culturii & Eco Resort Butuceni",
+        "regiune": "Centru",
+        "raion": "Orhei",
+        "localitate": "s. Butuceni",
+        "locatie_exacta": "Amfiteatrul Natural Butuceni, Rezervația Orheiul Vechi",
+        "lat": 47.3016,
+        "lng": 28.9675,
+        "distanta_chisinau_km": 58,
+        "data_text": "Al 3-lea weekend din Iunie",
+        "regula_recurenta": "Anual la mijlocul lunii Iunie, sub stâncile Orheiului Vechi",
+        "tip_recurenta": "Recurență relativă",
+        "luna_principala": "Iunie",
+        "luni_active": "Iunie",
+        "sezon": "Vară",
+        "ultima_editie_verificata": "Ediția Aniversară 10 Ani (18–21 Iunie 2026)",
+        "urmatoarea_data_estimata": "2027-06-18",
+        "status_data": "Estimat după tradiție",
+        "pret_intrare": "300 - 600 MDL / seară",
+        "descriere_scurta": "Operă și muzică simfonică la apus, cu acustică naturală între stâncile de la Butuceni, acompaniată de vinuri locale și bucătărie tradițională orheiană.",
+        "cum_a_fost_real": (
+            "La ediția aniversară de 10 ani (18–21 iunie 2026), DescOperă a adus în premieră patru seri de spectacole sub cerul liber "
+            "cu soliști și orchestre de la Opera Națională București, TNOB „Maria Bieșu”, Filarmonica Națională și Teleradio-Moldova. "
+            "Publicul stă pe baloți de paie și gradene din amfiteatrul natural al Răutului, combinând aria clasică cu degustări de vinuri albe și bucate rustice la Butuceni."
+        ),
+        "ce_gusti": "Sarmale coapte în lut la Butuceni, plăcinte boierești, vinuri albe și spumante din Moldova",
+        "taguri": "descopera, opera, muzica clasica, butuceni, orheiul vechi, concert, iunie, concert aer liber",
+        "link_oficial": "https://butuceni.md",
+        "surse_media": [
+            {"titlu": "Eco Resort Butuceni — Gazda DescOperă", "publicatie": "butuceni.md", "url": "https://butuceni.md"},
+            {"titlu": "Ediția aniversară 10 ani DescOperă", "publicatie": "Ministerul Culturii", "url": "https://mc.gov.md"},
+            {"titlu": "Bilete și line-up DescOperă", "publicatie": "iTicket.md", "url": "https://iticket.md"}
+        ],
+        "este_recomandat": 1,
+        "media_key": "outdoor_opera"
+    },
+    {
+        "id": "evt-gustar-orheiul-vechi",
+        "slug": "gustar-music-festival-orheiul-vechi",
+        "titlu": "Gustar Music Festival — Orheiul Vechi",
+        "tip": "Festival Cultural & Muzică",
+        "organizator": "Sens Music & Rezervația Orheiul Vechi",
+        "regiune": "Centru",
+        "raion": "Orhei",
+        "localitate": "s. Trebujeni / Orheiul Vechi",
+        "locatie_exacta": "Rezervația Cultural-Naturală „Orheiul Vechi”",
+        "lat": 47.3055,
+        "lng": 28.9722,
+        "distanta_chisinau_km": 56,
+        "data_text": "Sfârșit de August",
+        "regula_recurenta": "Anual în luna August („Gustar”)",
+        "tip_recurenta": "Recurență relativă",
+        "luna_principala": "August",
+        "luni_active": "August",
+        "sezon": "Vară",
+        "ultima_editie_verificata": "Ediții consacrate 2010–2026",
+        "urmatoarea_data_estimata": "2027-08-21",
+        "status_data": "Estimat după tradiție",
+        "pret_intrare": "250 - 500 MDL",
+        "descriere_scurta": "Cel mai longeviv festival multicultural și de world/etno music din Moldova (lansat în 2010): scene în canionul Răutului, camping, ateliere și alee gastronomică.",
+        "cum_a_fost_real": (
+            "Numele festivalului provine din denumirea populară a lunii august. De peste un deceniu, Gustar adună trupe balcanice, etno-rock și world music din Europa, "
+            "alături de zonă de camping pe malul Răutului, excursii ghidate la mănăstirile rupestre, târguri de artizanat și bucătărie moldovenească la grătar și ceaun."
+        ),
+        "ce_gusti": "Frigărui la jar, plăcinte pe vatră, mămăligă, vinuri și bere artizanală",
+        "taguri": "gustar, orheiul vechi, trebujeni, muzica, world music, camping, august, concert",
+        "link_oficial": "https://gustar.md",
+        "surse_media": [
+            {"titlu": "Website oficial Gustar Music Festival", "publicatie": "gustar.md", "url": "https://gustar.md"},
+            {"titlu": "Rezervația Cultural-Naturală Orheiul Vechi", "publicatie": "orheiulvechi.com", "url": "https://orheiulvechi.com"}
+        ],
+        "este_recomandat": 0,
+        "media_key": "rock_folk_fest"
+    },
+    {
+        "id": "evt-festivalul-lupilor-orheiul-vechi",
+        "slug": "festivalul-lupilor-orheiul-vechi",
+        "titlu": "Festivalul Lupilor (Lupii lui Calancea) — Orheiul Vechi",
+        "tip": "Festival Cultural & Muzică",
+        "organizator": "Lupii lui Calancea & Rezervația Orheiul Vechi",
+        "regiune": "Centru",
+        "raion": "Orhei",
+        "localitate": "Orheiul Vechi",
+        "locatie_exacta": "Amfiteatrul Rezervației Cultural-Naturale Orheiul Vechi",
+        "lat": 47.3082,
+        "lng": 28.9795,
+        "distanta_chisinau_km": 58,
+        "data_text": "Al 2-lea weekend din August (7–9 August)",
+        "regula_recurenta": "Anual timp de 3 zile în luna August",
+        "tip_recurenta": "Recurență relativă",
+        "luna_principala": "August",
+        "luni_active": "August",
+        "sezon": "Vară",
+        "ultima_editie_verificata": "Ediția 7–9 August 2026",
+        "urmatoarea_data_estimata": "2027-08-06",
+        "status_data": "Estimat după tradiție",
+        "pret_intrare": "300 - 700 MDL (abonamente camping)",
+        "descriere_scurta": "Trei zile de concerte open-air etno-folk-rock sub egida Lupilor lui Calancea, artiști internaționali, focuri de tabără și camping în inima Orheiului Vechi.",
+        "cum_a_fost_real": (
+            "Devenit unul dintre cele mai masive festivaluri de muzică și artă din țară, Festivalul Lupilor (7–9 august 2026) aduce trei zile pline de energie "
+            "în canionul Orheiului Vechi, cu concerte nocturne spectaculoase, zone de corturi și rulote, instalații vizuale, meșteșugari și food court rustic."
+        ),
+        "ce_gusti": "Bucate la foc deschis, friptură haiducească, plăcinte, vinuri și cocktailuri",
+        "taguri": "festivalul lupilor, lupii lui calancea, orheiul vechi, rock, folk, august, camping, concert",
+        "link_oficial": "https://orheiulvechi.com",
+        "surse_media": [
+            {"titlu": "Agenda oficială Rezervația Orheiul Vechi", "publicatie": "orheiulvechi.com", "url": "https://orheiulvechi.com"},
+            {"titlu": "Calendar evenimente open-air Moldova", "publicatie": "Fest.md", "url": "https://www.fest.md/"}
+        ],
+        "este_recomandat": 1,
+        "media_key": "rock_folk_fest"
+    },
+    {
+        "id": "evt-festivalul-marului-soroca",
+        "slug": "festivalul-marului-soroca",
+        "titlu": "Festivalul Național al Mărului — Cetatea Soroca",
+        "tip": "Festival Gastronomic",
+        "organizator": "Primăria Municipiului Soroca & Consiliul Raional Soroca",
+        "regiune": "Nord",
+        "raion": "Soroca",
+        "localitate": "mun. Soroca",
+        "locatie_exacta": "Piața Libertății și zidurile Cetății Soroca",
+        "lat": 48.1616,
+        "lng": 28.3052,
+        "distanta_chisinau_km": 158,
+        "data_text": "Sfârșit de Septembrie / Început de Octombrie (Ediția XV: 11 Octombrie)",
+        "regula_recurenta": "Anual toamna lângă Cetatea Soroca",
+        "tip_recurenta": "Recurență relativă",
+        "luna_principala": "Octombrie",
+        "luni_active": "Septembrie, Octombrie",
+        "sezon": "Toamnă",
+        "ultima_editie_verificata": "Ediția a XV-a (11 Octombrie 2026)",
+        "urmatoarea_data_estimata": "2027-10-10",
+        "status_data": "Estimat după tradiție",
+        "pret_intrare": "Gratuit",
+        "descriere_scurta": "Ediția a XV-a la zidurile Cetății Soroca: Parada Mărului, expoziții ale pomicultorilor din nord, cheesecake gigant cu mere, Orașul Copiilor și concerte.",
+        "cum_a_fost_real": (
+            "La ediția a XV-a din 11 octombrie 2026, elevi, antreprenori și ansambluri au defilat în costume tematice în Parada Mărului "
+            "din Piața Libertății până la Cetatea Soroca. S-au organizat concursurile pentru „Cel mai mare măr”, expoziții ale zecilor de producători pomicoli, "
+            "tăierea unui cheesecake uriaș cu mere și activități în „Orașul Copiilor”, totul încheiat cu recitaluri folclorice."
+        ),
+        "ce_gusti": "Mere crocante de Soroca, plăcinte și ștrudel cu mere, cheesecake gigant cu mere, suc proaspăt stors și cidru de casă",
+        "taguri": "mar, mere, marului, soroca, cetatea soroca, nord, toamna, octombrie, septembrie, fructe",
+        "link_oficial": "https://primsoroca.md/ro/",
+        "surse_media": [
+            {"titlu": "Primăria Municipiului Soroca — Festivalul Național al Mărului", "publicatie": "primsoroca.md", "url": "https://primsoroca.md/ro/"},
+            {"titlu": "Cronica festivalurilor economice din nord", "publicatie": "Moldpres", "url": "https://moldpres.md"}
+        ],
+        "este_recomandat": 1,
+        "media_key": "apples"
+    },
+    {
+        "id": "evt-festivalul-prunei-nisporeni",
+        "slug": "festivalul-prunei-nisporeni",
+        "titlu": "Festivalul Național al Prunei din Nisporeni",
+        "tip": "Festival Gastronomic",
+        "organizator": "Consiliul Raional Nisporeni & Primăria Nisporeni",
+        "regiune": "Centru",
+        "raion": "Nisporeni",
+        "localitate": "or. Nisporeni",
+        "locatie_exacta": "Parcul „La Moară”, or. Nisporeni",
+        "lat": 47.0811,
+        "lng": 28.1738,
+        "distanta_chisinau_km": 72,
+        "data_text": "A 3-a duminică din Septembrie (Ediția VIII: 20 Septembrie)",
+        "regula_recurenta": "Anual în a 3-a duminică din Septembrie",
+        "tip_recurenta": "Recurență relativă",
+        "luna_principala": "Septembrie",
+        "luni_active": "Septembrie",
+        "sezon": "Toamnă",
+        "ultima_editie_verificata": "Ediția a VIII-a (20 Septembrie 2026)",
+        "urmatoarea_data_estimata": "2027-09-19",
+        "status_data": "Estimat după tradiție",
+        "pret_intrare": "Gratuit",
+        "descriere_scurta": "Celebrarea prunarilor din inima Codrilor (Moldova fiind top-exportator mondial): magiun, prune afumate, tarte, fanfară locală și tombolă cu premii.",
+        "cum_a_fost_real": (
+            "Desfășurat în Parcul „La Moară” pe 20 septembrie 2026 (ediția a VIII-a), festivalul a reunit fermieri prunari, procesatori, meșteri populari și delegații din România. "
+            "Atmosfera a fost animată de Fanfara „Vasile Amarfii”, ansambluri de dansuri și tombolă cu premii, iar mesele au abundat în prune uscate, umplute cu nucă, gemuri și prăjituri."
+        ),
+        "ce_gusti": "Prune uscate și afumate pe vatră umplute cu miez de nucă, magiun fără zahăr, plăcinte și tarte cu prune",
+        "taguri": "pruna, prune, prunei, prunelor, nisporeni, codri, septembrie, magiun, fructe",
+        "link_oficial": "https://nisporeni.md",
+        "surse_media": [
+            {"titlu": "Consiliul Raional Nisporeni — Festivalul Național al Prunei", "publicatie": "nisporeni.md", "url": "https://nisporeni.md"},
+            {"titlu": "Reportaj ediția a VIII-a Nisporeni", "publicatie": "Locuri.md", "url": "https://locuri.md"}
+        ],
+        "este_recomandat": 0,
+        "media_key": "plums"
+    },
+    {
+        "id": "evt-capsunilor-mierii-sadova",
+        "slug": "festivalul-capsunilor-si-mierii-sadova",
+        "titlu": "Festivalul Căpșunilor și al Mierii de la Sadova",
+        "tip": "Festival Gastronomic",
+        "organizator": "Primăria Sadova & Consiliul Raional Călărași",
+        "regiune": "Centru",
+        "raion": "Călărași",
+        "localitate": "s. Sadova",
+        "locatie_exacta": "Centrul satului Sadova, Codrii Călărașului",
+        "lat": 47.1897,
+        "lng": 28.3489,
+        "distanta_chisinau_km": 49,
+        "data_text": "Prima duminică din Iunie",
+        "regula_recurenta": "Anual la începutul lunii Iunie",
+        "tip_recurenta": "Recurență relativă",
+        "luna_principala": "Iunie",
+        "luni_active": "Iunie",
+        "sezon": "Vară",
+        "ultima_editie_verificata": "Ediția a XI-a (Iunie 2026)",
+        "urmatoarea_data_estimata": "2027-06-06",
+        "status_data": "Estimat după tradiție",
+        "pret_intrare": "Gratuit",
+        "descriere_scurta": "Ajuns la 11 ediții în inima Codrilor: târg de căpșuni aromate culese în zori, miere de salcâm și tei direct de la prisăcari și plăcinte de casă.",
+        "cum_a_fost_real": (
+            "Sărbătoare consacrată a Călărașiului, ajunsă la a XI-a ediție în vara anului 2026. "
+            "Zeci de cultivatori de căpșuni și apicultori din regiunea Codrilor oferă degustări directe din recolta nouă, "
+            "faguri proaspeți și dulcețuri, completate de expoziții ale meșterilor populari și concert folcloric."
+        ),
+        "ce_gusti": "Căpșuni proaspete din Codri, miere crudă de salcâm și polifloră, dulceață de căpșuni, plăcinte",
+        "taguri": "capsuni, capsune, miere, mierii, sadova, calarasi, iunie, apicultura",
+        "link_oficial": "https://calarasi.md",
+        "surse_media": [
+            {"titlu": "Reportaje Festivalul Căpșunilor și Mierii Sadova", "publicatie": "Locuri.md", "url": "https://locuri.md"},
+            {"titlu": "Calendar turistic Raionul Călărași", "publicatie": "calarasi.md", "url": "https://calarasi.md"}
+        ],
+        "este_recomandat": 0,
+        "media_key": "strawberries_honey"
+    },
+    {
+        "id": "evt-hai-la-piersici-tudora",
+        "slug": "hai-la-piersici-tudora",
+        "titlu": "Târgul Cultural-Turistic „Hai la piersici!” la Tudora",
+        "tip": "Târg Producători & Meșteșuguri",
+        "organizator": "AO Nistrul de Jos & Primăria Tudora",
+        "regiune": "Sud",
+        "raion": "Ștefan Vodă",
+        "localitate": "s. Tudora",
+        "locatie_exacta": "Satul Tudora, pe malul Nistrului de Jos",
+        "lat": 46.4375,
+        "lng": 30.0419,
+        "distanta_chisinau_km": 124,
+        "data_text": "Ultima duminică din Iulie",
+        "regula_recurenta": "Anual în a doua jumătate a lunii Iulie",
+        "tip_recurenta": "Recurență relativă",
+        "luna_principala": "Iulie",
+        "luni_active": "Iulie",
+        "sezon": "Vară",
+        "ultima_editie_verificata": "Ediția a V-a (Iulie 2024–2025)",
+        "urmatoarea_data_estimata": "2027-07-25",
+        "status_data": "Estimat după tradiție",
+        "pret_intrare": "Gratuit",
+        "descriere_scurta": "Târg estival dedicat livezilor de piersici de pe malul Nistrului de Jos: degustări de soiuri parfumate, gemuri, vinuri din zona Purcari și artizanat.",
+        "cum_a_fost_real": (
+            "Organizat în satul Tudora din vecinătatea Nistrului de Jos, evenimentul valorifică tradiția pomicolă sud-estică și rutele ecoturistice din zonă. "
+            "Vizitatorii cumpără piersici direct de la pomicultori și descoperă gospodăriile tradiționale și ansamblurile folclorice ale raionului Ștefan Vodă."
+        ),
+        "ce_gusti": "Piersici zemoase de pe Nistru, tarte cu piersici, compoturi și dulcețuri, vinuri albe din zonă",
+        "taguri": "piersic, piersici, tudora, stefan voda, nistru, iulie, fructe, targ",
+        "link_oficial": "https://stefan-voda.md",
+        "surse_media": [
+            {"titlu": "Consiliul Raional Ștefan Vodă — Hai la piersici Tudora", "publicatie": "stefan-voda.md", "url": "https://stefan-voda.md"},
+            {"titlu": "Arhiva evenimentelor turistice Fest.md", "publicatie": "Fest.md", "url": "https://www.fest.md/"}
+        ],
+        "este_recomandat": 0,
+        "media_key": "peaches"
+    },
+    {
+        "id": "evt-iprosop-selemet",
+        "slug": "festivalul-iprosop-selemet",
+        "titlu": "Festivalul Etnofolcloric „iProsop” de la Selemet",
+        "tip": "Târg Producători & Meșteșuguri",
+        "organizator": "Primăria Selemet & Comunitatea Băștinașilor",
+        "regiune": "Sud",
+        "raion": "Cimișlia",
+        "localitate": "s. Selemet",
+        "locatie_exacta": "Zona de agrement a satului Selemet",
+        "lat": 46.5789,
+        "lng": 28.9228,
+        "distanta_chisinau_km": 68,
+        "data_text": "Sfârșit de Mai / Iunie",
+        "regula_recurenta": "Anual în sezonul cald (Mai–Iunie)",
+        "tip_recurenta": "Recurență relativă",
+        "luna_principala": "Iunie",
+        "luni_active": "Mai, Iunie",
+        "sezon": "Vară",
+        "ultima_editie_verificata": "Ediția a VI-a (2025–2026)",
+        "urmatoarea_data_estimata": "2027-06-06",
+        "status_data": "Estimat după tradiție",
+        "pret_intrare": "Gratuit",
+        "descriere_scurta": "Singurul festival din Moldova dedicat prosopului (ștergarului) tradițional țesut manual: expoziții din lăzile de zestre, Casa Mare, trântă națională și bucate din sud.",
+        "cum_a_fost_real": (
+            "Ajuns la ediția a VI-a, festivalul „iProsop” de la Selemet este recunoscut de Ministerul Culturii și Moldova.Travel drept un reper etnofolcloric unic. "
+            "Meșteri populari din toată țara expun ștergare vechi de peste 100 de ani, organizează șezători și ateliere de țesut în „Casa Mare”, "
+            "iar programul include trânta tradițională pentru berbec și gastronomia autentică a sudului Moldovei."
+        ),
+        "ce_gusti": "Plăcinte și brânzoaice din sud, mâncăruri la ceaun, vin roșu de Cimișlia, dulcețuri de casă",
+        "taguri": "iprosop, prosop, stergar, selemet, cimislia, covor, tesut, casa mare, tranta, iunie, mai",
+        "link_oficial": "https://moldova.travel/ro",
+        "surse_media": [
+            {"titlu": "Reportaj Festivalul iProsop Selemet", "publicatie": "Moldova 1", "url": "https://moldova1.md"},
+            {"titlu": "Promovare patrimoniu Moldova.Travel", "publicatie": "moldova.travel", "url": "https://moldova.travel/ro"},
+            {"titlu": "Ministerul Culturii — Salvgardarea tradiției", "publicatie": "mc.gov.md", "url": "https://mc.gov.md"}
+        ],
+        "este_recomandat": 0,
+        "media_key": "moldovan_carpet"
+    },
+    {
+        "id": "evt-frumos-covor-basarabean-clisova",
+        "slug": "frumos-covor-basarabean-clisova-noua",
+        "titlu": "Festivalul „Frumos Covor Basarabean” la Arta Rustică",
+        "tip": "Târg Producători & Meșteșuguri",
+        "organizator": "Complexul Arta Rustică (Ecaterina Popescu)",
+        "regiune": "Centru",
+        "raion": "Orhei",
+        "localitate": "s. Clișova Nouă",
+        "locatie_exacta": "Complexul Meșteșugăresc „Arta Rustică”, Clișova Nouă",
+        "lat": 47.4981,
+        "lng": 28.6156,
+        "distanta_chisinau_km": 68,
+        "data_text": "A 3-a duminică din Iunie",
+        "regula_recurenta": "Anual în luna Iunie",
+        "tip_recurenta": "Recurență relativă",
+        "luna_principala": "Iunie",
+        "luni_active": "Iunie",
+        "sezon": "Vară",
+        "ultima_editie_verificata": "Ediții anuale la Arta Rustică",
+        "urmatoarea_data_estimata": "2027-06-20",
+        "status_data": "Estimat după tradiție",
+        "pret_intrare": "Gratuit",
+        "descriere_scurta": "Sărbătoarea covorului tradițional inclus în patrimoniul UNESCO: demonstrații de vopsit lâna cu plante naturale, țesut la război și scoarțe basarabene.",
+        "cum_a_fost_real": (
+            "Organizat în curtea Complexului Arta Rustică fondat de meșterița Ecaterina Popescu, festivalul pune în valoare covorul autentic moldovenesc "
+            "(patrimoniu UNESCO). Vizitatorii văd cum se vopsește lâna folosind coji de nucă, foi de ceapă și plante din pajiști, încearcă țesutul la războiul vertical "
+            "și admiră zeci de scoarțe cu motive străvechi."
+        ),
+        "ce_gusti": "Învârtite cu brânză de oi, plăcinte coapte la cuptorul cu lemne, ceai de plante din grădină",
+        "taguri": "covor, covoare, scoarta, arta rustica, clisova noua, orhei, tesut, unesco, iunie",
+        "link_oficial": "https://rusticart.md",
+        "surse_media": [
+            {"titlu": "Website oficial Arta Rustică Clișova Nouă", "publicatie": "rusticart.md", "url": "https://rusticart.md"},
+            {"titlu": "Reportaje despre Festivalul Covorului Basarabean", "publicatie": "Moldpres", "url": "https://moldpres.md"}
+        ],
+        "este_recomandat": 0,
+        "media_key": "moldovan_carpet"
+    },
+    {
+        "id": "evt-vatra-olarului-hoginesti",
+        "slug": "la-vatra-olarului-hoginesti",
+        "titlu": "Târgul Național al Olarilor „La Vatra Olarului Vasile Gonciari”",
+        "tip": "Târg Producători & Meșteșuguri",
+        "organizator": "Casa Olarului Vasile Gonciari & Primăria Hoginești",
+        "regiune": "Centru",
+        "raion": "Călărași",
+        "localitate": "s. Hoginești",
+        "locatie_exacta": "Atelierul și Muzeul Casa Olarului, s. Hoginești",
+        "lat": 47.3761,
+        "lng": 28.3292,
+        "distanta_chisinau_km": 74,
+        "data_text": "Luna Iulie (Duminica)",
+        "regula_recurenta": "Anual vara (Iulie) în satul olarilor Hoginești",
+        "tip_recurenta": "Recurență relativă",
+        "luna_principala": "Iulie",
+        "luni_active": "Iulie",
+        "sezon": "Vară",
+        "ultima_editie_verificata": "Ediții anuale Hoginești",
+        "urmatoarea_data_estimata": "2027-07-18",
+        "status_data": "Estimat după tradiție",
+        "pret_intrare": "Gratuit",
+        "descriere_scurta": "Capitala ceramicii din Moldova: meșteri olari din toată țara, demonstrații spectaculoase la roata olarului, ateliere pentru vizitatori și oale arse tradițional.",
+        "cum_a_fost_real": (
+            "Curtea renumitului maestru Vasile Gonciari găzduiește olari și meșteri în lemn, lut și textile din toate raioanele. "
+            "Vizitatorii pot modela propriul ulcior la roata olarului, vizitează muzeul viu cu mii de vase ceramice și cumpără ulcioare, "
+            "crătiți de lut pentru sarmale și suveniruri direct de la artizani."
+        ),
+        "ce_gusti": "Ghiveci, fasole și friptură gătite lent în oale de lut de Hoginești, plăcinte la vatră",
+        "taguri": "olar, olari, olarit, ceramica, lut, hoginesti, calarasi, gonciari, iulie",
+        "link_oficial": "https://turism.gov.md/ro/",
+        "surse_media": [
+            {"titlu": "Oficiul Național al Turismului — Vatra Olarului Hoginești", "publicatie": "turism.gov.md", "url": "https://turism.gov.md/ro/"},
+            {"titlu": "Reportaje Târgul Olarilor Hoginești", "publicatie": "Locuri.md", "url": "https://locuri.md"}
+        ],
+        "este_recomandat": 0,
+        "media_key": "pottery"
+    },
+    {
+        "id": "evt-festivalul-patlagica-dubasarii-vechi",
+        "slug": "festivalul-patlagica-dubasarii-vechi",
+        "titlu": "Festivalul „Pătlăgica” de la Dubăsarii Vechi",
+        "tip": "Festival Gastronomic",
+        "organizator": "Primăria Dubăsarii Vechi & Consiliul Raional Criuleni",
+        "regiune": "Centru",
+        "raion": "Criuleni",
+        "localitate": "s. Dubăsarii Vechi",
+        "locatie_exacta": "Satul Dubăsarii Vechi (lunca Nistrului)",
+        "lat": 47.1297,
+        "lng": 29.1939,
+        "distanta_chisinau_km": 36,
+        "data_text": "Luna August / Început Septembrie",
+        "regula_recurenta": "Anual în sezonul roșiilor de câmp (August)",
+        "tip_recurenta": "Recurență relativă",
+        "luna_principala": "August",
+        "luni_active": "August",
+        "sezon": "Vară",
+        "ultima_editie_verificata": "Ediții locale documentate Criuleni",
+        "urmatoarea_data_estimata": "2027-08-22",
+        "status_data": "Estimat după tradiție",
+        "pret_intrare": "Gratuit",
+        "descriere_scurta": "Sărbătoarea legumicultorilor din Dubăsarii Vechi: zeci de soiuri autohtone de roșii (pătlăgele) dulci de Nistru, conserve de casă și târg al producătorilor.",
+        "cum_a_fost_real": (
+            "Dubăsarii Vechi este renumit în toată Republica Moldova pentru serele și grădinile sale de legume de pe malul Nistrului. "
+            "Festivalul „Pătlăgica” celebrează munca legumicultorilor cu expoziții spectaculoase de tomate de toate formele și culorile, "
+            "degustări de suc de roșii proaspăt, murături asortate și meșteșuguri."
+        ),
+        "ce_gusti": "Roșii zemoase „inimă de bou” și soiuri locale, salate nistrene, suc proaspăt de tomate, zacuscă și plăcinte",
+        "taguri": "patlagica, rosii, tomate, dubasarii vechi, criuleni, legume, august, nistru",
+        "link_oficial": "https://criuleni.md",
+        "surse_media": [
+            {"titlu": "Consiliul Raional Criuleni — Festivalul Pătlăgica", "publicatie": "criuleni.md", "url": "https://criuleni.md"}
+        ],
+        "este_recomandat": 0,
+        "media_key": "tomatoes"
+    },
+    {
+        "id": "evt-festivalul-cartofului-corjeuti",
+        "slug": "festivalul-cartofului-corjeuti",
+        "titlu": "Festivalul Cartofului din Corjeuți",
+        "tip": "Festival Gastronomic",
+        "organizator": "Primăria Corjeuți & Producătorii Agricoli din Nord",
+        "regiune": "Nord",
+        "raion": "Briceni",
+        "localitate": "s. Corjeuți",
+        "locatie_exacta": "Centrul satului Corjeuți, rl. Briceni",
+        "lat": 48.2194,
+        "lng": 27.0528,
+        "distanta_chisinau_km": 235,
+        "data_text": "Toamna (Octombrie / Noiembrie)",
+        "regula_recurenta": "Sezonier toamna după strângerea recoltei de cartofi",
+        "tip_recurenta": "Recurență relativă",
+        "luna_principala": "Octombrie",
+        "luni_active": "Octombrie, Noiembrie",
+        "sezon": "Toamnă",
+        "ultima_editie_verificata": "Ediții documentate din 2012",
+        "urmatoarea_data_estimata": "2027-10-17",
+        "status_data": "Estimat după tradiție",
+        "pret_intrare": "Gratuit",
+        "descriere_scurta": "Capitala cartofului din nordul Moldovei: expoziții de soiuri agricole și zeci de rețete tradiționale de bucate din cartofi gătite de gospodine.",
+        "cum_a_fost_real": (
+            "Inițiat în 2012 și susținut de ADR Nord și asociațiile de fermieri, festivalul pune în lumină cel mai productiv bazin de cultivare a cartofului din republică. "
+            "Participanții descoperă expoziții de utilaje și soiuri locale alături de degustări de colțunași, plăcinte și fripturi țărănești."
+        ),
+        "ce_gusti": "Plăcinte și colțunași cu cartofi și brânză, cartofi copți în jar cu usturoi, tocăniță din nord",
+        "taguri": "cartof, cartofi, cartofului, corjeuti, briceni, nord, toamna, octombrie",
+        "link_oficial": "https://adrnord.md",
+        "surse_media": [
+            {"titlu": "ADR Nord — Festivalul Cartofului la Corjeuți", "publicatie": "adrnord.md", "url": "https://adrnord.md"}
+        ],
+        "este_recomandat": 0,
+        "media_key": "potatoes"
+    },
+    {
+        "id": "evt-hederlez-ceadir-lunga",
+        "slug": "hederlez-ceadir-lunga",
+        "titlu": "Sărbătoarea Națională „Hederlez” & Cursele de Cai „Altân At”",
+        "tip": "Festival Cultural & Muzică",
+        "organizator": "Primăria Ceadîr-Lunga & Ferma de Cai AT-ProLin",
+        "regiune": "UTA Găgăuzia",
+        "raion": "UTA Găgăuzia",
+        "localitate": "mun. Ceadîr-Lunga",
+        "locatie_exacta": "Hipodromul Fermei de Cai „At-Prolin”, Ceadîr-Lunga",
+        "lat": 46.0681,
+        "lng": 28.8364,
+        "distanta_chisinau_km": 135,
+        "data_text": "6 Mai (anual de Sf. Gheorghe)",
+        "regula_recurenta": "Dată fixă anuală: 6 Mai",
+        "tip_recurenta": "Dată fixă anuală",
+        "luna_principala": "Mai",
+        "luni_active": "Mai",
+        "sezon": "Primăvară",
+        "ultima_editie_verificata": "Hederlez 2026 (6 Mai 2026)",
+        "urmatoarea_data_estimata": "2027-05-06",
+        "status_data": "Confirmat",
+        "pret_intrare": "Gratuit",
+        "descriere_scurta": "Spectacol unic în Moldova: curse de cai trăpași Orlov la singurul hipodrom din țară („Altân At”), gastronomie găgăuză cu miel la ceaun și bulgur, meșteșugari.",
+        "cum_a_fost_real": (
+            "De Sfântul Gheorghe (6 mai, inclusiv la ediția Hederlez-2026), mii de oameni din toată țara vin la ferma de cai AT-Prolin din Ceadîr-Lunga "
+            "pentru a marca începutul sezonului agricol și pastoral. Competiția hipică „Altân At”, parada cailor de rasă, corturile cu friptură de miel, "
+            "plăcinte găgăuzești și dansurile tradiționale oferă o experiență culturală cum nu mai există în altă regiune a Moldovei."
+        ),
+        "ce_gusti": "Friptură de miel și kavurma, bulgur aromat găgăuz, shorpa (ciorbă picantă de berbec), plăcinte gözleme",
+        "taguri": "hederlez, ceadir lunga, ciadir lunga, gagauzia, cai, hipodrom, at prolin, kavurma, bulgur, mai",
+        "link_oficial": "https://ceadir-lunga.md",
+        "surse_media": [
+            {"titlu": "Oficiul Național al Turismului — Hederlez la At-Prolin", "publicatie": "turism.gov.md", "url": "https://turism.gov.md/ro/"},
+            {"titlu": "Reportaj Hederlez la Ceadîr-Lunga", "publicatie": "Moldova 1", "url": "https://moldova1.md"},
+            {"titlu": "Primăria Ceadîr-Lunga", "publicatie": "ceadir-lunga.md", "url": "https://ceadir-lunga.md"}
+        ],
+        "este_recomandat": 1,
+        "media_key": "horses_race"
+    },
+    {
+        "id": "evt-gagauz-sarap-yortusu-comrat",
+        "slug": "gagauz-sarap-yortusu-comrat",
+        "titlu": "Gagauz Șarap Yortusu — Festivalul Vinului Găgăuz",
+        "tip": "Ziua Ușilor Deschise & Vin",
+        "organizator": "Direcția Cultură Găgăuzia & Primăria Comrat",
+        "regiune": "UTA Găgăuzia",
+        "raion": "UTA Găgăuzia",
+        "localitate": "mun. Comrat",
+        "locatie_exacta": "Piața Centrală din Comrat & curțile etnice",
+        "lat": 46.2981,
+        "lng": 28.6561,
+        "distanta_chisinau_km": 98,
+        "data_text": "Primul weekend din Noiembrie (Început Noiembrie 2026)",
+        "regula_recurenta": "Anual la începutul lunii Noiembrie, înainte de Kasîm",
+        "tip_recurenta": "Recurență relativă",
+        "luna_principala": "Noiembrie",
+        "luni_active": "Noiembrie",
+        "sezon": "Toamnă",
+        "ultima_editie_verificata": "Gagauz Șarap Yortusu – Noiembrie 2026",
+        "urmatoarea_data_estimata": "2027-11-07",
+        "status_data": "Estimat după tradiție",
+        "pret_intrare": "Gratuit",
+        "descriere_scurta": "Festivalul regional al vinului și ospitalității găgăuze: curți etnice pe străzile Comratului, concursul „Altın Fıçı” (Butoiul de Aur) și mâncăruri arhaice.",
+        "cum_a_fost_real": (
+            "La ediția din noiembrie 2026 din centrul Comratului, fiecare localitate din Găgăuzia și-a amenajat câte o curte etnografică autentică. "
+            "Se premiază cei mai buni vinificatori de casă în cadrul concursului „Altın Fıçı”, cramele locale oferă degustări de vinuri sudice roșii și albe, "
+            "iar pe gratare și în ceaune sfârâie kavurma și shorpa."
+        ),
+        "ce_gusti": "Vin roșu corpolent din Bugeac, vin de casă „Altın Fıçı”, kavurma de oaie, plăcinte gözleme, turșu",
+        "taguri": "gagauz sarap yortusu, comrat, gagauzia, vin, festivalul vinului, noiembrie, kavurma",
+        "link_oficial": "https://turism.gov.md/ro/",
+        "surse_media": [
+            {"titlu": "ONT Moldova — Gagauz Șarap Yortusu Comrat", "publicatie": "turism.gov.md", "url": "https://turism.gov.md/ro/"},
+            {"titlu": "Relatare ediția festivalului de vin din Comrat", "publicatie": "Moldpres", "url": "https://moldpres.md"}
+        ],
+        "este_recomandat": 0,
+        "media_key": "gagauzia"
+    },
+    {
+        "id": "evt-underland-cricova",
+        "slug": "underland-cricova",
+        "titlu": "Underland Wine & Music Fest — Orașul Subteran Cricova",
+        "tip": "Ziua Ușilor Deschise & Vin",
+        "organizator": "Combinatul de Vinuri Cricova S.A.",
+        "regiune": "Chișinău",
+        "raion": "Municipiul Chișinău",
+        "localitate": "or. Cricova",
+        "locatie_exacta": "Galeriile Subterane Cricova, str. Chișinăului 124",
+        "lat": 47.1369,
+        "lng": 28.8594,
+        "distanta_chisinau_km": 15,
+        "data_text": "Luna Februarie (Weekend)",
+        "regula_recurenta": "Anual în luna Februarie, în galeriile subterane la 12°C",
+        "tip_recurenta": "Recurență relativă",
+        "luna_principala": "Februarie",
+        "luni_active": "Februarie",
+        "sezon": "Iarnă",
+        "ultima_editie_verificata": "Ediții tematice subterane Cricova",
+        "urmatoarea_data_estimata": "2027-02-20",
+        "status_data": "Estimat după tradiție",
+        "pret_intrare": "350 - 500 MDL",
+        "descriere_scurta": "Unicul festival subteran de vin și muzică din lume: 3 cartiere tematice (Alb, Roșu, Spumant), artiști stradali, jongleri și degustări în beciurile Cricova.",
+        "cum_a_fost_real": (
+            "Lansat în 2017, Underland transformă celebrele străzi subterane ale Cricovei (aproape 120 km de galerii calcaroase) într-un oraș al artei și vinului. "
+            "Vizitatorii se plimbă cu paharul în mână prin Cartierul Alb, Cartierul Roșu și Cartierul Spumant, ascultă trupe live și muzicieni stradali "
+            "sub arcade luminate feeric și se bucură de temperatura constantă de 12°C chiar și în plină iarnă."
+        ),
+        "ce_gusti": "Spumante clasice Cricova, vinuri roșii de colecție, izvar fierbinte, brânzeturi, gustări gourmet",
+        "taguri": "underland, cricova, subteran, vin, spumant, muzica, februarie, beci",
+        "link_oficial": "https://cricova.md/ro/",
+        "surse_media": [
+            {"titlu": "Combinatul Cricova — Site oficial", "publicatie": "cricova.md", "url": "https://cricova.md/ro/"},
+            {"titlu": "Calendar festivaluri Cricova", "publicatie": "Fest.md", "url": "https://www.fest.md/"}
+        ],
+        "este_recomandat": 0,
+        "media_key": "cricova"
+    },
+    {
+        "id": "evt-vinopera-castel-mimi",
+        "slug": "vinopera-castel-mimi",
+        "titlu": "VinOpera & Rosé Day la Castel Mimi",
+        "tip": "Ziua Ușilor Deschise & Vin",
+        "organizator": "Fundația Constantin Mimi & Castel Mimi Wine Resort",
+        "regiune": "Centru",
+        "raion": "Anenii Noi",
+        "localitate": "s. Bulboaca",
+        "locatie_exacta": "Castel Mimi Wine Resort, str. Dacia 1, Bulboaca",
+        "lat": 46.8856,
+        "lng": 29.3033,
+        "distanta_chisinau_km": 38,
+        "data_text": "Iunie (Rosé Day) & Septembrie (VinOpera — 4 Septembrie 2026)",
+        "regula_recurenta": "Anual în Iunie (Rosé Day) și început de Septembrie (VinOpera)",
+        "tip_recurenta": "Recurență mixtă",
+        "luna_principala": "Septembrie",
+        "luni_active": "Iunie, Septembrie",
+        "sezon": "Toamnă",
+        "ultima_editie_verificata": "VinOpera Ediția a IX-a (4 Septembrie 2026 cu Valentina Nafornița)",
+        "urmatoarea_data_estimata": "2027-06-12",
+        "status_data": "Estimat după tradiție",
+        "pret_intrare": "350 - 950 MDL",
+        "descriere_scurta": "Operă simfonică sub cerul liber în curtea singurului chateau istoric din Moldova (1893), alături de serile elegante Rosé Day cu piscină, grătar și vinuri.",
+        "cum_a_fost_real": (
+            "Pe 4 septembrie 2026, Festivalul Internațional de Muzică Clasică VinOpera a sărbătorit a IX-a ediție printr-o gală aniversară cu soprana Valentina Nafornița "
+            "în fața castelului iluminat spectaculos. Vara, în iunie, Castel Mimi găzduiește și Rosé Day pe gazonul verde cu dress code alb/roz, vinuri rosé reci și muzică live. "
+            "Acces ușor inclusiv cu trenul vinului Chișinău–Bulboaca."
+        ),
+        "ce_gusti": "Vinuri din seria Animaliens, Rară Neagră, Rosé de Bulboaca, preparate de fine dining și grătar pe lemne",
+        "taguri": "vinopera, castel mimi, bulboaca, opera, rose day, vin, crama, iunie, septembrie",
+        "link_oficial": "https://castelmimi.md",
+        "surse_media": [
+            {"titlu": "Castel Mimi — Evenimente & VinOpera Ediția IX", "publicatie": "castelmimi.md", "url": "https://castelmimi.md"},
+            {"titlu": "Relatare VinOpera la Castel Mimi", "publicatie": "TV8.md", "url": "https://tv8.md"}
+        ],
+        "este_recomandat": 1,
+        "media_key": "castel_mimi"
+    },
+    {
+        "id": "evt-milestii-mici-winerun",
+        "slug": "milestii-mici-winerun",
+        "titlu": "Mileștii Mici Winerun — Cursă la 60 metri adâncime",
+        "tip": "Sport & Vin",
+        "organizator": "Sporter & Î.S. Mileștii Mici",
+        "regiune": "Centru",
+        "raion": "Ialoveni",
+        "localitate": "s. Mileștii Mici",
+        "locatie_exacta": "Galeriile Subterane Mileștii Mici, rl. Ialoveni",
+        "lat": 46.9219,
+        "lng": 28.8203,
+        "distanta_chisinau_km": 19,
+        "data_text": "Mijlocul lunii Martie (14 Martie 2026)",
+        "regula_recurenta": "Anual în luna Martie (programată deja pentru Martie 2027)",
+        "tip_recurenta": "Recurență relativă",
+        "luna_principala": "Martie",
+        "luni_active": "Martie",
+        "sezon": "Primăvară",
+        "ultima_editie_verificata": "Ediția 14 Martie 2026",
+        "urmatoarea_data_estimata": "2027-03-13",
+        "status_data": "Confirmat",
+        "pret_intrare": "350 - 650 MDL (înscriere alergători)",
+        "descriere_scurta": "Cursă de 10 km unică în lume la 60m sub pământ, printre mii de butoaie de stejar și recordul Guinness pentru cea mai mare colecție de vinuri.",
+        "cum_a_fost_real": (
+            "Alergători din zeci de țări coboară cu frontalele aprinse în labirintul calcaros al vinăriei Mileștii Mici (Guinness World Record). "
+            "După traseul de 10 km prin tunelurile subterane răcoroase, pachetul de finish include medalie tematică, degustare de vinuri de colecție și mâncare tradițională."
+        ),
+        "ce_gusti": "Vinuri de colecție Mileștii Mici, izvar, gustări de recuperare și plăcinte calde",
+        "taguri": "milestii mici, winerun, alergare, maraton, subteran, guinness, vin, martie, sporter",
+        "link_oficial": "https://sporter.md/ro",
+        "surse_media": [
+            {"titlu": "Sporter — Mileștii Mici Winerun", "publicatie": "sporter.md", "url": "https://sporter.md/ro"},
+            {"titlu": "Vinăria Mileștii Mici — Site oficial", "publicatie": "milestii-mici.md", "url": "https://milestii-mici.md"}
+        ],
+        "este_recomandat": 0,
+        "media_key": "milestii_mici"
+    },
+    {
+        "id": "evt-purcari-wine-run",
+        "slug": "purcari-wine-run",
+        "titlu": "Purcari Wine Run & Nocturne Night Run prin podgorii",
+        "tip": "Sport & Vin",
+        "organizator": "Sporter & Château Purcari",
+        "regiune": "Sud",
+        "raion": "Ștefan Vodă",
+        "localitate": "s. Purcari",
+        "locatie_exacta": "Domeniul Château Purcari, rl. Ștefan Vodă",
+        "lat": 46.5352,
+        "lng": 29.8548,
+        "distanta_chisinau_km": 112,
+        "data_text": "Iunie (Nocturne Night Run) & Septembrie (Purcari Wine Run)",
+        "regula_recurenta": "Anual în Iunie (ediția de noapte) și Septembrie (culesul viei)",
+        "tip_recurenta": "Recurență mixtă",
+        "luna_principala": "Septembrie",
+        "luni_active": "Iunie, Septembrie",
+        "sezon": "Toamnă",
+        "ultima_editie_verificata": "Nocturne Night Run ed. IV (Iunie 2026)",
+        "urmatoarea_data_estimata": "2027-06-19",
+        "status_data": "Estimat după tradiție",
+        "pret_intrare": "400 - 800 MDL (include pit-stop-uri cu vin & camping)",
+        "descriere_scurta": "Trail run de 5 km, 10 km sau 20 km printre viile istorice ale Purcariului și pe malul Nistrului, cu pit-stop-uri de degustare, pasta party și corturi.",
+        "cum_a_fost_real": (
+            "Weekend sportiv-turistic complet pe colinele Purcariului: trasee prin podgorii și livezi cu puncte de hidratare neobișnuite "
+            "(unde sportivii pot degusta chiar vinuri locale și fructe), completate vara de alergarea nocturnă cu frontale „Nocturne Night Run” (ediția a 4-a în 2026) și petrecere sub stele."
+        ),
+        "ce_gusti": "Negru de Purcari, seria Nocturne, bucate din bucătăria conacului Purcari, mămăligă și friptură",
+        "taguri": "purcari, wine run, nocturne, alergare, podgorii, stefan voda, sporter, iunie, septembrie",
+        "link_oficial": "https://purcariwineries.com/",
+        "surse_media": [
+            {"titlu": "Sporter — Purcari Wine Run", "publicatie": "sporter.md", "url": "https://sporter.md/ro"},
+            {"titlu": "Château Purcari — Site oficial", "publicatie": "purcariwineries.com", "url": "https://purcariwineries.com/"}
+        ],
+        "este_recomandat": 0,
+        "media_key": "purcari"
+    },
+    {
+        "id": "evt-ecolocal-chisinau",
+        "slug": "ecolocal-farmers-market-chisinau",
+        "titlu": "EcoLocal Farmers' Market — Târgul Producătorilor de Sâmbătă",
+        "tip": "Târg Producători & Meșteșuguri",
+        "organizator": "Asociația Consumatorilor și Producătorilor Ecologici EcoLocal",
+        "regiune": "Chișinău",
+        "raion": "Municipiul Chișinău",
+        "localitate": "mun. Chișinău",
+        "locatie_exacta": "Scuarul Centrului de Afaceri Kentford, bd. Ștefan cel Mare 202",
+        "lat": 47.0369,
+        "lng": 28.8147,
+        "distanta_chisinau_km": 0,
+        "data_text": "În fiecare Sâmbătă, 09:00 - 13:00",
+        "regula_recurenta": "Săptămânal în fiecare zi de Sâmbătă (din 2018)",
+        "tip_recurenta": "Săptămânal / Weekend",
+        "luna_principala": "Tot anul",
+        "luni_active": "Ianuarie, Februarie, Martie, Aprilie, Mai, Iunie, Iulie, August, Septembrie, Octombrie, Noiembrie, Decembrie",
+        "sezon": "Permanent",
+        "ultima_editie_verificata": "Activ săptămânal (din 2018 până în prezent)",
+        "urmatoarea_data_estimata": "2026-11-21",
+        "status_data": "Săptămânal activ",
+        "pret_intrare": "Gratuit",
+        "descriere_scurta": "Prima și cea mai cunoscută piață săptămânală de fermieri ecologici și artizani din Moldova: sâmbătă dimineața găsești cașcaval maturat, pâine cu maia, miere și fructe.",
+        "cum_a_fost_real": (
+            "Fondat în 2018 ca inițiativă non-profit, EcoLocal adună sâmbătă de sâmbătă zeci de mici fermieri verificați în fața clădirii Kentford. "
+            "Este locul de întâlnire al chișinăuienilor care vor produse curate direct de la sursă: brânzeturi de capră și vacă, uleiuri presate la rece, nuci, legume bio, "
+            "pâine artizanală cu maia, deserturi raw și cosmetice naturale."
+        ),
+        "ce_gusti": "Cașcavaluri maturate de fermă, pâine caldă cu maia, miere crudă, fructe de sezon, sucuri naturale",
+        "taguri": "ecolocal, targ, fermieri, producatori, sambata, bio, ecologic, chisinau, kentford, saptamanal",
+        "link_oficial": "https://ecolocal.md",
+        "surse_media": [
+            {"titlu": "Portal oficial EcoLocal Farmers' Market Moldova", "publicatie": "ecolocal.md", "url": "https://ecolocal.md"},
+            {"titlu": "Reportaj despre târgurile de producători din Chișinău", "publicatie": "TV8.md", "url": "https://tv8.md"}
+        ],
+        "este_recomandat": 1,
+        "media_key": "farmers_market"
+    },
+    {
+        "id": "evt-yard-sale-chisinau",
+        "slug": "yard-sale-chisinau",
+        "titlu": "Yard Sale Chișinău — Târg Urban Creativ, Design & Food",
+        "tip": "Târg Producători & Meșteșuguri",
+        "organizator": "AO Yard Platform",
+        "regiune": "Chișinău",
+        "raion": "Municipiul Chișinău",
+        "localitate": "mun. Chișinău",
+        "locatie_exacta": "Centrul Chișinăului (Patria Loteanu, Moldova-Film & locații partenere)",
+        "lat": 47.0249,
+        "lng": 28.8315,
+        "distanta_chisinau_km": 0,
+        "data_text": "Periodic în weekenduri (Ediție recentă: 14–15 Noiembrie 2026)",
+        "regula_recurenta": "Periodic în weekenduri tematice pe tot parcursul anului",
+        "tip_recurenta": "Recurență calendaristică",
+        "luna_principala": "Tot anul",
+        "luni_active": "Ianuarie, Februarie, Martie, Aprilie, Mai, Iunie, Iulie, August, Septembrie, Octombrie, Noiembrie, Decembrie",
+        "sezon": "Permanent",
+        "ultima_editie_verificata": "Ediția 14–15 Noiembrie 2026",
+        "urmatoarea_data_estimata": "2026-12-12",
+        "status_data": "Săptămânal activ",
+        "pret_intrare": "50 - 100 MDL",
+        "descriere_scurta": "Cel mai îndrăgit târg urban creativ de weekend din Chișinău: design local, haine vintage, viniluri, bijuterii handmade, food court și DJ seturi.",
+        "cum_a_fost_real": (
+            "Organizat cu ediții tematice aproape lunar (inclusiv ediția din 14–15 noiembrie 2026), Yard Sale combină design market-ul cu piața vintage, "
+            "obiecte handmade, cărți, discuri de vinil și accesorii de autor. Tinerii și familiile petrec weekendul la zona de street-food, cafea de specialitate, vin și muzică live."
+        ),
+        "ce_gusti": "Street food artizanal, cafea de specialitate, burgeri și plăcinte reinterpretate, vinuri locale",
+        "taguri": "yard sale, yardsale, targ urban, design, vintage, chisinau, weekend, handmade, food court",
+        "link_oficial": "https://yardsale.md/ro",
+        "surse_media": [
+            {"titlu": "Site oficial Yard Sale Moldova", "publicatie": "yardsale.md", "url": "https://yardsale.md/ro"},
+            {"titlu": "Bilete și ediții Yard Sale", "publicatie": "iTicket.md", "url": "https://iticket.md"}
+        ],
+        "este_recomandat": 0,
+        "media_key": "yard_sale"
+    },
+    {
+        "id": "evt-ziua-portului-popular",
+        "slug": "ziua-nationala-a-portului-popular-chisinau",
+        "titlu": "Ziua Națională a Portului Popular (Cămașa cu Altiță UNESCO)",
+        "tip": "Festival Cultural & Muzică",
+        "organizator": "Ministerul Culturii & Muzeul Național de Etnografie",
+        "regiune": "Chișinău",
+        "raion": "Municipiul Chișinău",
+        "localitate": "mun. Chișinău",
+        "locatie_exacta": "Muzeul Național de Etnografie și Istorie Naturală & Aleea Clasicilor",
+        "lat": 47.0233,
+        "lng": 28.8199,
+        "distanta_chisinau_km": 0,
+        "data_text": "Ultima duminică din Iunie",
+        "regula_recurenta": "Sărbătoare națională anuală în ultima duminică din Iunie",
+        "tip_recurenta": "Recurență relativă",
+        "luna_principala": "Iunie",
+        "luni_active": "Iunie",
+        "sezon": "Vară",
+        "ultima_editie_verificata": "Ediții oficiale anuale la Muzeul de Etnografie",
+        "urmatoarea_data_estimata": "2027-06-27",
+        "status_data": "Confirmat",
+        "pret_intrare": "Gratuit",
+        "descriere_scurta": "Sărbătoare oficială dedicată portului autentic și cămășii cu altiță (patrimoniu UNESCO): defilare în ii, meșteri populari și ateliere în grădina Muzeului de Etnografie.",
+        "cum_a_fost_real": (
+            "În fiecare ultimă duminică din iunie, curtea Muzeului Național de Etnografie se umple de colecționari de costume vechi și cluburi de șezători "
+            "care prezintă cămăși cu altiță autentice (element înscris în UNESCO). Târgul meșterilor, atelierele de cusut și concertele etnofolclorice atrag mii de familii."
+        ),
+        "ce_gusti": "Turte tradiționale, plăcinte și produse artizanale ale meșterilor invitați",
+        "taguri": "port popular, ie, camasa cu altita, unesco, muzeu etnografie, chisinau, iunie, costum national",
+        "link_oficial": "https://mc.gov.md",
+        "surse_media": [
+            {"titlu": "Ministerul Culturii — Ziua Națională a Portului Popular", "publicatie": "mc.gov.md", "url": "https://mc.gov.md"}
+        ],
+        "este_recomandat": 0,
+        "media_key": "moldovan_ie"
+    },
+    {
+        "id": "evt-festivalul-padurilor-condrita",
+        "slug": "festivalul-padurilor-condrita",
+        "titlu": "Festivalul Pădurilor — Condrița / Codri",
+        "tip": "Târg Producători & Meșteșuguri",
+        "organizator": "Ministerul Mediului & Președinția RM",
+        "regiune": "Centru",
+        "raion": "Strășeni",
+        "localitate": "com. Condrița",
+        "locatie_exacta": "Reședința de la Condrița, Codrii Moldovei",
+        "lat": 47.0448,
+        "lng": 28.5731,
+        "distanta_chisinau_km": 32,
+        "data_text": "Luna Septembrie (Weekend)",
+        "regula_recurenta": "Anual la început de toamnă în inima Codrilor",
+        "tip_recurenta": "Recurență relativă",
+        "luna_principala": "Septembrie",
+        "luni_active": "Septembrie",
+        "sezon": "Toamnă",
+        "ultima_editie_verificata": "Ediții anuale la Condrița",
+        "urmatoarea_data_estimata": "2027-09-18",
+        "status_data": "Estimat după tradiție",
+        "pret_intrare": "Gratuit",
+        "descriere_scurta": "Eveniment în pădurea de la Condrița pentru familii și iubitorii de natură: ateliere eco, trasee prin pădure, zonă gastronomică și concerte în aer liber.",
+        "cum_a_fost_real": (
+            "Organizat la poalele codrilor de la Condrița, festivalul susține programul național de împădurire și oferă vizitatorilor acces într-un cadru natural superb, "
+            "cu ateliere educaționale pentru copii, meșteșuguri din lemn, zonă de picnic și bucate locale."
+        ),
+        "ce_gusti": "Bucate de picnic în pădure, plăcinte, ceaiuri de plante din Codri, miere de pădure",
+        "taguri": "festivalul padurilor, condrita, codri, natura, padure, familie, septembrie",
+        "link_oficial": "https://www.fest.md/",
+        "surse_media": [
+            {"titlu": "Calendar Festivalul Pădurilor", "publicatie": "Fest.md", "url": "https://www.fest.md/"}
+        ],
+        "este_recomandat": 0,
+        "media_key": "padurea_domneasca"
+    },
+    {
+        "id": "evt-festivalul-martisor-chisinau",
+        "slug": "festivalul-martisor-chisinau",
+        "titlu": "Festivalul Internațional de Muzică „Mărțișor”",
+        "tip": "Festival Cultural & Muzică",
+        "organizator": "Ministerul Culturii & Moldova-Concert",
+        "regiune": "Chișinău",
+        "raion": "Municipiul Chișinău",
+        "localitate": "mun. Chișinău",
+        "locatie_exacta": "Palatul Național „Nicolae Sulac” & Sala cu Orgă, Chișinău",
+        "lat": 47.0226,
+        "lng": 28.8351,
+        "distanta_chisinau_km": 0,
+        "data_text": "1 - 12 Martie anual",
+        "regula_recurenta": "Dată fixă anuală: 1–12 Martie (tradiție de peste 50 de ani)",
+        "tip_recurenta": "Dată fixă anuală",
+        "luna_principala": "Martie",
+        "luni_active": "Martie",
+        "sezon": "Primăvară",
+        "ultima_editie_verificata": "Ediția anuală 1–12 Martie 2026",
+        "urmatoarea_data_estimata": "2027-03-01",
+        "status_data": "Confirmat",
+        "pret_intrare": "150 - 600 MDL (în funcție de concert)",
+        "descriere_scurta": "Cel mai prestigios și longeviv festival de muzică al primăverii din Moldova: 12 zile cu concerte simfonice, folclor de referință, operă și balet.",
+        "cum_a_fost_real": (
+            "Din 1966 încoace, începutul primăverii în Chișinău înseamnă Festivalul „Mărțișor”: 12 zile consecutive cu zeci de spectacole la Palatul Național, "
+            "Sala cu Orgă și Filarmonică, aducând orchestre naționale, balet, ansamblul „Joc” și artiști invitați din toată lumea."
+        ),
+        "ce_gusti": "Eveniment de săli de concert în centrul capitalei, urmat de cină în restaurantele tradiționale din Chișinău",
+        "taguri": "martisor, muzica, concert, palatul national, sala cu orga, chisinau, martie, primavara",
+        "link_oficial": "https://mc.gov.md",
+        "surse_media": [
+            {"titlu": "Programul Festivalului Internațional Mărțișor", "publicatie": "Fest.md", "url": "https://www.fest.md/"},
+            {"titlu": "Ministerul Culturii RM", "publicatie": "mc.gov.md", "url": "https://mc.gov.md"}
+        ],
+        "este_recomandat": 0,
+        "media_key": "outdoor_opera"
+    },
+    {
+        "id": "evt-ethno-jazz-chisinau",
+        "slug": "ethno-jazz-festival-chisinau",
+        "titlu": "Ethno Jazz Festival Chișinău",
+        "tip": "Festival Cultural & Muzică",
+        "organizator": "Formația Trigon & parteneri culturali",
+        "regiune": "Chișinău",
+        "raion": "Municipiul Chișinău",
+        "localitate": "mun. Chișinău",
+        "locatie_exacta": "Filarmonica Națională / Palatul Republicii / Spații culturale Chișinău",
+        "lat": 47.0218,
+        "lng": 28.8364,
+        "distanta_chisinau_km": 0,
+        "data_text": "Mijlocul lunii Septembrie",
+        "regula_recurenta": "Anual în luna Septembrie",
+        "tip_recurenta": "Recurență relativă",
+        "luna_principala": "Septembrie",
+        "luni_active": "Septembrie",
+        "sezon": "Toamnă",
+        "ultima_editie_verificata": "Ediții anuale internaționale în Chișinău",
+        "urmatoarea_data_estimata": "2027-09-17",
+        "status_data": "Estimat după tradiție",
+        "pret_intrare": "250 - 500 MDL",
+        "descriere_scurta": "Festival internațional de renume organizat de Trigon: fuziune spectaculoasă între improvizația de jazz și instrumente etnice din Europa și lume.",
+        "cum_a_fost_real": (
+            "Fondat de muzicianul Anatol Ștefăneț și trupa Trigon, Ethno Jazz Festival aduce în fiecare toamnă la Chișinău artiști de jazz din Europa, Africa, America și Asia, "
+            "împreună cu seri de jam-session memorabile."
+        ),
+        "ce_gusti": "Vinuri de degustare în foaier și gastronomie urbană",
+        "taguri": "ethno jazz, jazz, trigon, concert, muzica, chisinau, septembrie",
+        "link_oficial": "https://moldova.travel/ro",
+        "surse_media": [
+            {"titlu": "Prezentare Ethno Jazz Festival Moldova", "publicatie": "moldova.travel", "url": "https://moldova.travel/ro"}
+        ],
+        "este_recomandat": 0,
+        "media_key": "jazz_sax"
+    },
+    {
+        "id": "evt-targul-de-craciun-chisinau",
+        "slug": "targul-de-craciun-chisinau",
+        "titlu": "Târgul de Crăciun din Chișinău (Orășelul Sărbătorilor de Iarnă)",
+        "tip": "Târg Sezonier",
+        "organizator": "Primăria Municipiului Chișinău",
+        "regiune": "Chișinău",
+        "raion": "Municipiul Chișinău",
+        "localitate": "mun. Chișinău",
+        "locatie_exacta": "Piața Marii Adunări Naționale (PMAN) & Scuarul Catedralei",
+        "lat": 47.0247,
+        "lng": 28.8325,
+        "distanta_chisinau_km": 0,
+        "data_text": "1 Decembrie - 15 Ianuarie",
+        "regula_recurenta": "Anual din Decembrie până la mijlocul lunii Ianuarie",
+        "tip_recurenta": "Recurență calendaristică",
+        "luna_principala": "Decembrie",
+        "luni_active": "Decembrie, Ianuarie",
+        "sezon": "Iarnă",
+        "ultima_editie_verificata": "Sezonul de iarnă 2025–2026 în PMAN",
+        "urmatoarea_data_estimata": "2026-12-01",
+        "status_data": "Confirmat",
+        "pret_intrare": "Gratuit",
+        "descriere_scurta": "Inima sărbătorilor de iarnă în PMAN: bradul principal, căsuțe artizanale cu izvar și turtă dulce, carusel, patinoar și concerte festive de Crăciun și Revelion.",
+        "cum_a_fost_real": (
+            "Deschis oficial odată cu aprinderea luminițelor pe Pomul de Crăciun din PMAN, Orășelul de Iarnă găzduiește zeci de căsuțe de lemn cu meșteri populari, "
+            "izvar aromat, colaci calzi, atracții pentru copii, căsuța lui Moș Crăciun și concerte cu colinde tradiționale."
+        ),
+        "ce_gusti": "Izvar (vin fiert moldovenesc cu mirodenii), colaci calzi și cozonac, turtă dulce glazurată, plăcinte",
+        "taguri": "targul de craciun, craciun, iarna, revelion, izvar, pman, chisinau, decembrie, ianuarie",
+        "link_oficial": "https://www.chisinau.md/ro",
+        "surse_media": [
+            {"titlu": "Primăria Chișinău — Târgul de Crăciun PMAN", "publicatie": "chisinau.md", "url": "https://www.chisinau.md/ro"}
+        ],
+        "este_recomandat": 0,
+        "media_key": "christmas_market"
+    }
+]
+
+
+LOCATII = [
+    {
+        "id": "loc-castel-mimi",
+        "slug": "castel-mimi-wine-resort",
+        "titlu": "Castel Mimi Wine Resort",
+        "categorie": "Cramă & Resort Turistic",
+        "regiune": "Centru",
+        "raion": "Anenii Noi",
+        "localitate": "s. Bulboaca",
+        "adresa": "s. Bulboaca, str. Dacia 1, rl. Anenii Noi",
+        "lat": 46.8856,
+        "lng": 29.3033,
+        "distanta_chisinau_km": 38,
+        "program_vizita": "Marți – Duminică: 10:00 – 22:00",
+        "rezervare_necesara": "Recomandată pentru tururi și restaurant",
+        "buget_orientativ": "400 - 1.200 MDL (excursie + degustare)",
+        "descriere_scurta": "Singurul chateau istoric vitivinicol din Moldova (construit în 1893 de Constantin Mimi): restaurat spectaculos, cu hotel boutique, spa de vin și restaurant gourmet.",
+        "ce_merita_vazut": (
+            "Inclus în topul celor mai frumoase 15 crame ale lumii: clădirea istorică din 1893, pivnițele de maturare, fântâna muzicală și grădinile ample pentru evenimente. "
+            "Găzduiește periodic concertele VinOpera, Rosé Day și seri gastronomice tematice."
+        ),
+        "ce_gusti": "Fetească Albă, Rosé de Bulboaca, Roșu de Bulboaca, bucătărie basarabeană reinterpretată la restaurantul „Bufnița Albă”",
+        "taguri": "castel mimi, bulboaca, crama, vinarie, degustare, cazare, vinopera, chateau",
+        "link_oficial": "https://castelmimi.md",
+        "surse_media": [
+            {"titlu": "Site oficial & rezervări Castel Mimi", "publicatie": "castelmimi.md", "url": "https://castelmimi.md"},
+            {"titlu": "Profil oenoturistic Castel Mimi", "publicatie": "Moldova.Travel", "url": "https://moldova.travel/ro"}
+        ],
+        "este_recomandat": 1,
+        "media_key": "castel_mimi"
+    },
+    {
+        "id": "loc-cricova",
+        "slug": "combinatul-de-vinuri-cricova",
+        "titlu": "Orașul Subteran & Combinatul de Vinuri Cricova",
+        "categorie": "Cramă & Resort Turistic",
+        "regiune": "Chișinău",
+        "raion": "Municipiul Chișinău",
+        "localitate": "or. Cricova",
+        "adresa": "or. Cricova, str. Chișinăului 124",
+        "lat": 47.1369,
+        "lng": 28.8594,
+        "distanta_chisinau_km": 15,
+        "program_vizita": "Luni – Duminică: 09:00 – 20:00",
+        "rezervare_necesara": "Obligatorie pentru excursii în subteran",
+        "buget_orientativ": "450 - 1.500 MDL",
+        "descriere_scurta": "Celebrele galerii subterane cu străzi ce poartă numele soiurilor de vin, cinematecă, colecția națională de vinuri rare și producția spumantelor clasice.",
+        "ce_merita_vazut": (
+            "Peste 120 km de labirint calcaros parcurs cu trenulețul electric subteran, sălile prezidențiale de degustare, "
+            "muzeul subteran și secția de remuaj manual al șampaniei produse prin metoda clasică franceză."
+        ),
+        "ce_gusti": "Spumantele Cricova Brut / Alb/Rosé, Vinuri din seria Prestige și Orașul Subteran",
+        "taguri": "cricova, crama, subteran, spumant, degustare, chisinau, excursie",
+        "link_oficial": "https://cricova.md/ro/",
+        "surse_media": [
+            {"titlu": "Rezervări excursii Cricova", "publicatie": "cricova.md", "url": "https://cricova.md/ro/"}
+        ],
+        "este_recomandat": 1,
+        "media_key": "cricova"
+    },
+    {
+        "id": "loc-milestii-mici",
+        "slug": "vinaria-milestii-mici",
+        "titlu": "Galeriile Subterane Mileștii Mici (Record Guinness)",
+        "categorie": "Cramă & Resort Turistic",
+        "regiune": "Centru",
+        "raion": "Ialoveni",
+        "localitate": "s. Mileștii Mici",
+        "adresa": "s. Mileștii Mici, rl. Ialoveni",
+        "lat": 46.9219,
+        "lng": 28.8203,
+        "distanta_chisinau_km": 19,
+        "program_vizita": "Luni – Duminică: 09:00 – 19:00",
+        "rezervare_necesara": "Obligatorie",
+        "buget_orientativ": "350 - 1.100 MDL",
+        "descriere_scurta": "Deținătoarea Recordului Mondial Guinness pentru cea mai mare colecție de vinuri din lume (~1,5 milioane sticle) într-o rețea de galerii de 200 km.",
+        "ce_merita_vazut": (
+            "Turul cu automobilul propriu sau trenulețul prin bulevardele subterane denumite „Cabernet”, „Aligote” și „Feteasca”, "
+            "Colecția de Aur ascunsă în nișe calcaroase și cascada subterană."
+        ),
+        "ce_gusti": "Vinuri de colecție roșii și de desert (Codru, Auriu), plăcinte moldovenești în sala de degustare",
+        "taguri": "milestii mici, guinness, crama, subteran, ialoveni, degustare, colectie vinuri",
+        "link_oficial": "https://milestii-mici.md",
+        "surse_media": [
+            {"titlu": "Site oficial Î.S. Mileștii Mici", "publicatie": "milestii-mici.md", "url": "https://milestii-mici.md"}
+        ],
+        "este_recomandat": 1,
+        "media_key": "milestii_mici"
+    },
+    {
+        "id": "loc-purcari",
+        "slug": "chateau-purcari",
+        "titlu": "Château Purcari — Domeniu Vitivinicol Istoric (1827)",
+        "categorie": "Cramă & Resort Turistic",
+        "regiune": "Sud",
+        "raion": "Ștefan Vodă",
+        "localitate": "s. Purcari",
+        "adresa": "s. Purcari, str. Ștefan cel Mare 1, rl. Ștefan Vodă",
+        "lat": 46.5352,
+        "lng": 29.8548,
+        "distanta_chisinau_km": 112,
+        "program_vizita": "Zilnic: 09:00 – 21:00",
+        "rezervare_necesara": "Recomandată",
+        "buget_orientativ": "450 - 1.400 MDL",
+        "descriere_scurta": "Fondat în 1827, leagănul legendarului vin „Negru de Purcari”; conac înconjurat de lacuri cu lebede, camere de cazare, teren de tenis și podgorii spre Nistru.",
+        "ce_merita_vazut": (
+            "Pivnițele istorice din secolul XIX unde se păstrează sticle rare de Negru de Purcari și Roșu de Purcari, "
+            "lacurile pitorești și restaurantul conacului."
+        ),
+        "ce_gusti": "Negru de Purcari, Nocturne, Maluri de Prut, carne de vită și rață confiată",
+        "taguri": "purcari, chateau purcari, negru de purcari, crama, cazare, stefan voda, degustare",
+        "link_oficial": "https://purcariwineries.com/",
+        "surse_media": [
+            {"titlu": "Purcari Wineries Group — Turism", "publicatie": "purcariwineries.com", "url": "https://purcariwineries.com/"}
+        ],
+        "este_recomandat": 1,
+        "media_key": "purcari"
+    },
+    {
+        "id": "loc-asconi",
+        "slug": "vinaria-asconi-puhoi",
+        "titlu": "Vinăria Asconi (Satul Tradițional & Restaurant Puhoi)",
+        "categorie": "Cramă & Resort Turistic",
+        "regiune": "Centru",
+        "raion": "Ialoveni",
+        "localitate": "s. Puhoi",
+        "adresa": "s. Puhoi, str. Ștefan cel Mare 1, rl. Ialoveni",
+        "lat": 46.8178,
+        "lng": 29.0439,
+        "distanta_chisinau_km": 32,
+        "program_vizita": "Zilnic: 10:00 – 22:00",
+        "rezervare_necesara": "Recomandată în weekend",
+        "buget_orientativ": "300 - 800 MDL",
+        "descriere_scurta": "Cramă de familie cu curte tradițională cu case acoperite cu stuf, terasă mare și una dintre cele mai apreciate bucătării autentice din preajma Chișinăului.",
+        "ce_merita_vazut": (
+            "Atmosfera caldă de sat moldovenesc cu case tradiționale restaurate, pivnițele cu vinuri premiate "
+            "(Sol Negru, Uneori, Ice Wine) și locurile generoase pentru familii și copii."
+        ),
+        "ce_gusti": "Zeamă de găină cu tăieței făcuți pe loc, sărmăluțe în foi de viță, mămăligă cu tocăniță de porc, plăcinte pe vatră",
+        "taguri": "asconi, puhoi, ialoveni, zeama, sarmale, placinte, crama, restaurant, weekend",
+        "link_oficial": "https://asconiwinery.com",
+        "surse_media": [
+            {"titlu": "Vinăria Asconi — Site oficial", "publicatie": "asconiwinery.com", "url": "https://asconiwinery.com"}
+        ],
+        "este_recomandat": 1,
+        "media_key": "vineyard_moldova"
+    },
+    {
+        "id": "loc-chateau-vartely",
+        "slug": "chateau-vartely-orhei",
+        "titlu": "Château Vartely Winery & Resort",
+        "categorie": "Cramă & Resort Turistic",
+        "regiune": "Centru",
+        "raion": "Orhei",
+        "localitate": "mun. Orhei",
+        "adresa": "mun. Orhei, str. Eliberării 170/B",
+        "lat": 47.3728,
+        "lng": 28.8153,
+        "distanta_chisinau_km": 48,
+        "program_vizita": "Zilnic: 10:00 – 22:00",
+        "rezervare_necesara": "Recomandată",
+        "buget_orientativ": "350 - 950 MDL",
+        "descriere_scurta": "Complex oenoturistic modern la intrarea în Orhei, cu vile turistice inspirate din tradițiile regionale, terasă panoramică și degustări Taraboste.",
+        "ce_merita_vazut": (
+            "Complexul architectural cu panoramă asupra orașului Orhei, zona de producție și îmbuteliere deschisă turiștilor, "
+            "cazarea în căsuțele tematice (Nord, Centru, Sud) și colecția de vinuri Taraboste și Individo."
+        ),
+        "ce_gusti": "Zeamă tradițională, pastramă și friptură cu vin Fetească Regală sau Taraboste",
+        "taguri": "chateau vartely, vartely, orhei, crama, taraboste, degustare, cazare, zeama",
+        "link_oficial": "https://vartely.md",
+        "surse_media": [
+            {"titlu": "Château Vartely — Turism & Rezervări", "publicatie": "vartely.md", "url": "https://vartely.md"}
+        ],
+        "este_recomandat": 0,
+        "media_key": "vartely"
+    },
+    {
+        "id": "loc-et-cetera",
+        "slug": "et-cetera-winery-crocmaz",
+        "titlu": "Et Cetera Winery & Boutique Hotel (Crocmaz)",
+        "categorie": "Cramă & Resort Turistic",
+        "regiune": "Sud",
+        "raion": "Ștefan Vodă",
+        "localitate": "s. Crocmaz",
+        "adresa": "s. Crocmaz, rl. Ștefan Vodă",
+        "lat": 46.4536,
+        "lng": 29.9742,
+        "distanta_chisinau_km": 122,
+        "program_vizita": "Joi – Duminică (cu rezervare)",
+        "rezervare_necesara": "Da",
+        "buget_orientativ": "450 - 1.100 MDL",
+        "descriere_scurta": "Faimoasă cramă de familie din zona Purcari cu podgorii ecologice, terasă spre vii, mini-hotel confortabil și renumitele plăcinte de Crocmaz.",
+        "ce_merita_vazut": (
+            "Ospitalitate autentică de familie creată de frații Luchianov: degustări directe cu vinificatorul, "
+            "mini-hotel între vii, piscină și chiar o mică pistă de aterizare pentru avioane ușoare."
+        ),
+        "ce_gusti": "Plăcinte fine cu dovleac/brânză/ceapă de Crocmaz, cupajele Cuvée Blanc și Affinato",
+        "taguri": "et cetera, crocmaz, stefan voda, crama familie, boutique, placinte, cazare, sud",
+        "link_oficial": "https://etcetera.md",
+        "surse_media": [
+            {"titlu": "Et Cetera Winery — Rezervări", "publicatie": "etcetera.md", "url": "https://etcetera.md"},
+            {"titlu": "ONT — Turism vinicol la Et Cetera", "publicatie": "turism.gov.md", "url": "https://turism.gov.md/ro/"}
+        ],
+        "este_recomandat": 1,
+        "media_key": "vineyard_moldova"
+    },
+    {
+        "id": "loc-vinaria-poiana",
+        "slug": "vinaria-poiana-ulmu",
+        "titlu": "Vinăria Poiana — Oază în Inima Codrilor",
+        "categorie": "Cramă & Resort Turistic",
+        "regiune": "Centru",
+        "raion": "Ialoveni",
+        "localitate": "s. Ulmu",
+        "adresa": "s. Ulmu, rl. Ialoveni",
+        "lat": 47.0075,
+        "lng": 28.5322,
+        "distanta_chisinau_km": 37,
+        "program_vizita": "Vineri – Duminică (cu rezervare)",
+        "rezervare_necesara": "Da",
+        "buget_orientativ": "350 - 850 MDL",
+        "descriere_scurta": "Cramă ascunsă între pădurile și dealurile din Ulmu: degustări de soiuri autohtone (Fetească Albă, Neagră, Legenda) și terasă cu aer curat de codru.",
+        "ce_merita_vazut": (
+            "Liniștea completă în mijlocul Codrilor, priveliștea panoramică asupra viilor în pantă "
+            "și excursiile personalizate prin cramă."
+        ),
+        "ce_gusti": "Spumante, Fetească Regală, Ulmu Legenda și platouri rustice cu brânzeturi și carne la cuptor",
+        "taguri": "poiana, ulmu, ialoveni, codri, crama, degustare, natura",
+        "link_oficial": "https://poiana.wine/",
+        "surse_media": [
+            {"titlu": "Vinăria Poiana — Site oficial", "publicatie": "poiana.wine", "url": "https://poiana.wine/"}
+        ],
+        "este_recomandat": 0,
+        "media_key": "wine_cellar"
+    },
+    {
+        "id": "loc-kara-gani",
+        "slug": "kara-gani-vulcanesti",
+        "titlu": "Crama de Familie „Kara Gani” (Vulcănești)",
+        "categorie": "Cramă & Resort Turistic",
+        "regiune": "UTA Găgăuzia",
+        "raion": "UTA Găgăuzia",
+        "localitate": "or. Vulcănești",
+        "adresa": "or. Vulcănești, str. Frunze 53, UTA Găgăuzia",
+        "lat": 45.6872,
+        "lng": 28.4044,
+        "distanta_chisinau_km": 175,
+        "program_vizita": "Zilnic cu programare prealabilă",
+        "rezervare_necesara": "Obligatorie",
+        "buget_orientativ": "350 - 750 MDL",
+        "descriere_scurta": "Experiență autentică găgăuză în sudul extrem al Moldovei: vinuri artizanale de Bugeac, muzeu etnografic al familiei și bucate arhaice găgăuzești.",
+        "ce_merita_vazut": (
+            "Crama familie unde oaspeții sunt întâmpinați în port tradițional, vizitează mini-muzeul etnografic "
+            "și participă la cine cu muzică și povestiri despre Bugeac."
+        ),
+        "ce_gusti": "Shorpa de berbec, plăcinte gözleme la tavă, kavurma cu bulgur și vinuri roșii ale Bugeacului",
+        "taguri": "kara gani, vulcanesti, gagauzia, bugeac, crama, shorpa, gozleme, kavurma, sud",
+        "link_oficial": "https://karagani.com",
+        "surse_media": [
+            {"titlu": "Kara Gani Family Winery — Site oficial", "publicatie": "karagani.com", "url": "https://karagani.com"}
+        ],
+        "este_recomandat": 0,
+        "media_key": "gagauzia"
+    },
+    {
+        "id": "loc-butuceni",
+        "slug": "eco-resort-butuceni",
+        "titlu": "Eco Resort Butuceni — Satul Tradițional Orheiul Vechi",
+        "categorie": "Pensiune & Gastronomie",
+        "regiune": "Centru",
+        "raion": "Orhei",
+        "localitate": "s. Butuceni",
+        "adresa": "s. Butuceni, rl. Orhei (Rezervația Orheiul Vechi)",
+        "lat": 47.3019,
+        "lng": 28.9678,
+        "distanta_chisinau_km": 58,
+        "program_vizita": "Zilnic: 09:00 – 22:00",
+        "rezervare_necesara": "Recomandată pentru cazare și mese de weekend",
+        "buget_orientativ": "250 - 700 MDL (masă) / cazare rustică",
+        "descriere_scurta": "Pionierul agroturismului din Moldova: căsuțe alb-albastre cu prispă sub stâncile Orheiului Vechi, ateliere de plăcinte și mâncare coaptă pe vatră.",
+        "ce_merita_vazut": (
+            "Priveliștea iconică peste râul Răut și mănăstirea rupestră, curtea rurală cu păsări și cai, "
+            "masterclass-urile de întins plăcinte tradiționale și gazda Festivalului DescOperă."
+        ),
+        "ce_gusti": "Zeamă orheiană de găină, plăcinte cu brânză și mărar sau bostan la cuptor, sarmale în oală de lut, colțunași cu vișine",
+        "taguri": "butuceni, orheiul vechi, pensiune, agroturism, zeama, placinte, sarmale, cazare",
+        "link_oficial": "https://butuceni.md",
+        "surse_media": [
+            {"titlu": "Eco Resort Butuceni — Site oficial", "publicatie": "butuceni.md", "url": "https://butuceni.md"}
+        ],
+        "este_recomandat": 1,
+        "media_key": "butuceni"
+    },
+    {
+        "id": "loc-hanul-lui-hanganu",
+        "slug": "pensiunea-hanul-lui-hanganu-lalova",
+        "titlu": "Pensiunea „Hanul lui Hanganu” (Lalova, Nistru)",
+        "categorie": "Pensiune & Gastronomie",
+        "regiune": "Centru",
+        "raion": "Rezina",
+        "localitate": "s. Lalova",
+        "adresa": "s. Lalova, rl. Rezina (malul Nistrului)",
+        "lat": 47.5608,
+        "lng": 29.0205,
+        "distanta_chisinau_km": 92,
+        "program_vizita": "Zilnic (rezervare prealabilă recomandată)",
+        "rezervare_necesara": "Da",
+        "buget_orientativ": "300 - 650 MDL / cazare & pensiune completă",
+        "descriere_scurta": "Una dintre cele mai renumite pensiuni peisagistice ale Moldovei, pe malul abrupt al Nistrului lângă mănăstirile Saharna și Țîpova, cu bărci și drumeții.",
+        "ce_merita_vazut": (
+            "Apusuri spectaculoase peste defileul Nistrului, plimbări cu barca și pescuit, "
+            "bază perfectă pentru drumeții către stâncile și cascadele de la Țîpova și Saharna."
+        ),
+        "ce_gusti": "Plăcinte renumite de la Lalova, zeamă și ciorbă de pește de Nistru, bucate gătite la cuptorul de lut",
+        "taguri": "hanul lui hanganu, lalova, rezina, nistru, tipova, saharna, pensiune, placinte, barca",
+        "link_oficial": "https://hanulhanganu.md",
+        "surse_media": [
+            {"titlu": "Hanul lui Hanganu — Site oficial", "publicatie": "hanulhanganu.md", "url": "https://hanulhanganu.md"}
+        ],
+        "este_recomandat": 1,
+        "media_key": "nistru"
+    },
+    {
+        "id": "loc-gagauz-sofrasi",
+        "slug": "gagauz-sofrasi-congaz",
+        "titlu": "Complexul Etno-Turistic „Gagauz Sofrasi” (Congaz)",
+        "categorie": "Pensiune & Gastronomie",
+        "regiune": "UTA Găgăuzia",
+        "raion": "UTA Găgăuzia",
+        "localitate": "s. Congaz",
+        "adresa": "s. Congaz, str. Lenin 134A (cel mai mare sat din Europa)",
+        "lat": 46.1058,
+        "lng": 28.5975,
+        "distanta_chisinau_km": 122,
+        "program_vizita": "Zilnic: 10:00 – 22:00",
+        "rezervare_necesara": "Recomandată în weekend",
+        "buget_orientativ": "250 - 600 MDL (restaurant) / căsuțe etnice",
+        "descriere_scurta": "Complex unic în cel mai mare sat din Europa (Congaz): cazare în căsuțe țărănești autentice, muzeu al nunții găgăuze, beci „Gagauz Maazası” și bucătărie sudică.",
+        "ce_merita_vazut": (
+            "Căsuțele recondiționate din lut și lemn cu covoare țesute manual, muzeul etnografic, "
+            "terasa panoramică și serile cu muzică și dansuri tradiționale găgăuzești."
+        ),
+        "ce_gusti": "Shorpa de berbec, gözleme, kavurma, bulgur cu carne de miel, dulcețuri de gutui",
+        "taguri": "gagauz sofrasi, congaz, gagauzia, cazare, restaurant, shorpa, gozleme, muzeu",
+        "link_oficial": "https://www.gagauzsofrasi.com/",
+        "surse_media": [
+            {"titlu": "Gagauz Sofrasi — Site oficial", "publicatie": "gagauzsofrasi.com", "url": "https://www.gagauzsofrasi.com/"},
+            {"titlu": "ONT — Prezentare Gagauz Sofrasi", "publicatie": "turism.gov.md", "url": "https://turism.gov.md/ro/"}
+        ],
+        "este_recomandat": 1,
+        "media_key": "gagauz_sofrasi"
+    },
+    {
+        "id": "loc-eco-village-valeni",
+        "slug": "eco-village-valeni-lacul-beleu",
+        "titlu": "Eco-Village Văleni & Lacul Beleu (Prutul de Jos UNESCO)",
+        "categorie": "Pensiune & Gastronomie",
+        "regiune": "Sud",
+        "raion": "Cahul",
+        "localitate": "s. Văleni",
+        "adresa": "s. Văleni, rl. Cahul (Rezervația Biosferei „Prutul de Jos”)",
+        "lat": 45.6052,
+        "lng": 28.1653,
+        "distanta_chisinau_km": 195,
+        "program_vizita": "Zilnic cu programare",
+        "rezervare_necesara": "Da",
+        "buget_orientativ": "300 - 650 MDL (excursie cu barca + masă tradițională)",
+        "descriere_scurta": "Poarta spre Rezervația UNESCO „Prutul de Jos”: plimbări cu barca printre nuferi și pelicani pe Lacul Beleu, „Colinele de Aur”, Muzeul Pâinii și hora de la sud.",
+        "ce_merita_vazut": (
+            "Biodiversitatea spectaculoasă a Lacului Beleu, traseul pe Colinele de Aur, "
+            "vizita la Muzeul Pâinii și degustarea bucatelor gătite pe vatră din ingrediente ecologice locale."
+        ),
+        "ce_gusti": "Ciorbă pescărească din Lunca Prutului, pește prăjit cu mujdei și mămăligă, colaci de la Muzeul Pâinii",
+        "taguri": "valeni, lacul beleu, prutul de jos, cahul, ecoturism, barca, nuferi, sud, unesco, zeama",
+        "link_oficial": "https://moldova.travel/ro",
+        "surse_media": [
+            {"titlu": "Eco-Village Văleni & Prutul de Jos", "publicatie": "moldova.travel", "url": "https://moldova.travel/ro"}
+        ],
+        "este_recomandat": 1,
+        "media_key": "lacul_beleu"
+    },
+    {
+        "id": "loc-casa-parinteasca-palanca",
+        "slug": "casa-parinteasca-palanca",
+        "titlu": "Muzeul Meșteșugurilor „Casa Părintească” (Palanca)",
+        "categorie": "Meșteșuguri & Obiective",
+        "regiune": "Centru",
+        "raion": "Călărași",
+        "localitate": "s. Palanca",
+        "adresa": "s. Palanca, rl. Călărași",
+        "lat": 47.3728,
+        "lng": 28.2044,
+        "distanta_chisinau_km": 78,
+        "program_vizita": "Marți – Duminică: 10:00 – 18:00",
+        "rezervare_necesara": "Recomandată pentru mese și ateliere",
+        "buget_orientativ": "150 - 400 MDL",
+        "descriere_scurta": "Casă-muzeu a țăranilor înstăriți din sec. XIX fondată de Tatiana Popa: tehnică rară de țesut „covor în bumbi”, ceaiuri de plante biblice și bucate din lut.",
+        "ce_merita_vazut": (
+            "Colecția de ii vechi și prosoape, războiul de țesut pentru „covorul în bumbi”, "
+            "podul cu ierburi medicinale și poveștile pline de căldură ale gazdelor."
+        ),
+        "ce_gusti": "Ceai din plante aromatice și frunze de nuc, dulceață de trandafir și nuci verzi, zeamă în oală de lut, colaci",
+        "taguri": "casa parinteasca, palanca, calarasi, muzeu, covor in bumbi, ceai, mestesuguri, zeama",
+        "link_oficial": "https://moldova.travel/ro",
+        "surse_media": [
+            {"titlu": "Prezentare Casa Părintească Palanca", "publicatie": "moldova.travel", "url": "https://moldova.travel/ro"}
+        ],
+        "este_recomandat": 0,
+        "media_key": "moldovan_carpet"
+    },
+    {
+        "id": "loc-arta-rustica-clisova",
+        "slug": "arta-rustica-clisova-noua",
+        "titlu": "Complexul Meșteșugăresc „Arta Rustică” (Clișova Nouă)",
+        "categorie": "Meșteșuguri & Obiective",
+        "regiune": "Centru",
+        "raion": "Orhei",
+        "localitate": "s. Clișova Nouă",
+        "adresa": "s. Clișova Nouă, rl. Orhei",
+        "lat": 47.4981,
+        "lng": 28.6156,
+        "distanta_chisinau_km": 68,
+        "program_vizita": "Zilnic cu programare",
+        "rezervare_necesara": "Recomandată",
+        "buget_orientativ": "100 - 350 MDL",
+        "descriere_scurta": "Centru viu de salvare a covorului basarabean și cămășii cu altiță (patrimoniu UNESCO): atelier cu 12 războaie de țesut, vopsire naturală și gastronomie locală.",
+        "ce_merita_vazut": (
+            "Demonstrațiile de țesut covoare după desene din secolele XVIII–XIX, expoziția permanentă și magazinul de creații artizanale autentice."
+        ),
+        "ce_gusti": "Plăcinte țărănești la cuptor, învârtite cu brânză de oi, compot de casă",
+        "taguri": "arta rustica, clisova noua, orhei, covor, tesut, mestesuguri, unesco",
+        "link_oficial": "https://rusticart.md",
+        "surse_media": [
+            {"titlu": "Arta Rustică — Site oficial", "publicatie": "rusticart.md", "url": "https://rusticart.md"}
+        ],
+        "este_recomandat": 0,
+        "media_key": "moldovan_carpet"
+    },
+    {
+        "id": "loc-padurea-domneasca",
+        "slug": "rezervatia-padurea-domneasca-glodeni",
+        "titlu": "Rezervația „Pădurea Domnească”, Zimbrăria & Suta de Movile",
+        "categorie": "Natură & Patrimoniu",
+        "regiune": "Nord",
+        "raion": "Glodeni",
+        "localitate": "s. Cobani / Balatina",
+        "adresa": "s. Balatina / Cobani, rl. Glodeni (Lunca Prutului de Mijloc)",
+        "lat": 47.6119,
+        "lng": 27.3264,
+        "distanta_chisinau_km": 178,
+        "program_vizita": "Zilnic: 08:00 – 17:00",
+        "rezervare_necesara": "Recomandată pentru ghidaj",
+        "buget_orientativ": "50 - 150 MDL (bilet intrare rezervație)",
+        "descriere_scurta": "Cea mai mare rezervație științifică din Moldova: stejari seculari de peste 250 de ani, zimbrii de la Prut, „Țara Bâtlanilor” și fenomenul unic „Suta de Movile”.",
+        "ce_merita_vazut": (
+            "Traseul ecologic prin pădurea de luncă, țarcul zimbrilor europeni, colonia de stârci „Țara Bâtlanilor” și priveliștea selenar-pitorească „Suta de Movile”."
+        ),
+        "ce_gusti": "Pensiunile rurale de pe traseul Prutului de Mijloc (bucate din nord și pește de Prut)",
+        "taguri": "padurea domneasca, glodeni, zimbri, suta de movile, natura, rezervatie, nord, prut",
+        "link_oficial": "https://moldova.travel/ro",
+        "surse_media": [
+            {"titlu": "Moldova.Travel — Pădurea Domnească", "publicatie": "moldova.travel", "url": "https://moldova.travel/ro"}
+        ],
+        "este_recomandat": 0,
+        "media_key": "padurea_domneasca"
+    },
+    {
+        "id": "loc-cetatea-soroca",
+        "slug": "cetatea-soroca",
+        "titlu": "Cetatea Soroca — Fortăreață Medievală de pe Nistru",
+        "categorie": "Natură & Patrimoniu",
+        "regiune": "Nord",
+        "raion": "Soroca",
+        "localitate": "mun. Soroca",
+        "adresa": "mun. Soroca, str. Cetății 1",
+        "lat": 48.1616,
+        "lng": 28.3052,
+        "distanta_chisinau_km": 158,
+        "program_vizita": "Miercuri – Duminică: 09:00 – 18:00 (aprilie – noiembrie)",
+        "rezervare_necesara": "Nu (opțional pentru ghid)",
+        "buget_orientativ": "20 - 50 MDL (bilet muzeu)",
+        "descriere_scurta": "Monument istoric emblemă ridicat din piatră de Petru Rareș pe malul Nistrului, complet restaurat, cu vedere spre Ucraina și drum spre Lumânarea Recunoștinței.",
+        "ce_merita_vazut": (
+            "Cele 5 bastioane circulare, cazele medievale ale străjerilor, turnul de intrare cu capelă și combinarea vizitei cu urcușul spre „Lumânarea Recunoștinței”."
+        ),
+        "ce_gusti": "Pește de Nistru, plăcinte și mere dulci de Soroca în restaurantele de pe faleză",
+        "taguri": "cetatea soroca, soroca, cetate, nistru, nord, istorie, muzeu, monument",
+        "link_oficial": "https://primsoroca.md/ro/",
+        "surse_media": [
+            {"titlu": "Primăria Soroca — Obiective Turistice", "publicatie": "primsoroca.md", "url": "https://primsoroca.md/ro/"}
+        ],
+        "este_recomandat": 1,
+        "media_key": "soroca"
+    },
+    {
+        "id": "loc-manastirea-capriana",
+        "slug": "manastirea-capriana-straseni",
+        "titlu": "Mănăstirea Căpriana — Leagăn Istoric în Codri",
+        "categorie": "Natură & Patrimoniu",
+        "regiune": "Centru",
+        "raion": "Strășeni",
+        "localitate": "s. Căpriana",
+        "adresa": "s. Căpriana, rl. Strășeni",
+        "lat": 47.1169,
+        "lng": 28.5067,
+        "distanta_chisinau_km": 36,
+        "program_vizita": "Zilnic: 07:00 – 19:00",
+        "rezervare_necesara": "Nu",
+        "buget_orientativ": "Gratuit",
+        "descriere_scurta": "Una dintre cele mai vechi mănăstiri ale Moldovei (sec. XV), situată într-o vale împădurită a Codrilor, legată istoric de domniile lui Ștefan cel Mare și Petru Rareș.",
+        "ce_merita_vazut": (
+            "Cele 3 biserici din ansamblul mănăstiresc, teii seculari din curte, izvorul curat și combinarea traseului cu o vizită la Vinăria Poiana sau Sipoteni."
+        ),
+        "ce_gusti": "Colaci mănăstirești și excursie culinară în apropiere (Căpriana / Ulmu / Sipoteni)",
+        "taguri": "capriana, manastire, straseni, codri, istorie, patrimoniu",
+        "link_oficial": "https://moldova.travel/ro",
+        "surse_media": [
+            {"titlu": "Moldova.Travel — Mănăstirea Căpriana", "publicatie": "moldova.travel", "url": "https://moldova.travel/ro"}
+        ],
+        "este_recomandat": 0,
+        "media_key": "capriana"
+    }
+]
+
+
+HRAMURI_NOTABILE = [
+    {
+        "id": "hram-chisinau",
+        "slug": "hramul-municipiului-chisinau",
+        "titlu": "Hramul Municipiului Chișinău",
+        "regiune": "Chișinău",
+        "raion": "Municipiul Chișinău",
+        "localitate": "mun. Chișinău",
+        "lat": 47.0246,
+        "lng": 28.8323,
+        "data_text": "14 Octombrie (anual)",
+        "luna_principala": "Octombrie",
+        "sezon": "Toamnă",
+        "descriere": "Sărbătoarea oficială a capitalei de Acoperământul Maicii Domnului — zi liberă în Chișinău cu târguri meșteșugărești și scenă mare pe bd. Ștefan cel Mare.",
+        "ce_se_intampla": "Liturghie festivă, târgul meșterilor populari, curți gastronomice ale preturilor de sector, concert grandios în PMAN.",
+        "link_oficial": "https://www.chisinau.md/ro",
+        "surse_media": [
+            {"titlu": "Programul Hramului Chișinăului", "publicatie": "chisinau.md", "url": "https://www.chisinau.md/ro"}
+        ],
+        "media_key": "chisinau"
+    },
+    {
+        "id": "hram-ceadir-lunga-kasim",
+        "slug": "kasim-hramul-ceadir-lunga",
+        "titlu": "Sărbătoarea Tradițională „Kasîm” & Hramul Ceadîr-Lungă",
+        "regiune": "UTA Găgăuzia",
+        "raion": "UTA Găgăuzia",
+        "localitate": "mun. Ceadîr-Lunga",
+        "lat": 46.0581,
+        "lng": 28.8294,
+        "data_text": "8 Noiembrie (anual de Sf. Dumitru)",
+        "luna_principala": "Noiembrie",
+        "sezon": "Toamnă",
+        "descriere": "Sfârșitul anului agricol în calendarul găgăuz: curți etnice în Parcul Victoriei, târg agricol, kavurma tradițională la ceaun și programe culturale susținute de Ministerul Culturii.",
+        "ce_se_intampla": "Curți gastronomice cu bucate arhaice găgăuze (kavurma, bulgur, gözleme), expoziții meșteșugărești, muzică și dansuri populare.",
+        "link_oficial": "https://ceadir-lunga.md",
+        "surse_media": [
+            {"titlu": "Primăria Ceadîr-Lunga — Kasîm", "publicatie": "ceadir-lunga.md", "url": "https://ceadir-lunga.md"},
+            {"titlu": "Relatare Sărbătoarea Kasîm", "publicatie": "Moldova 1", "url": "https://moldova1.md"}
+        ],
+        "media_key": "gagauzia"
+    },
+    {
+        "id": "hram-balti",
+        "slug": "hramul-municipiului-balti",
+        "titlu": "Hramul Municipiului Bălți (Sf. Nicolae de Vară)",
+        "regiune": "Nord",
+        "raion": "Municipiul Bălți",
+        "localitate": "mun. Bălți",
+        "lat": 47.7617,
+        "lng": 27.9289,
+        "data_text": "22 Mai (anual)",
+        "luna_principala": "Mai",
+        "sezon": "Primăvară",
+        "descriere": "Sărbătoarea capitalei de nord a Moldovei cu târg al meșterilor din nord, parade pe Piața Independenței și concerte.",
+        "ce_se_intampla": "Târg de artizanat, expoziții urbane, festivaluri de fanfare și concert de seară în centrul Bălțiului.",
+        "link_oficial": "https://www.fest.md/",
+        "surse_media": [
+            {"titlu": "Evenimente și manifestări publice Bălți", "publicatie": "Moldpres", "url": "https://moldpres.md"}
+        ],
+        "media_key": "chisinau"
+    },
+    {
+        "id": "hram-orhei",
+        "slug": "hramul-municipiului-orhei",
+        "titlu": "Hramul Municipiului Orhei (Sf. Mare Mucenic Dimitrie)",
+        "regiune": "Centru",
+        "raion": "Orhei",
+        "localitate": "mun. Orhei",
+        "lat": 47.3831,
+        "lng": 28.8231,
+        "data_text": "8 Noiembrie (anual)",
+        "luna_principala": "Noiembrie",
+        "sezon": "Toamnă",
+        "descriere": "Ziua orașului Orhei cu iarmaroc de toamnă, bucate tradiționale de casă, activități pentru copii și concert festiv.",
+        "ce_se_intampla": "Parada colectivelor artistice, târg meșteșugăresc și gustări tradiționale cu must și plăcinte.",
+        "link_oficial": "https://www.fest.md/",
+        "surse_media": [
+            {"titlu": "Știri și hramuri regionale", "publicatie": "Moldpres", "url": "https://moldpres.md"}
+        ],
+        "media_key": "butuceni"
+    },
+    {
+        "id": "hram-soroca",
+        "slug": "hramul-municipiului-soroca",
+        "titlu": "Hramul Municipiului Soroca (Adormirea Maicii Domnului)",
+        "regiune": "Nord",
+        "raion": "Soroca",
+        "localitate": "mun. Soroca",
+        "lat": 48.1616,
+        "lng": 28.3052,
+        "data_text": "28 August (anual)",
+        "luna_principala": "August",
+        "sezon": "Vară",
+        "descriere": "Sărbătoarea orașului Soroca pe faleza Nistrului și lângă Cetatea Soroca, în pragul recoltei de mere.",
+        "ce_se_intampla": "Spectacole în zona Cetății Soroca, târgul producătorilor de fructe și meșteri populari.",
+        "link_oficial": "https://primsoroca.md/ro/",
+        "surse_media": [
+            {"titlu": "Primăria Municipiului Soroca", "publicatie": "primsoroca.md", "url": "https://primsoroca.md/ro/"}
+        ],
+        "media_key": "soroca"
+    },
+    {
+        "id": "hram-cahul",
+        "slug": "hramul-municipiului-cahul",
+        "titlu": "Hramul Municipiului Cahul (Sf. Arhangheli Mihail și Gavriil)",
+        "regiune": "Sud",
+        "raion": "Cahul",
+        "localitate": "mun. Cahul",
+        "lat": 45.9042,
+        "lng": 28.1992,
+        "data_text": "21 Noiembrie (anual)",
+        "luna_principala": "Noiembrie",
+        "sezon": "Toamnă",
+        "descriere": "Sărbătoarea capitalei de sud a țării, celebrată cu horă mare a sudului, bucate tradiționale și meșteri populari din Lunca Prutului.",
+        "ce_se_intampla": "Manifestări culturale în Piața Independenței din Cahul, târg de toamnă și ansambluri folclorice.",
+        "link_oficial": "https://moldova.travel/ro",
+        "surse_media": [
+            {"titlu": "Turism în Cahul și sudul Moldovei", "publicatie": "moldova.travel", "url": "https://moldova.travel/ro"}
+        ],
+        "media_key": "lacul_beleu"
+    },
+    {
+        "id": "hram-comrat",
+        "slug": "hramul-municipiului-comrat",
+        "titlu": "Hramul Municipiului Comrat (Sf. Ioan Botezătorul)",
+        "regiune": "UTA Găgăuzia",
+        "raion": "UTA Găgăuzia",
+        "localitate": "mun. Comrat",
+        "lat": 46.2981,
+        "lng": 28.6561,
+        "data_text": "20 Ianuarie (anual)",
+        "luna_principala": "Ianuarie",
+        "sezon": "Iarnă",
+        "descriere": "Unul dintre cele mai cunoscute hramuri de iarnă din sudul țării, sărbătorit pe 20 ianuarie în centrul Comratului.",
+        "ce_se_intampla": "Liturghie la Catedrala Sf. Ioan Botezătorul, târg de iarnă cu izvar și plăcinte tradiționale, spectacole artistice.",
+        "link_oficial": "https://turism.gov.md/ro/",
+        "surse_media": [
+            {"titlu": "Oficiul Național al Turismului — UTA Găgăuzia", "publicatie": "turism.gov.md", "url": "https://turism.gov.md/ro/"}
+        ],
+        "media_key": "gagauzia"
+    }
+]

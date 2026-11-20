@@ -568,21 +568,73 @@ LOCATION_SOCIALS: dict[str, tuple[str, str]] = {
 }
 
 MONITORED_SOURCES = [
-    # 5 Agende & Bilete (interval 12h)
+    # 20 Agende, Bilete, Locatii & Agregatorii Facebook Events (interval 12h/24h)
+    ("src-allevents-festivals", "AllEvents.in — Festivaluri Chișinău", "Agenda", "https://allevents.in/chisinau/festivals", "allevents_html", "Chișinău", "", 12, ""),
+    ("src-allevents-food", "AllEvents.in — Gastronomie & Vinuri Chișinău", "Agenda", "https://allevents.in/chisinau/food-drinks", "allevents_html", "Chișinău", "", 12, ""),
+    ("src-allevents-music", "AllEvents.in — Muzică & Concerte Chișinău", "Agenda", "https://allevents.in/chisinau/music", "allevents_html", "Chișinău", "", 12, ""),
+    ("src-allevents-trips", "AllEvents.in — Excursii & Aventură Moldova", "Agenda", "https://allevents.in/chisinau/trips-adventures", "allevents_html", "Moldova", "", 12, ""),
+    ("src-eventbrite-chisinau", "Eventbrite — Chișinău & Moldova", "Agenda", "https://www.eventbrite.com/d/moldova--chisinau/events/", "jsonld_events", "Moldova", "", 24, ""),
     ("src-fest-festivaluri", "Fest.md — Festivaluri", "Agenda", "https://fest.md/ro/evenimente/festivaluri", "fest_html", "Moldova", "", 12, ""),
     ("src-fest-targuri", "Fest.md — Târguri", "Agenda", "https://fest.md/ro/evenimente/targuri", "fest_html", "Moldova", "", 12, ""),
     ("src-fest-expozitii", "Fest.md — Expoziții", "Agenda", "https://fest.md/ro/evenimente/expozitii", "fest_html", "Moldova", "", 12, ""),
+    ("src-fest-concerte", "Fest.md — Concerte", "Agenda", "https://fest.md/ro/evenimente/concerte", "fest_html", "Moldova", "", 12, ""),
+    ("src-fest-gastronomie", "Fest.md — Gastronomie & Degustări", "Agenda", "https://fest.md/ro/evenimente/gastronomie", "fest_html", "Moldova", "", 12, ""),
+    ("src-fest-excursii", "Fest.md — Turism & Excursii", "Agenda", "https://fest.md/ro/evenimente/excursii", "fest_html", "Moldova", "", 12, ""),
+    ("src-fest-copii", "Fest.md — Copii & Familie", "Agenda", "https://fest.md/ro/evenimente/pentru-copii", "fest_html", "Moldova", "", 24, ""),
     ("src-iticket", "iTicket.md — Evenimente", "Agenda", "https://iticket.md/events", "html_links", "Moldova", "", 12, ""),
+    ("src-mticket", "Mticket.md — Evenimente & Concerte", "Agenda", "https://mticket.md/ro", "html_links", "Moldova", "", 12, ""),
     ("src-sporter", "Sporter.md — Curse & Winerun", "Agenda", "https://sporter.md/ro/events", "html_links", "Moldova", "evt-milestii-mici-winerun", 12, ""),
-    # 3 Google News RSS (acopera portalurile si radio/TV din Moldova cu when:7d/14d)
+    ("src-visit-chisinau-rss", "Visit.chisinau.md (RSS)", "Agenda", "https://visit.chisinau.md/feed/", "rss", "Chișinău", "", 12, ""),
+    ("src-visit-chisinau-events", "Visit.chisinau.md — Calendar", "Agenda", "https://visit.chisinau.md/evenimente/", "html_links", "Chișinău", "", 24, ""),
+    ("src-moldova-travel", "Moldova.travel — Ghid Oficial", "Agenda", "https://moldova.travel/ro/", "html_links", "Moldova", "", 24, ""),
+    ("src-arena-chisinau", "Arena Chișinău — Evenimente", "Agenda", "https://arenachisinau.md/", "html_links", "Chișinău", "", 24, ""),
+    ("src-chisinau-md", "Primăria Chișinău — Portal Oficial", "Agenda", "https://www.chisinau.md/", "html_links", "Chișinău", "evt-targul-de-craciun-chisinau", 24, ""),
+    # 12 Google News RSS RO & RU (indexeaza ziare, TV, radio si primarii din Moldova)
     ("src-gnews-festivaluri", "Google News RSS — Festivaluri Moldova", "Google News", "https://news.google.com/rss/search?q=festival+Moldova+when:7d&hl=ro&gl=MD&ceid=MD:ro", "rss", "Moldova", "", 12, ""),
     ("src-gnews-targuri", "Google News RSS — Târguri Moldova", "Google News", "https://news.google.com/rss/search?q=targ+Moldova+OR+Chisinau+when:7d&hl=ro&gl=MD&ceid=MD:ro", "rss", "Moldova", "", 12, ""),
     ("src-gnews-crame", "Google News RSS — Crame & Degustări", "Google News", "https://news.google.com/rss/search?q=crama+OR+vin+degustare+Moldova+when:14d&hl=ro&gl=MD&ceid=MD:ro", "rss", "Moldova", "", 24, ""),
-    # 3 Canale Publice Telegram (0 login-wall, incrementale dupa data-post)
-    ("src-tg-diez", "Telegram — Diez.md", "Telegram", "https://t.me/s/diezmd", "telegram_html", "Moldova", "", 12, ""),
+    ("src-gnews-concerte", "Google News RSS — Concerte & Open-Air", "Google News", "https://news.google.com/rss/search?q=(concert+OR+spectacol+OR+open-air)+Moldova+when:7d&hl=ro&gl=MD&ceid=MD:ro", "rss", "Moldova", "", 12, ""),
+    ("src-gnews-hramuri", "Google News RSS — Hramuri & Sărbători", "Google News", "https://news.google.com/rss/search?q=(hram+OR+sarbatoare+OR+etno)+Moldova+when:14d&hl=ro&gl=MD&ceid=MD:ro", "rss", "Moldova", "", 24, ""),
+    ("src-gnews-turism", "Google News RSS — Turism & Drumeții", "Google News", "https://news.google.com/rss/search?q=(turism+OR+drumetie+OR+excursie+OR+%22Orheiul+Vechi%22)+Moldova+when:14d&hl=ro&gl=MD&ceid=MD:ro", "rss", "Moldova", "", 24, ""),
+    ("src-gnews-gastronomie", "Google News RSS — Gastronomie & Artizani", "Google News", "https://news.google.com/rss/search?q=(gastronomic+OR+artizanal+OR+%22producatori+locali%22)+Moldova+when:14d&hl=ro&gl=MD&ceid=MD:ro", "rss", "Moldova", "", 24, ""),
+    ("src-gnews-regiuni", "Google News RSS — Bălți / Cahul / Soroca / Comrat", "Google News", "https://news.google.com/rss/search?q=(festival+OR+targ)+(Balti+OR+Cahul+OR+Soroca+OR+Comrat+OR+Ungheni)+when:14d&hl=ro&gl=MD&ceid=MD:ro", "rss", "Moldova", "", 24, ""),
+    ("src-gnews-venues", "Google News RSS — Moldexpo / Arena / Teatrul Gastronomic", "Google News", "https://news.google.com/rss/search?q=(Moldexpo+OR+%22Arena+Chisinau%22+OR+%22Teatrul+Gastronomic%22)+when:14d&hl=ro&gl=MD&ceid=MD:ro", "rss", "Chișinău", "", 24, ""),
+    ("src-gnews-crame-top", "Google News RSS — Marile Crame (Mimi/Purcari/Cricova/Asconi)", "Google News", "https://news.google.com/rss/search?q=(%22Castel+Mimi%22+OR+%22Purcari%22+OR+%22Cricova%22+OR+%22Asconi%22+OR+%22Vartely%22)+(eveniment+OR+festival+OR+degustare)+when:30d&hl=ro&gl=MD&ceid=MD:ro", "rss", "Moldova", "", 24, ""),
+    ("src-gnews-ru-fest", "Google News (RU) — Фестивали и Ярмарки Молдова", "Google News", "https://news.google.com/rss/search?q=%D1%84%D0%B5%D1%81%D1%82%D0%B8%D0%B2%D0%B0%D0%BB%D1%8C+OR+%D1%8F%D1%80%D0%BC%D0%B0%D1%80%D0%BA%D0%B0+%D0%9C%D0%BE%D0%BB%D0%B4%D0%BE%D0%B2%D0%B0+when:7d&hl=ru&gl=MD&ceid=MD:ru", "rss", "Moldova", "", 12, ""),
+    ("src-gnews-ru-wine", "Google News (RU) — Винодельни и Дегустации", "Google News", "https://news.google.com/rss/search?q=(%D0%B2%D0%B8%D0%BD%D0%BE%D0%B4%D0%B5%D0%BB%D1%8C%D0%BD%D1%8F+OR+%D0%B4%D0%B5%D0%B3%D1%83%D1%81%D1%82%D0%B0%D1%86%D0%B8%D1%8F+OR+%D0%9A%D0%B8%D1%88%D0%B8%D0%BD%D0%B5%D0%B2+%D1%84%D0%B5%D1%81%D1%82%D0%B8%D0%B2%D0%B0%D0%BB%D1%8C)+%D0%9C%D0%BE%D0%BB%D0%B4%D0%BE%D0%B2%D0%B0+when:14d&hl=ru&gl=MD&ceid=MD:ru", "rss", "Moldova", "", 24, ""),
+    # 7 Bing News RSS RO & RU (motor alternativ fata de Google)
+    ("src-bing-festivaluri", "Bing News RSS — Festivaluri Moldova", "Bing News", "https://www.bing.com/news/search?q=festival+Moldova&format=rss", "rss", "Moldova", "", 12, ""),
+    ("src-bing-targuri", "Bing News RSS — Târguri Chișinău & Moldova", "Bing News", "https://www.bing.com/news/search?q=targ+Chisinau+Moldova&format=rss", "rss", "Moldova", "", 12, ""),
+    ("src-bing-crame", "Bing News RSS — Crame & Degustări Moldova", "Bing News", "https://www.bing.com/news/search?q=crama+degustare+vin+Moldova&format=rss", "rss", "Moldova", "", 24, ""),
+    ("src-bing-turism", "Bing News RSS — Turism & Evenimente Moldova", "Bing News", "https://www.bing.com/news/search?q=eveniment+turism+Moldova&format=rss", "rss", "Moldova", "", 24, ""),
+    ("src-bing-concerte", "Bing News RSS — Concerte & Weekend Chișinău", "Bing News", "https://www.bing.com/news/search?q=Chisinau+concert+sau+eveniment&format=rss", "rss", "Chișinău", "", 12, ""),
+    ("src-bing-ru-fest", "Bing News (RU) — Фестиваль Молдова", "Bing News", "https://www.bing.com/news/search?q=%D1%84%D0%B5%D1%81%D1%82%D0%B8%D0%B2%D0%B0%D0%BB%D1%8C+%D0%9C%D0%BE%D0%BB%D0%B4%D0%BE%D0%B2%D0%B0&format=rss", "rss", "Moldova", "", 24, ""),
+    ("src-bing-ru-targ", "Bing News (RU) — Ярмарка Кишинев", "Bing News", "https://www.bing.com/news/search?q=%D1%8F%D1%80%D0%BC%D0%B0%D1%80%D0%BA%D0%B0+%D0%9A%D0%B8%D1%88%D0%B8%D0%BD%D0%B5%D0%B2&format=rss", "rss", "Chișinău", "", 24, ""),
+    # 18 Canale Publice Telegram din Republica Moldova (interval 12h)
+    ("src-tg-afisha", "Telegram — Afisha.md", "Telegram", "https://t.me/s/afishamd", "telegram_html", "Chișinău", "", 12, ""),
+    ("src-tg-moldovatravel", "Telegram — Moldova.travel", "Telegram", "https://t.me/s/moldovatravel", "telegram_html", "Moldova", "", 12, ""),
     ("src-tg-chisinau", "Telegram — Primăria Chișinău", "Telegram", "https://t.me/s/Primaria_Chisinau", "telegram_html", "Chișinău", "", 12, ""),
+    ("src-tg-balti", "Telegram — Primăria Bălți", "Telegram", "https://t.me/s/primariabalti", "telegram_html", "Nord", "", 12, ""),
+    ("src-tg-diez", "Telegram — Diez.md", "Telegram", "https://t.me/s/diezmd", "telegram_html", "Moldova", "", 12, ""),
     ("src-tg-radiomoldova", "Telegram — Radio Moldova", "Telegram", "https://t.me/s/RadioMoldova", "telegram_html", "Moldova", "", 12, ""),
-    # 8 Portaluri de Stiri RSS (interval 24h)
+    ("src-tg-tv8", "Telegram — TV8.md", "Telegram", "https://t.me/s/tv8md", "telegram_html", "Moldova", "", 12, ""),
+    ("src-tg-tvrmoldova", "Telegram — TVR Moldova", "Telegram", "https://t.me/s/tvrmoldova", "telegram_html", "Moldova", "", 12, ""),
+    ("src-tg-unimedia", "Telegram — Unimedia.info", "Telegram", "https://t.me/s/unimedia_info", "telegram_html", "Moldova", "", 12, ""),
+    ("src-tg-zdg", "Telegram — Ziarul de Gardă", "Telegram", "https://t.me/s/zdgmd", "telegram_html", "Moldova", "", 12, ""),
+    ("src-tg-newsmaker", "Telegram — NewsMakerLive", "Telegram", "https://t.me/s/NewsMakerLive", "telegram_html", "Moldova", "", 12, ""),
+    ("src-tg-point", "Telegram — Point.md", "Telegram", "https://t.me/s/pointmd", "telegram_html", "Moldova", "", 12, ""),
+    ("src-tg-realitatea", "Telegram — Realitatea.md", "Telegram", "https://t.me/s/realitateamd", "telegram_html", "Moldova", "", 12, ""),
+    ("src-tg-ipn", "Telegram — IPN.md", "Telegram", "https://t.me/s/ipn_md", "telegram_html", "Moldova", "", 12, ""),
+    ("src-tg-rupor", "Telegram — Rupor.md", "Telegram", "https://t.me/s/rupor_md", "telegram_html", "Moldova", "", 12, ""),
+    ("src-tg-nordnews", "Telegram — NordNews.md (Bălți)", "Telegram", "https://t.me/s/nordnewsmd", "telegram_html", "Nord", "", 12, ""),
+    ("src-tg-ziuadeazi", "Telegram — ZiuadeAzi (Cahul)", "Telegram", "https://t.me/s/ziuadeazi", "telegram_html", "Sud", "", 12, ""),
+    ("src-tg-gagauzinfo", "Telegram — GagauzInfo (Comrat)", "Telegram", "https://t.me/s/gagauzinfo", "telegram_html", "UTA Găgăuzia", "", 12, ""),
+    # 4 Posturi Radio & TV Public (RSS, 24h)
+    ("src-radiomoldova", "Radio Moldova", "Radio", "https://radiomoldova.md/rss", "rss", "Moldova", "", 24, ""),
+    ("src-moldova1", "Moldova 1", "Radio/TV", "https://moldova1.md/rss", "rss", "Moldova", "", 24, ""),
+    ("src-radiochisinau", "Radio Chișinău", "Radio", "https://radiochisinau.md/feed/", "rss", "Moldova", "", 24, ""),
+    ("src-voceabasarabiei", "Vocea Basarabiei", "Radio/TV", "https://voceabasarabiei.md/feed/", "rss", "Moldova", "", 24, ""),
+    # 30 Portaluri Nationale de Stiri & Cultura (24 RSS + 6 HTML, interval 24h)
     ("src-diez", "Diez.md", "Stiri", "https://diez.md/feed/", "rss", "Moldova", "", 24, ""),
     ("src-locals", "Locals.md — Cultură & Chișinău", "Stiri", "https://locals.md/feed/", "rss", "Chișinău", "", 24, ""),
     ("src-locuri", "Locuri.md — Turism Moldova", "Stiri", "https://locuri.md/feed/", "rss", "Moldova", "", 24, ""),
@@ -590,39 +642,101 @@ MONITORED_SOURCES = [
     ("src-tv8", "TV8.md", "Stiri", "https://tv8.md/rss", "rss", "Moldova", "", 24, ""),
     ("src-agrotv", "AgroTV.md — Festivaluri Rurale", "Stiri", "https://agrotv.md/feed/", "rss", "Moldova", "", 24, ""),
     ("src-zdg", "Ziarul de Gardă", "Stiri", "https://www.zdg.md/feed/", "rss", "Moldova", "", 24, ""),
-    ("src-europalibera", "Europa Liberă Moldova", "Stiri", "https://moldova.europalibera.org/api/z-pqpiev-qpp", "rss", "Moldova", "", 24, ""),
-    # 6 Radio, TV Public & Presa Regionala RSS (interval 24h)
-    ("src-radiomoldova", "Radio Moldova", "Radio", "https://radiomoldova.md/rss", "rss", "Moldova", "", 24, ""),
-    ("src-moldova1", "Moldova 1", "Radio/TV", "https://moldova1.md/rss", "rss", "Moldova", "", 24, ""),
-    ("src-esp", "ESP.md — Nord / Bălți", "Stiri", "https://esp.md/ro/rss.xml", "rss", "Nord", "", 24, ""),
-    ("src-nokta", "Nokta.md — UTA Găgăuzia", "Stiri", "https://nokta.md/feed/", "rss", "UTA Găgăuzia", "", 24, ""),
-    ("src-ialoveni", "IaloveniOnline.md — Centru", "Stiri", "https://ialovenionline.md/feed/", "rss", "Centru", "", 24, ""),
-    ("src-observatorul", "Observatorul de Nord — Soroca", "Stiri", "https://observatorul.md/feed/", "rss", "Nord", "", 24, ""),
-    # 4 Site-uri Oficiale Festivaluri & Crame
+    ("src-moldova-org", "Moldova.org — Cultură & Societate", "Stiri", "https://www.moldova.org/feed/", "rss", "Moldova", "", 24, ""),
+    ("src-protv", "ProTV.md", "Stiri", "https://protv.md/rss", "rss", "Moldova", "", 24, ""),
+    ("src-point-ru", "Point.md (RU)", "Stiri", "https://point.md/ru/rss/", "rss", "Moldova", "", 24, ""),
+    ("src-realitatea", "Realitatea.md", "Stiri", "https://realitatea.md/feed/", "rss", "Moldova", "", 24, ""),
+    ("src-ziar-md", "Ziar.md", "Stiri", "https://ziar.md/feed/", "rss", "Moldova", "", 24, ""),
+    ("src-ea-md", "EA.md — Cultură & Lifestyle", "Stiri", "https://ea.md/feed/", "rss", "Moldova", "", 24, ""),
+    ("src-telegraph-md", "Telegraph.md", "Stiri", "https://telegraph.md/feed/", "rss", "Moldova", "", 24, ""),
+    ("src-bani-md", "Bani.md — Business & Vin", "Stiri", "https://bani.md/feed/", "rss", "Moldova", "", 24, ""),
+    ("src-agrobiznes", "Agrobiznes.md — Târguri & Vin", "Stiri", "https://agrobiznes.md/feed", "rss", "Moldova", "", 24, ""),
+    ("src-kp-ru", "KP.md (RU)", "Stiri", "https://www.md.kp.media/rss/allsections.xml", "rss", "Moldova", "", 24, ""),
+    ("src-omniapres", "Omniapres.md", "Stiri", "https://omniapres.md/feed/", "rss", "Moldova", "", 24, ""),
+    ("src-tribuna", "Tribuna.md", "Stiri", "https://tribuna.md/feed/", "rss", "Moldova", "", 24, ""),
+    ("src-timpul", "Timpul.md", "Stiri", "https://timpul.md/feed/", "rss", "Moldova", "", 24, ""),
+    ("src-sinteza", "Sinteza.org", "Stiri", "https://sinteza.org/feed/", "rss", "Moldova", "", 24, ""),
+    ("src-rupor-ru", "Rupor.md (RU)", "Stiri", "https://rupor.md/feed/", "rss", "Moldova", "", 24, ""),
+    ("src-logospres-ru", "Logos Press (RU)", "Stiri", "https://logos-pres.md/feed/", "rss", "Moldova", "", 24, ""),
+    ("src-ecopresa", "Ecopresa.md — Turism & Mediu", "Stiri", "https://ecopresa.md/feed/", "rss", "Moldova", "", 24, ""),
+    ("src-stiri-md", "Stiri.md (HTML)", "Stiri", "https://stiri.md/", "html_links", "Moldova", "", 24, ""),
+    ("src-jurnal-cultura", "Jurnal.md — Cultură (HTML)", "Stiri", "https://www.jurnal.md/ro/category/cultura", "html_links", "Moldova", "", 24, ""),
+    ("src-tvrmoldova-html", "TVR Moldova (HTML)", "Stiri", "https://tvrmoldova.md/", "html_links", "Moldova", "", 24, ""),
+    ("src-unimedia-html", "Unimedia.info (HTML)", "Stiri", "https://unimedia.info/ro/", "html_links", "Moldova", "", 24, ""),
+    ("src-deschide-html", "Deschide.md (HTML)", "Stiri", "https://deschide.md/", "html_links", "Moldova", "", 24, ""),
+    ("src-moldpres-html", "Moldpres.md — Agenția de Stat (HTML)", "Stiri", "https://www.moldpres.md/", "html_links", "Moldova", "", 24, ""),
+    # 11 Portaluri Regionale de Stiri (Nord, Centru, Sud, Gagauzia, interval 24h)
+    ("src-esp", "ESP.md — Nord / Bălți", "Stiri Regionale", "https://esp.md/ro/rss.xml", "rss", "Nord", "", 24, ""),
+    ("src-observatorul", "Observatorul de Nord — Soroca", "Stiri Regionale", "https://observatorul.md/feed/", "rss", "Nord", "", 24, ""),
+    ("src-nordnews", "NordNews.md — Nord / Bălți", "Stiri Regionale", "https://nordnews.md/feed/", "rss", "Nord", "", 24, ""),
+    ("src-btv", "BTV.md — Bălți / Nord", "Stiri Regionale", "https://btv.md/feed/", "rss", "Nord", "", 24, ""),
+    ("src-ialoveni", "IaloveniOnline.md — Centru", "Stiri Regionale", "https://ialovenionline.md/feed/", "rss", "Centru", "", 24, ""),
+    ("src-expresul", "Expresul.md — Ungheni / Călărași / Nisporeni", "Stiri Regionale", "https://expresul.md/feed/", "rss", "Centru", "", 24, ""),
+    ("src-estcurier", "EstCurier.md — Criuleni / Dubăsari", "Stiri Regionale", "https://estcurier.md/feed/", "rss", "Centru", "", 24, ""),
+    ("src-albasat", "Albasat.md — Nisporeni", "Stiri Regionale", "https://albasat.md/feed/", "rss", "Centru", "", 24, ""),
+    ("src-nokta", "Nokta.md — UTA Găgăuzia", "Stiri Regionale", "https://nokta.md/feed/", "rss", "UTA Găgăuzia", "", 24, ""),
+    ("src-gagauzinfo", "GagauzInfo.md — UTA Găgăuzia (RU)", "Stiri Regionale", "https://gagauzinfo.md/rss", "rss", "UTA Găgăuzia", "", 24, ""),
+    ("src-bastv", "Bas-TV.md — Sud / Basarabeasca", "Stiri Regionale", "https://bas-tv.md/feed/", "rss", "Sud", "", 24, ""),
+    # 12 Site-uri Oficiale Organizatori, Crame & Minister
+    ("src-klumea-rss", "KLumea.org — Evenimente & Dăruială (RSS)", "Website Oficial", "https://klumea.org/feed/", "rss", "Moldova", "evt-ia-mania-holercani", 24, ""),
     ("src-bostaniada", "Bostaniada.md (RSS)", "Website Oficial", "https://bostaniada.md/feed/", "rss", "Centru", "evt-bostaniada-balabanesti", 72, "7,8,9"),
-    ("src-castelmimi", "Castel Mimi — Evenimente", "Website Oficial", "https://castelmimi.md/evenimente/", "html_links", "Centru", "evt-vinopera-castel-mimi", 72, ""),
-    ("src-wineofmoldova", "Wine of Moldova", "Website Oficial", "https://wineofmoldova.com/ro/", "html_links", "Moldova", "evt-ziua-nationala-a-vinului", 72, ""),
     ("src-ecolocal", "EcoLocal.md", "Website Oficial", "https://ecolocal.md/", "html_links", "Chișinău", "evt-ecolocal-chisinau", 12, ""),
-    # 10 Pagini Facebook Oficiale (verificate prin cautari programate rare, nu prin HTTP direct)
-    ("src-fb-klumea", "Facebook — KLumea Events (IA MANIA / Mai Dulce / Lavender)", "Facebook", "https://www.facebook.com/klumeaevents/", "social_manual", "Moldova", "evt-ia-mania-holercani", 168, ""),
-    ("src-fb-ecolocal", "Facebook — EcoLocal Farmers Market", "Facebook", "https://www.facebook.com/EcoLocal.md", "social_manual", "Chișinău", "evt-ecolocal-chisinau", 168, ""),
-    ("src-fb-yardsale", "Facebook — Yard Sale Moldova", "Facebook", "https://www.facebook.com/yardsalemoldova/", "social_manual", "Chișinău", "evt-yard-sale-chisinau", 168, ""),
-    ("src-fb-wineofmoldova", "Facebook — Wine of Moldova", "Facebook", "https://www.facebook.com/wineofmoldova/", "social_manual", "Moldova", "evt-ziua-nationala-a-vinului", 168, ""),
-    ("src-fb-vernisaj", "Facebook — Vernisajul Vinului", "Facebook", "https://www.facebook.com/vernisajulvinului/", "social_manual", "Chișinău", "evt-vernisajul-vinului-chisinau", 168, ""),
-    ("src-fb-castelmimi", "Facebook — Castel Mimi Wine Resort", "Facebook", "https://www.facebook.com/CastelMimi.md", "social_manual", "Centru", "evt-vinopera-castel-mimi", 168, ""),
-    ("src-fb-cricova", "Facebook — Cricova Winery", "Facebook", "https://www.facebook.com/CricovaWinery", "social_manual", "Chișinău", "evt-underland-cricova", 168, ""),
-    ("src-fb-purcari", "Facebook — Château Purcari", "Facebook", "https://www.facebook.com/purcari", "social_manual", "Sud", "evt-purcari-wine-run", 168, ""),
-    ("src-fb-sporter", "Facebook — Sporter Moldova", "Facebook", "https://www.facebook.com/sporter.md", "social_manual", "Moldova", "evt-milestii-mici-winerun", 168, ""),
-    ("src-fb-orheiulvechi", "Facebook — Rezervația Orheiul Vechi", "Facebook", "https://www.facebook.com/orheiulvechireserve/", "social_manual", "Centru", "evt-descopera-butuceni", 168, ""),
+    ("src-yardsale-web", "YardSale.md", "Website Oficial", "https://yardsale.md/", "html_links", "Chișinău", "evt-yard-sale-chisinau", 24, ""),
+    ("src-castelmimi", "Castel Mimi — Evenimente", "Website Oficial", "https://castelmimi.md/evenimente/", "html_links", "Centru", "evt-vinopera-castel-mimi", 72, ""),
+    ("src-cricova-web", "Cricova.md — Noutăți & Evenimente", "Website Oficial", "https://cricova.md/noutati/", "html_links", "Chișinău", "evt-underland-cricova", 72, ""),
+    ("src-purcari-web", "Purcari.wine — Evenimente", "Website Oficial", "https://purcari.wine/", "html_links", "Sud", "evt-purcari-wine-run", 72, ""),
+    ("src-asconi-web", "Asconi Winery", "Website Oficial", "https://asconiwinery.com/ro/", "html_links", "Centru", "", 72, ""),
+    ("src-vartely-web", "Château Vartely — Evenimente", "Website Oficial", "https://vartely.md/evenimente/", "html_links", "Centru", "", 72, ""),
+    ("src-etcetera-web", "Et Cetera Winery", "Website Oficial", "https://etcetera.md/", "html_links", "Sud", "", 72, ""),
+    ("src-gitana-web", "Gitana Winery", "Website Oficial", "https://gitanawinery.com/", "html_links", "Sud", "", 72, ""),
+    ("src-mc-gov", "Ministerul Culturii RM", "Website Oficial", "https://mc.gov.md/ro", "html_links", "Moldova", "evt-festivalul-martisor-chisinau", 24, ""),
+    # 25 Pagini Oficiale Facebook & Instagram (acoperite prin cautari multi-engine + sesiune browser la cerere)
+    ("src-fb-klumea", "Facebook — KLumea Events (IA MANIA / Mai Dulce / Lavender)", "Facebook/Instagram", "https://www.facebook.com/klumeaevents/", "social_manual", "Moldova", "evt-ia-mania-holercani", 168, ""),
+    ("src-fb-ecolocal", "Facebook — EcoLocal Farmers Market", "Facebook/Instagram", "https://www.facebook.com/EcoLocal.md", "social_manual", "Chișinău", "evt-ecolocal-chisinau", 168, ""),
+    ("src-fb-yardsale", "Facebook — Yard Sale Moldova", "Facebook/Instagram", "https://www.facebook.com/yardsalemoldova/", "social_manual", "Chișinău", "evt-yard-sale-chisinau", 168, ""),
+    ("src-fb-wineofmoldova", "Facebook — Wine of Moldova", "Facebook/Instagram", "https://www.facebook.com/wineofmoldova/", "social_manual", "Moldova", "evt-ziua-nationala-a-vinului", 168, ""),
+    ("src-fb-vernisaj", "Facebook — Vernisajul Vinului", "Facebook/Instagram", "https://www.facebook.com/vernisajulvinului/", "social_manual", "Chișinău", "evt-vernisajul-vinului-chisinau", 168, ""),
+    ("src-fb-castelmimi", "Facebook — Castel Mimi Wine Resort", "Facebook/Instagram", "https://www.facebook.com/CastelMimi.md", "social_manual", "Centru", "evt-vinopera-castel-mimi", 168, ""),
+    ("src-fb-cricova", "Facebook — Cricova Winery", "Facebook/Instagram", "https://www.facebook.com/CricovaWinery", "social_manual", "Chișinău", "evt-underland-cricova", 168, ""),
+    ("src-fb-purcari", "Facebook — Château Purcari", "Facebook/Instagram", "https://www.facebook.com/purcari", "social_manual", "Sud", "evt-purcari-wine-run", 168, ""),
+    ("src-fb-sporter", "Facebook — Sporter Moldova", "Facebook/Instagram", "https://www.facebook.com/sporter.md", "social_manual", "Moldova", "evt-milestii-mici-winerun", 168, ""),
+    ("src-fb-orheiulvechi", "Facebook — Rezervația Orheiul Vechi", "Facebook/Instagram", "https://www.facebook.com/orheiulvechireserve/", "social_manual", "Centru", "evt-descopera-butuceni", 168, ""),
+    ("src-fb-camarafest", "Facebook — Cămara Fest", "Facebook/Instagram", "https://www.facebook.com/camarafest.md/", "social_manual", "Chișinău", "", 168, ""),
+    ("src-fb-bostaniada", "Facebook — Bostaniada Festival", "Facebook/Instagram", "https://www.facebook.com/Bostaniada/", "social_manual", "Centru", "evt-bostaniada-balabanesti", 168, ""),
+    ("src-fb-descopera", "Facebook — Festivalul DescOperă", "Facebook/Instagram", "https://www.facebook.com/DescOperaButuceni/", "social_manual", "Centru", "evt-descopera-butuceni", 168, ""),
+    ("src-fb-gustar", "Facebook — Gustar Music Festival", "Facebook/Instagram", "https://www.facebook.com/GustarFestival/", "social_manual", "Centru", "evt-gustar-orheiul-vechi", 168, ""),
+    ("src-fb-lupii", "Facebook — Festivalul Lupilor", "Facebook/Instagram", "https://www.facebook.com/lupiiluicalancea/", "social_manual", "Centru", "evt-festivalul-lupilor-orheiul-vechi", 168, ""),
+    ("src-fb-moldexpo", "Facebook — CIE Moldexpo", "Facebook/Instagram", "https://www.facebook.com/moldexpo/", "social_manual", "Chișinău", "", 168, ""),
+    ("src-fb-arena", "Facebook — Arena Chișinău", "Facebook/Instagram", "https://www.facebook.com/arenachisinau.md/", "social_manual", "Chișinău", "", 168, ""),
+    ("src-fb-teatrulgastronomic", "Facebook — Teatrul Gastronomic", "Facebook/Instagram", "https://www.facebook.com/teatrulgastronomic/", "social_manual", "Chișinău", "", 168, ""),
+    ("src-fb-asconi", "Facebook — Asconi Winery", "Facebook/Instagram", "https://www.facebook.com/asconiwinerymd/", "social_manual", "Centru", "", 168, ""),
+    ("src-fb-vartely", "Facebook — Château Vartely", "Facebook/Instagram", "https://www.facebook.com/ChateauVartely/", "social_manual", "Centru", "", 168, ""),
+    ("src-fb-etcetera", "Facebook — Et Cetera Wines", "Facebook/Instagram", "https://www.facebook.com/EtCeteraWines/", "social_manual", "Sud", "", 168, ""),
+    ("src-fb-milestiimici", "Facebook — Mileștii Mici Winery", "Facebook/Instagram", "https://www.facebook.com/milestiimiciwinery/", "social_manual", "Centru", "evt-milestii-mici-winerun", 168, ""),
+    ("src-fb-mircesti", "Facebook — Crama Mircești", "Facebook/Instagram", "https://www.facebook.com/CramaMircesti/", "social_manual", "Centru", "", 168, ""),
+    ("src-fb-karagani", "Facebook — Kara Gani Winery", "Facebook/Instagram", "https://www.facebook.com/karaganiwinery/", "social_manual", "UTA Găgăuzia", "", 168, ""),
+    ("src-fb-moldovatravel", "Facebook — Moldova.travel", "Facebook/Instagram", "https://www.facebook.com/moldova.travel/", "social_manual", "Moldova", "", 168, ""),
 ]
 
 SCHEDULED_WEB_QUERIES = [
-    ("q-fb-events-weekend", "Facebook Events — Weekend Moldova", "Facebook", 'site:facebook.com/events ("Chisinau" OR "Moldova") (festival OR targ OR crama OR degustare)', 7),
-    ("q-fb-klumea-yardsale", "Facebook / Social — KLumea, Yard Sale, EcoLocal", "Facebook", '("KLumea" OR "Yard Sale Chisinau" OR "EcoLocal") ("2026" OR "2027") data exacta Moldova', 7),
+    ("q-fb-events-weekend", "Facebook Events — Weekend & Festivaluri Moldova", "Facebook Events", '("Chisinau" OR "Moldova") (festival OR targ OR crama OR degustare) (site:facebook.com OR site:allevents.in OR site:fest.md) ("2026" OR "2027")', 7),
+    ("q-fb-klumea-yardsale", "Facebook / Social — KLumea, Yard Sale, EcoLocal, Cămara Fest", "Facebook/Social", '("KLumea" OR "Yard Sale Chisinau" OR "EcoLocal" OR "Camara Fest" OR "Daruiala") ("2026" OR "2027") Moldova', 7),
+    ("q-fb-events-ru", "Facebook / Social (RU) — Фестивали и Ярмарки Кишинев/Молдова", "Facebook/RU", '("Кишинев" OR "Молдова") (фестиваль OR ярмарка OR дегустация OR винодельня) ("2026" OR "2027")', 7),
     ("q-ig-crame-events", "Instagram & Crame — Degustări & Evenimente", "Instagram/Crame", '("Castel Mimi" OR "Cricova" OR "Purcari" OR "Asconi" OR "Et Cetera") eveniment degustare ("2026" OR "2027")', 7),
-    ("q-targuri-iarna-primavara", "Web — Târguri & Festivaluri Sezon Rece", "Web", '(targ OR festival) ("decembrie 2026" OR "ianuarie 2027" OR "februarie 2027" OR "martie 2027") Moldova', 7),
-    ("q-festivaluri-vara-2027", "Sezonier — Marile Festivaluri 2027", "Sezonier", '("IA MANIA" OR "DescOpera" OR "Gustar" OR "Festivalul Lupilor" OR "Underland") "2027" data exacta Moldova', 14),
-    ("q-radio-stiri-cultura", "Media — Radio Moldova / Moldova 1 / Locals", "Media", 'site:radiomoldova.md OR site:moldova1.md OR site:locals.md (festival OR targ OR "ziua usilor deschise")', 7),
+    ("q-crame-boutique", "Crame Boutique — Mircești, Kara Gani, Fautor, Poiana, Novak", "Crame Boutique", '("Crama Mircesti" OR "Kara Gani" OR "Fautor" OR "Poiana" OR "Novak" OR "Gitana" OR "Vartely") degustare festival ("2026" OR "2027")', 14),
+    ("q-ig-markets-creators", "Instagram & Târguri Urbane — Teatrul Gastronomic / Artcor", "Instagram Markets", '(instagram OR "teatrul gastronomic" OR "artcor" OR "meditati" OR "yard sale") targ festival Chisinau ("2026" OR "2027")', 7),
+    ("q-venues-chisinau", "Locații Mari Chișinău — Moldexpo, Arena, Palatul Național", "Venues Chișinău", '(Moldexpo OR "Arena Chisinau" OR "Palatul National" OR "Muzeul National") (targ OR festival OR expozitie OR concert) ("2026" OR "2027")', 7),
+    ("q-regiuni-nord", "Nord RM — Bălți, Soroca, Edineț, Drochia", "Nord RM", '(Balti OR Soroca OR Edinet OR Drochia OR Riscani) (festival OR targ OR hram) ("2026" OR "2027")', 7),
+    ("q-regiuni-centru", "Centru RM — Orhei, Ungheni, Călărași, Nisporeni, Hîncești", "Centru RM", '(Orhei OR Ungheni OR Calarasi OR Nisporeni OR Hincesti OR Ialoveni OR Straseni) (festival OR targ OR hram) ("2026" OR "2027")', 7),
+    ("q-regiuni-sud-gagauzia", "Sud & Găgăuzia — Cahul, Comrat, Ceadîr-Lunga, Ștefan Vodă", "Sud & Găgăuzia", '(Cahul OR Comrat OR "Ceadir-Lunga" OR "Stefan Voda" OR Causeni OR Taraclia) (festival OR targ OR Hederlez OR "Sarap Yortusu") ("2026" OR "2027")', 7),
+    ("q-outdoor-winerun", "Sport & Vin — Wine Run, Rubicon, Sporter, Maraton", "Outdoor & Sport", '("Milestii Mici Wine Run" OR "Purcari Wine Run" OR "Rubicon" OR "Sporter" OR "Maratonul Chisinau") ("2026" OR "2027")', 14),
+    ("q-gastro-traditii", "Gastronomie — Mămăligă, Zeamă, Măr, Prună, Bostaniada", "Gastronomie", '("Festivalul Mamaligii" OR "Festivalul Zemii" OR "Festivalul Marului" OR "Festivalul Prunei" OR "Bostaniada") ("2026" OR "2027")', 14),
+    ("q-targuri-iarna-primavara", "Sezon Rece — Târguri de Crăciun & Mărțișor", "Web", '(targ OR festival OR "Targul de Craciun" OR Martisor) ("decembrie 2026" OR "ianuarie 2027" OR "februarie 2027" OR "martie 2027") Moldova', 7),
+    ("q-festivaluri-vara-2027", "Sezonier — Marile Festivaluri 2027 (IA MANIA, DescOperă, Gustar)", "Sezonier", '("IA MANIA" OR "DescOpera" OR "Gustar" OR "Festivalul Lupilor" OR "Underland" OR "Lavender Fest") "2027" data exacta Moldova', 14),
+    ("q-radio-stiri-cultura", "Media — Radio Moldova, Moldova 1, TV8, Agora, Locals", "Media", '(site:radiomoldova.md OR site:moldova1.md OR site:tv8.md OR site:agora.md OR site:locals.md) (festival OR targ OR "ziua usilor deschise")', 7),
+    ("q-agende-bilete", "Agende Bilete — Fest.md, iTicket, Afisha, AllEvents, Mticket", "Agende", '(site:fest.md OR site:iticket.md OR site:afisha.md OR site:allevents.in OR site:mticket.md) (Chisinau OR Moldova) (festival OR degustare OR targ)', 7),
+    ("q-apl-primarii", "APL & Primării — Hramuri și Iarmaroace Locale", "APL/Primării", '(primaria OR "consiliul raional") (festival OR hram OR targ OR iarmaroc) Moldova ("2026" OR "2027")', 14),
+    ("q-vin-vernisaj-onvv", "Sector Vitivinicol — Ziua Vinului, Vernisajul Vinului, ONVV", "Sector Vitivinicol", '("Ziua Nationala a Vinului" OR "Vernisajul Vinului" OR "Wine of Moldova" OR "De-a Vinul") ("2026" OR "2027") Moldova', 7),
 ]
 
 
@@ -685,7 +799,10 @@ def main() -> None:
             )
             assert cur.rowcount == 1, f"Location ID negasit in clubturistic.db: {loc_id}"
 
-        # Populam surse_monitorizate (pastram istoricul last_checked_at/etag daca exista deja)
+        # Populam surse_monitorizate (pastram istoricul last_checked_at/etag pentru sursele active)
+        active_src_ids = [row[0] for row in MONITORED_SOURCES]
+        placeholders_src = ",".join("?" for _ in active_src_ids)
+        conn.execute(f"DELETE FROM surse_monitorizate WHERE id NOT IN ({placeholders_src})", active_src_ids)
         for sid, nume, tip, url, parser, regiune_focus, evt_id, interval_ore, luni_fereastra in MONITORED_SOURCES:
             conn.execute(
                 """
@@ -706,7 +823,10 @@ def main() -> None:
                 (sid, nume, tip, url, parser, regiune_focus, evt_id, interval_ore, luni_fereastra),
             )
 
-        # Populam registrul cautarilor programate rare (Facebook / Instagram / Sezonier)
+        # Populam registrul cautarilor programate rare (Facebook / Instagram / Regiuni / Multi-Engine)
+        active_q_ids = [row[0] for row in SCHEDULED_WEB_QUERIES]
+        placeholders_q = ",".join("?" for _ in active_q_ids)
+        conn.execute(f"DELETE FROM cautari_istoric WHERE query_hash NOT IN ({placeholders_q})", active_q_ids)
         for qhash, nume, categorie, qtext, interval_zile in SCHEDULED_WEB_QUERIES:
             conn.execute(
                 """
@@ -753,8 +873,8 @@ def main() -> None:
             f"cautari_istoric={q_cnt}"
         )
         assert evt_cnt == 40
-        assert src_cnt == 39
-        assert q_cnt == 6
+        assert src_cnt == len(MONITORED_SOURCES) == 139
+        assert q_cnt == len(SCHEDULED_WEB_QUERIES) == 18
         assert conf_cnt >= 11
     finally:
         conn.close()

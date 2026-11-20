@@ -10,6 +10,7 @@ Crawler incremental local (0 tokeni AI) pentru ClubTuristic.md:
 """
 
 import argparse
+import concurrent.futures
 from datetime import datetime, timedelta, timezone
 import hashlib
 import html as html_lib
@@ -18,7 +19,9 @@ import os
 import re
 import sqlite3
 import sys
+import threading
 import time
+import unicodedata
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -36,6 +39,7 @@ DB_PATH = os.path.join(BASE_DIR, "clubturistic.db")
 CANDIDATES_PATH = os.path.join(BASE_DIR, "data", "new_candidates.json")
 
 RO_MONTHS = {
+    # Romana
     "ianuarie": 1, "ian": 1,
     "februarie": 2, "feb": 2,
     "martie": 3, "mar": 3,
@@ -48,6 +52,31 @@ RO_MONTHS = {
     "octombrie": 10, "oct": 10,
     "noiembrie": 11, "noi": 11, "nov": 11,
     "decembrie": 12, "dec": 12,
+    # Engleza
+    "jan": 1, "january": 1,
+    "february": 2,
+    "march": 3,
+    "april": 4,
+    "may": 5,
+    "jun": 6, "june": 6,
+    "jul": 7, "july": 7,
+    "september": 9,
+    "october": 10,
+    "november": 11,
+    "december": 12,
+    # Rusa
+    "января": 1, "январь": 1, "янв": 1,
+    "февраля": 2, "февраль": 2, "фев": 2,
+    "марта": 3, "март": 3, "мар": 3,
+    "апреля": 4, "апрель": 4, "апр": 4,
+    "мая": 5, "май": 5,
+    "июня": 6, "июнь": 6, "июн": 6,
+    "июля": 7, "июль": 7, "июл": 7,
+    "августа": 8, "август": 8, "авг": 8,
+    "сентября": 9, "сентябрь": 9, "сен": 9, "сент": 9,
+    "октября": 10, "октябрь": 10, "окт": 10,
+    "ноября": 11, "ноябрь": 11, "ноя": 11,
+    "декабря": 12, "декабрь": 12, "дек": 12,
 }
 
 KNOWN_EVENT_PHRASES = [
@@ -58,7 +87,7 @@ KNOWN_EVENT_PHRASES = [
     ("evt-festivalul-lupilor-orheiul-vechi", ["festivalul lupilor", "lupii lui calancea"]),
     ("evt-underland-cricova", ["underland"]),
     ("evt-vernisajul-vinului-chisinau", ["vernisajul vinului"]),
-    ("evt-ziua-nationala-a-vinului", ["ziua nationala a vinului", "ziua vinului"]),
+    ("evt-ziua-nationala-a-vinului", ["ziua nationala a vinului", "ziua vinului", "день вина"]),
     ("evt-mai-dulce-chisinau", ["mai dulce"]),
     ("evt-lavender-fest-cobusca", ["lavender fest"]),
     ("evt-ciresar-truseni", ["festivalul ciresar", "ciresar truseni"]),
@@ -73,8 +102,8 @@ KNOWN_EVENT_PHRASES = [
     ("evt-vatra-olarului-hoginesti", ["vatra olarului", "targul olarilor hoginesti"]),
     ("evt-festivalul-patlagica-dubasarii-vechi", ["festivalul patlagica", "patlagica dubasarii"]),
     ("evt-festivalul-cartofului-corjeuti", ["festivalul cartofului"]),
-    ("evt-hederlez-ceadir-lunga", ["hederlez"]),
-    ("evt-gagauz-sarap-yortusu-comrat", ["sarap yortusu", "vinului gagauz"]),
+    ("evt-hederlez-ceadir-lunga", ["hederlez", "хедерлез"]),
+    ("evt-gagauz-sarap-yortusu-comrat", ["sarap yortusu", "vinului gagauz", "шарап йортусу"]),
     ("evt-vinopera-castel-mimi", ["vinopera", "rose day castel mimi"]),
     ("evt-milestii-mici-winerun", ["milestii mici winerun", "winerun"]),
     ("evt-purcari-wine-run", ["purcari wine run", "nocturne night run purcari"]),
@@ -88,17 +117,24 @@ KNOWN_EVENT_PHRASES = [
     ("evt-festivalul-bach-2026", ["festivalul j s bach", "festivalul international bach"]),
     ("evt-satul-meu-vatra-aleasa-cahul-2026", ["satul meu vatra aleasa"]),
     ("evt-moldova-accordion-days-2026", ["accordion days", "rapsodia romana"]),
-    ("evt-targul-international-caritate-2026", ["targul international de caritate"]),
+    ("evt-targul-international-caritate-2026", ["targul international de caritate", "international charity bazaar"]),
     ("evt-joc-cricova-subteran-2026", ["ansamblul joc cricova", "joc in orasul subteran"]),
     ("evt-covorul-dorului-2026", ["covorul dorului"]),
 ]
 
 TOURISM_RELEVANCE_TERMS = [
+    # Romana
     "festival", "targ", "crama", "vinuri", "degustare", "usilor deschise",
     "hram", "folclor", "traditional", "placinte", "zeama", "mamaliga", "bostan",
     "lavanda", "cires", "craciun", "turism", "orheiul vechi", "butuceni",
     "cricova", "castel mimi", "purcari", "milestii mici", "moldexpo",
     "concert simfonic", "expozitie", "mestesugar", "olarii", "vinicol", "maraton",
+    # Rusa
+    "фестиваль", "ярмарка", "винодельня", "дегустация", "день вина", "извар",
+    "рождественская ярмарка", "выставка", "концерт", "мастер класс", "праздник",
+    "храм города", "местной продукции",
+    # Engleza
+    "wine", "tasting", "charity bazaar", "market", "winery", "marathon", "open air",
 ]
 
 NOISE_TERMS = [
@@ -106,14 +142,32 @@ NOISE_TERMS = [
     "procuratura", "salmonella", "decedat", "tragedie", "perchezitii",
     "contrabanda", "arest", "inculpat", "sentinta", "omor",
     "spatiului aerian", "aparat de zbor", "drona", "razboi",
+    "дтп", "полиция", "пожар", "убийство", "арест", "прокуратура",
+    "война", "дрон", "задержан", "коррупция", "мошенничество",
+    "военная", "военных", "минобороны", "переговоры", "вступлении", "госпитализир", "вшей", "овец",
+    "therme bucuresti", "salina prahova", "slanic moldova", "brazilia", "laos", "vietnam",
+    "kuala lumpur", "cambodia", "dealul vifor", "hotnews ro", "agerpres ro",
 ]
+
+RO_CROSSBORDER_NOISE = (
+    "targu neamt", "mall moldova", "radio iasi", "judetul iasi", "iasi",
+    "suceava", "bacau", "botosani", "piatra neamt", "vaslui", "galati",
+    "focsani", "bucuresti", "cluj napoca", "timisoara", "brasov", "sibiu",
+    "constanta", "romania", "ziar targu", "moldova iasi", "portugalia", "canada",
+)
+
+RM_ANCHOR_TERMS = (
+    "republica moldova", "chisinau", "кишинев", "balti", "orhei", "cahul",
+    "comrat", "soroca", "cricova", "purcari", "moldexpo", "ungheni",
+    "calarasi", "hincesti", "causeni", "edinet", "straseni",
+)
 
 AGENDA_SKIP_TERMS = [
     "cinema", "imax", "bilete film", "avatar", "desene animate",
     "cursa taxi", "reducere black friday", "cursuri online",
     "filmul", " 2d", " 3d", "friday party", "friday night", "dj set",
     "karaoke", "stand-up", "standup", "teatrul", "improvizatie",
-    "vixen", "house culture",
+    "vixen", "house culture", "webinar", "online event", "virtual event",
 ]
 
 STATIC_SITE_SKIP_TERMS = [
@@ -122,6 +176,20 @@ STATIC_SITE_SKIP_TERMS = [
     "politica de confidentialitate", "termeni si conditii", "despre noi",
     "echipa noastra", "contacte",
 ]
+
+
+def normalize_multilang(text: str) -> str:
+    """Normalizează RO/EN/RU: lowercase, fără diacritice latine, păstrează chirilica intactă."""
+    if not text:
+        return ""
+    s = text.lower().replace("ё", "е").replace("й", "\x00j")
+    for src, dst in (("ă", "a"), ("â", "a"), ("î", "i"), ("ș", "s"), ("ş", "s"), ("ț", "t"), ("ţ", "t")):
+        s = s.replace(src, dst)
+    s = unicodedata.normalize("NFKD", s)
+    s = "".join(ch for ch in s if not unicodedata.combining(ch))
+    s = s.replace("\x00j", "й")
+    s = re.sub(r"[^a-z0-9а-я]+", " ", s)
+    return re.sub(r"\s+", " ", s).strip()
 
 
 def utc_now() -> datetime:
@@ -168,7 +236,7 @@ def extract_romanian_dates(text: str, fallback_year: int | None = None) -> tuple
     now = utc_now()
     fy = fallback_year or now.year
     raw = str(text)
-    norm = strip_diacritics(raw)
+    norm = normalize_multilang(raw)
 
     m_iso = re.search(r"\b(202[5-9])-(\d{2})-(\d{2})\b", raw)
     if m_iso:
@@ -182,27 +250,42 @@ def extract_romanian_dates(text: str, fallback_year: int | None = None) -> tuple
         if s:
             return s, s, m_dot.group(0)
 
+    can_wrap_year = fallback_year is None or fallback_year >= now.year
     m_pat = "|".join(RO_MONTHS.keys())
-    m_rng = re.search(rf"\b(\d{{1,2}})\s*(?:si\s+)?(\d{{1,2}})\s+({m_pat})(?:\s+(202[5-9]))?\b", norm, re.I)
+    m_rng = re.search(rf"\b(\d{{1,2}})\s+(?:si\s+|и\s+)?(\d{{1,2}})\s+({m_pat})(?:\s+(202[5-9]))?\b", norm, re.I)
     if m_rng:
         d1, d2 = int(m_rng.group(1)), int(m_rng.group(2))
-        mo = RO_MONTHS[m_rng.group(3).lower()]
-        yr = int(m_rng.group(4)) if m_rng.group(4) else fy
-        s = valid_ymd(yr, mo, d1)
-        e = valid_ymd(yr, mo, d2)
-        if s:
-            return s, e or s, f"{d1}-{d2} {m_rng.group(3)} {yr}"
+        if 1 <= d1 < d2 <= 31:
+            mo = RO_MONTHS[m_rng.group(3).lower()]
+            yr = int(m_rng.group(4)) if m_rng.group(4) else fy
+            if not m_rng.group(4) and can_wrap_year and mo + 1 < now.month:
+                yr += 1
+            s = valid_ymd(yr, mo, d1)
+            e = valid_ymd(yr, mo, d2)
+            if s:
+                return s, e or s, f"{d1}-{d2} {m_rng.group(3)} {yr}"
 
     m_one = re.search(rf"\b(\d{{1,2}})\s+({m_pat})(?:\s+(202[5-9]))?\b", norm, re.I)
     if m_one:
         d = int(m_one.group(1))
         mo = RO_MONTHS[m_one.group(2).lower()]
         yr = int(m_one.group(3)) if m_one.group(3) else fy
-        if not m_one.group(3) and mo + 1 < now.month:
+        if not m_one.group(3) and can_wrap_year and mo + 1 < now.month:
             yr += 1
         s = valid_ymd(yr, mo, d)
         if s:
             return s, s, f"{d} {m_one.group(2)} {yr}"
+
+    m_en = re.search(rf"\b({m_pat})\s+(\d{{1,2}})(?:\s+(202[5-9]))?\b", norm, re.I)
+    if m_en:
+        mo = RO_MONTHS[m_en.group(1).lower()]
+        d = int(m_en.group(2))
+        yr = int(m_en.group(3)) if m_en.group(3) else fy
+        if not m_en.group(3) and can_wrap_year and mo + 1 < now.month:
+            yr += 1
+        s = valid_ymd(yr, mo, d)
+        if s:
+            return s, s, f"{d} {m_en.group(1)} {yr}"
 
     return "", "", ""
 
@@ -230,6 +313,9 @@ def parse_rss_items(xml_text: str, base_url: str) -> list[dict]:
         guid = tag_val("guid") or tag_val("id") or url
         desc = tag_val("description") or tag_val("content:encoded") or tag_val("summary") or ""
         pub = tag_val("pubDate") or tag_val("updated") or tag_val("published") or ""
+        unquoted_url = urllib.parse.unquote(url)
+        ym = re.search(r"\b(20[12]\d)\b", pub) or re.search(r"/(20[12]\d)/", unquoted_url)
+        pub_year = int(ym.group(1)) if ym else 0
         items.append({
             "guid": guid,
             "url": url,
@@ -237,6 +323,7 @@ def parse_rss_items(xml_text: str, base_url: str) -> list[dict]:
             "snippet": desc[:320],
             "date_hint": f"{titlu} {desc} {pub}",
             "locatie": "",
+            "pub_year": pub_year,
         })
     return items
 
@@ -306,33 +393,109 @@ def parse_telegram_html(html_text: str, base_url: str) -> list[dict]:
     return items
 
 
-def _collect_jsonld_events(node, out: list[dict], base_url: str) -> None:
+def _collect_jsonld_events(node, out: list[dict], base_url: str, skip_online: bool = False) -> None:
     if isinstance(node, list):
         for x in node:
-            _collect_jsonld_events(x, out, base_url)
+            _collect_jsonld_events(x, out, base_url, skip_online=skip_online)
         return
     if not isinstance(node, dict):
         return
     tp = node.get("@type")
     tp_str = " ".join(str(x) for x in tp) if isinstance(tp, list) else str(tp or "")
+    if "itemlist" in tp_str.lower() and isinstance(node.get("itemListElement"), list):
+        for el in node["itemListElement"]:
+            _collect_jsonld_events(el.get("item", el) if isinstance(el, dict) else el, out, base_url, skip_online=skip_online)
     if "event" in tp_str.lower() and node.get("name"):
+        title = strip_tags(str(node["name"]))[:220]
         url = resolve_url(node.get("url") or "", base_url) or base_url
         loc_val = node.get("location")
-        loc_name = loc_val if isinstance(loc_val, str) else (
-            (loc_val or {}).get("name") or ((loc_val or {}).get("address") or {}).get("addressLocality") or ""
-        )
+        loc_parts = []
+        if isinstance(loc_val, str):
+            loc_parts.append(loc_val)
+        elif isinstance(loc_val, dict):
+            if loc_val.get("name"):
+                loc_parts.append(str(loc_val["name"]))
+            addr = loc_val.get("address")
+            if isinstance(addr, str):
+                loc_parts.append(addr)
+            elif isinstance(addr, dict):
+                for k in ("streetAddress", "addressLocality", "addressRegion", "addressCountry"):
+                    if addr.get(k):
+                        loc_parts.append(str(addr[k]))
+        loc_name = strip_tags(", ".join(loc_parts))[:140]
+        desc = strip_tags(str(node.get("description") or ""))[:320]
         sd = str(node.get("startDate") or "")[:20]
         ed = str(node.get("endDate") or sd)[:20]
+
+        if skip_online:
+            att = str(node.get("eventAttendanceMode") or "").lower()
+            ctx_norm = normalize_multilang(f"{title} {loc_name} {desc}")
+            if "online" in att or "online" in loc_name.lower() or "webinar" in ctx_norm or "online event" in ctx_norm:
+                return
+            if not any(rm in ctx_norm for rm in RM_ANCHOR_TERMS):
+                return
+
         out.append({
-            "guid": f"{url}#{sd or node['name']}",
+            "guid": f"{url}#{sd or title}",
             "url": url,
-            "titlu": strip_tags(str(node["name"]))[:220],
-            "snippet": strip_tags(str(node.get("description") or f"{sd} {loc_name}"))[:320],
-            "date_hint": f"{sd} {ed} {node['name']}",
-            "locatie": strip_tags(str(loc_name))[:140],
+            "titlu": title,
+            "snippet": desc or f"{sd} {loc_name}"[:320],
+            "date_hint": f"{sd} {ed} {title}",
+            "locatie": loc_name,
         })
     if isinstance(node.get("@graph"), list):
-        _collect_jsonld_events(node["@graph"], out, base_url)
+        _collect_jsonld_events(node["@graph"], out, base_url, skip_online=skip_online)
+
+
+def parse_jsonld_events(html_text: str, base_url: str) -> list[dict]:
+    items = []
+    seen = set()
+    for m in re.finditer(r'<script[^>]*type=["\']application/ld\+json["\'][^>]*>([\s\S]*?)</script>', html_text, flags=re.I):
+        try:
+            obj = json.loads(m.group(1).strip())
+            lds: list[dict] = []
+            _collect_jsonld_events(obj, lds, base_url, skip_online=True)
+            for ev in lds:
+                if ev["guid"] not in seen and len(items) < 40:
+                    seen.add(ev["guid"])
+                    items.append(ev)
+        except Exception:
+            pass
+    return items
+
+
+def parse_allevents_html(html_text: str, base_url: str) -> list[dict]:
+    items = []
+    seen = set()
+    card_pat = re.compile(r'<li\b([^>]*class="[^"]*event-card-link[^"]*"[^>]*)>([\s\S]*?)</li>', flags=re.I)
+    for m in card_pat.finditer(html_text):
+        if len(items) >= 40:
+            break
+        attrs, body = m.group(1), m.group(2)
+        lm = re.search(r'data-link=["\']([^"\']+)["\']', attrs, flags=re.I)
+        nm = re.search(r'data-name=["\']([^"\']+)["\']', attrs, flags=re.I)
+        hm = re.search(r"<h3[^>]*>([\s\S]*?)</h3>", body, flags=re.I)
+        if not lm or (not nm and not hm):
+            continue
+        url = resolve_url(lm.group(1), base_url)
+        raw_title = hm.group(1) if hm else nm.group(1)
+        titlu = strip_tags(raw_title)[:220]
+        if not url or not titlu or url in seen:
+            continue
+        dm = re.search(r'<div[^>]*class="[^"]*\bdate\b[^"]*"[^>]*>([\s\S]*?)</div>', body, flags=re.I)
+        date_raw = strip_tags(dm.group(1)) if dm else ""
+        locm = re.search(r'<div[^>]*class="[^"]*\b(?:location|subtitle)\b[^"]*"[^>]*>([\s\S]*?)</div>', body, flags=re.I)
+        loc_raw = strip_tags(locm.group(1))[:140] if locm else ""
+        seen.add(url)
+        items.append({
+            "guid": url,
+            "url": url,
+            "titlu": titlu,
+            "snippet": " • ".join(x for x in (date_raw, loc_raw) if x)[:320],
+            "date_hint": f"{date_raw} {titlu}",
+            "locatie": loc_raw,
+        })
+    return items
 
 
 def parse_html_links_and_jsonld(html_text: str, base_url: str) -> list[dict]:
@@ -387,10 +550,23 @@ def parse_html_links_and_jsonld(html_text: str, base_url: str) -> list[dict]:
     return items
 
 
-def match_item(item: dict, source: sqlite3.Row, events_by_id: dict, events_list: list) -> tuple[bool, str, str, int]:
-    combined = strip_diacritics(f"{item['titlu']} {item['snippet']} {item['locatie']}")
+def _has_term(text: str, term: str) -> bool:
+    return bool(re.search(rf"(?<![a-zа-я0-9]){re.escape(term)}(?![a-zа-я0-9])", text))
+
+
+def match_item(item: dict, source: dict, events_by_id: dict, events_list: list) -> tuple[bool, str, str, int]:
+    pub_year = int(item.get("pub_year") or 0)
+    if pub_year and pub_year < utc_now().year:
+        if not re.search(r"\b202[6-9]\b", f"{item['titlu']} {item['snippet']}"):
+            return False, "", "", 0
+
+    combined = normalize_multilang(f"{item['titlu']} {item['snippet']} {item['locatie']}")
     for bad in NOISE_TERMS:
-        if bad in combined:
+        if _has_term(combined, bad):
+            return False, "", "", 0
+
+    if any(_has_term(combined, ro) for ro in RO_CROSSBORDER_NOISE):
+        if not any(_has_term(combined, rm) for rm in RM_ANCHOR_TERMS):
             return False, "", "", 0
 
     for evt_id, phrases in KNOWN_EVENT_PHRASES:
@@ -401,20 +577,30 @@ def match_item(item: dict, source: sqlite3.Row, events_by_id: dict, events_list:
 
     if source["eveniment_id"] and source["eveniment_id"] in events_by_id:
         ev = events_by_id[source["eveniment_id"]]
-        title_norm = strip_diacritics(item["titlu"])
+        title_norm = normalize_multilang(item["titlu"])
         if any(s in title_norm for s in STATIC_SITE_SKIP_TERMS):
             return False, "", "", 0
         # Pe site-uri proprii (ex. ecolocal.md / wineofmoldova) cerem semnal de data sau noutate reala
         d_start, _, _ = extract_romanian_dates(item["date_hint"])
         if d_start or any(w in combined for w in ("editia", "program", "editie", "locatie noua", "sambata", "weekend", "bilete", "degustare")):
-            ev_tokens = [t for t in strip_diacritics(ev["titlu"]).split() if len(t) >= 5]
+            ev_tokens = [t for t in normalize_multilang(ev["titlu"]).split() if len(t) >= 5]
             if any(t in combined for t in ev_tokens):
                 return True, ev["id"], ev["titlu"], 80
 
     for ev in events_list:
-        nt = strip_diacritics(ev["titlu"])
+        nt = normalize_multilang(ev["titlu"])
         if len(nt) >= 12 and nt in combined:
             return True, ev["id"], ev["titlu"], 85
+
+    if source["parser"] in ("allevents_html", "jsonld_events"):
+        for skip in AGENDA_SKIP_TERMS + STATIC_SITE_SKIP_TERMS:
+            if skip in combined:
+                return False, "", "", 0
+        d_start, _, _ = extract_romanian_dates(item["date_hint"])
+        strong = any(kw in combined for kw in TOURISM_RELEVANCE_TERMS)
+        if d_start or strong:
+            return True, "", "", 75 if d_start else 65
+        return False, "", "", 0
 
     if source["tip"] in ("Agenda", "Website Oficial"):
         for skip in AGENDA_SKIP_TERMS + STATIC_SITE_SKIP_TERMS:
@@ -428,13 +614,78 @@ def match_item(item: dict, source: sqlite3.Row, events_by_id: dict, events_list:
             return True, "", "", 60
         return False, "", "", 0
 
+    core_words = (
+        "festival", "targ", "crama", "vinuri", "usilor deschise", "degustare",
+        "фестиваль", "ярмарка", "дегустация", "винодельня", "день вина",
+    )
     hits = sum(1 for kw in TOURISM_RELEVANCE_TERMS if kw in combined)
-    if hits >= 2 or (hits >= 1 and any(w in combined for w in ("festival", "targ", "crama", "vinuri", "usilor deschise", "degustare"))):
+    if hits >= 2 or (hits >= 1 and any(w in combined for w in core_words)):
         return True, "", "", min(85, 50 + hits * 10)
     return False, "", "", 0
 
 
-def run_local_crawl(compact: bool = False, force: bool = False, limit: int = 35) -> dict:
+def _fetch_and_parse_source(
+    src: dict,
+    host_locks: dict[str, threading.Lock],
+    host_last: dict[str, float],
+    dict_lock: threading.Lock,
+) -> dict:
+    host = re.sub(r"^www\.", "", urllib.parse.urlsplit(src["url"]).hostname or src["id"])
+    with dict_lock:
+        if host not in host_locks:
+            host_locks[host] = threading.Lock()
+        h_lock = host_locks[host]
+
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36",
+        "Accept": "text/html,application/rss+xml,application/xml;q=0.9,*/*;q=0.8",
+    }
+    if src["etag"]:
+        headers["If-None-Match"] = src["etag"]
+    if src["last_modified"]:
+        headers["If-Modified-Since"] = src["last_modified"]
+    req = urllib.request.Request(src["url"], headers=headers)
+
+    with h_lock:
+        last_ts = host_last.get(host, 0.0)
+        elapsed = time.monotonic() - last_ts
+        if last_ts and elapsed < 1.2:
+            time.sleep(1.2 - elapsed)
+        host_last[host] = time.monotonic()
+        try:
+            with urllib.request.urlopen(req, timeout=8) as resp:
+                status_code = resp.status
+                new_etag = resp.headers.get("ETag") or src["etag"] or ""
+                new_lm = resp.headers.get("Last-Modified") or src["last_modified"] or ""
+                body = resp.read(350000).decode("utf-8", errors="ignore")
+        except urllib.error.HTTPError as e:
+            if e.code == 304:
+                return {"src": src, "outcome": "304"}
+            return {"src": src, "outcome": "error", "error": f"HTTP {e.code}"}
+        except Exception as e:
+            return {"src": src, "outcome": "error", "error": f"ERR: {str(e)[:45]}"}
+
+    if status_code == 304:
+        return {"src": src, "outcome": "304"}
+
+    parser_name = src["parser"]
+    if parser_name == "rss":
+        parsed = parse_rss_items(body, src["url"])
+    elif parser_name == "fest_html":
+        parsed = parse_fest_html_items(body, src["url"])
+    elif parser_name == "telegram_html":
+        parsed = parse_telegram_html(body, src["url"])
+    elif parser_name == "allevents_html":
+        parsed = parse_allevents_html(body, src["url"])
+    elif parser_name == "jsonld_events":
+        parsed = parse_jsonld_events(body, src["url"])
+    else:
+        parsed = parse_html_links_and_jsonld(body, src["url"])
+
+    return {"src": src, "outcome": "ok", "etag": new_etag, "lm": new_lm, "parsed": parsed}
+
+
+def run_local_crawl(compact: bool = False, force: bool = False, limit: int = 150) -> dict:
     now = utc_now()
     now_iso = now.strftime("%Y-%m-%dT%H:%M:%SZ")
     today = now.strftime("%Y-%m-%d")
@@ -444,28 +695,26 @@ def run_local_crawl(compact: bool = False, force: bool = False, limit: int = 35)
     conn.row_factory = sqlite3.Row
     try:
         if force:
-            sources = conn.execute(
-                "SELECT * FROM surse_monitorizate WHERE activ = 1 AND parser != 'social_manual' ORDER BY COALESCE(last_checked_at, '') ASC LIMIT ?",
-                (limit,),
-            ).fetchall()
+            sources = [
+                dict(r)
+                for r in conn.execute(
+                    "SELECT * FROM surse_monitorizate WHERE activ = 1 AND parser != 'social_manual' ORDER BY COALESCE(last_checked_at, '') ASC LIMIT ?",
+                    (limit,),
+                ).fetchall()
+            ]
         else:
-            sources = conn.execute(
-                "SELECT * FROM surse_monitorizate WHERE activ = 1 AND parser != 'social_manual' AND (next_check_at = '' OR next_check_at <= ?) ORDER BY COALESCE(next_check_at, '') ASC LIMIT ?",
-                (now_iso, limit),
-            ).fetchall()
+            sources = [
+                dict(r)
+                for r in conn.execute(
+                    "SELECT * FROM surse_monitorizate WHERE activ = 1 AND parser != 'social_manual' AND (next_check_at = '' OR next_check_at <= ?) ORDER BY COALESCE(next_check_at, '') ASC LIMIT ?",
+                    (now_iso, limit),
+                ).fetchall()
+            ]
 
         events_list = [dict(r) for r in conn.execute("SELECT id, slug, titlu, taguri, localitate FROM evenimente").fetchall()]
         events_by_id = {e["id"]: e for e in events_list}
 
-        sources_checked = 0
-        sources_not_modified = 0
-        items_seen_skipped = 0
-        items_new_scanned = 0
-        matches_queued = 0
-        errors = []
-        new_candidates = []
-        last_host_fetch: dict[str, float] = {}
-
+        due_sources: list[dict] = []
         for src in sources:
             win = (src["luni_fereastra"] or "").strip()
             if win and not force:
@@ -477,65 +726,35 @@ def run_local_crawl(compact: bool = False, force: bool = False, limit: int = 35)
                         (next_chk, src["id"]),
                     )
                     continue
+            due_sources.append(src)
 
-            host = re.sub(r"^www\.", "", urllib.parse.urlsplit(src["url"]).hostname or src["id"])
-            if host in last_host_fetch:
-                elapsed = time.monotonic() - last_host_fetch[host]
-                if elapsed < 1.2:
-                    time.sleep(1.2 - elapsed)
+        host_locks: dict[str, threading.Lock] = {}
+        host_last: dict[str, float] = {}
+        dict_lock = threading.Lock()
+        fetch_results: list[dict] = []
+        if due_sources:
+            with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
+                fetch_results = list(
+                    executor.map(
+                        lambda s: _fetch_and_parse_source(s, host_locks, host_last, dict_lock),
+                        due_sources,
+                    )
+                )
 
-            sources_checked += 1
-            headers = {
-                "User-Agent": "Mozilla/5.0 (compatible; ClubTuristicBot/3.0; +https://clubturistic.md)",
-                "Accept": "text/html,application/rss+xml,application/xml;q=0.9,*/*;q=0.8",
-            }
-            if src["etag"]:
-                headers["If-None-Match"] = src["etag"]
-            if src["last_modified"]:
-                headers["If-Modified-Since"] = src["last_modified"]
+        sources_checked = len(due_sources)
+        sources_not_modified = 0
+        items_seen_skipped = 0
+        items_new_scanned = 0
+        matches_queued = 0
+        errors = []
+        new_candidates = []
 
-            req = urllib.request.Request(src["url"], headers=headers)
+        for res in fetch_results:
+            src = res["src"]
             interval_h = int(src["interval_ore"] or 24)
             next_ok = (now + timedelta(hours=interval_h)).strftime("%Y-%m-%dT%H:%M:%SZ")
 
-            try:
-                last_host_fetch[host] = time.monotonic()
-                with urllib.request.urlopen(req, timeout=8) as resp:
-                    status_code = resp.status
-                    new_etag = resp.headers.get("ETag") or src["etag"] or ""
-                    new_lm = resp.headers.get("Last-Modified") or src["last_modified"] or ""
-                    body = resp.read(350000).decode("utf-8", errors="ignore")
-            except urllib.error.HTTPError as e:
-                if e.code == 304:
-                    sources_not_modified += 1
-                    conn.execute(
-                        "UPDATE surse_monitorizate SET last_checked_at = ?, next_check_at = ?, fail_count = 0, last_status = '304 Not Modified', last_new_items = 0 WHERE id = ?",
-                        (now_iso, next_ok, src["id"]),
-                    )
-                    continue
-                fails = int(src["fail_count"] or 0) + 1
-                backoff_h = [6, 24, 72][min(fails - 1, 2)]
-                next_err = (now + timedelta(hours=backoff_h)).strftime("%Y-%m-%dT%H:%M:%SZ")
-                st_txt = f"HTTP {e.code}"
-                errors.append({"sursa": src["id"], "error": st_txt})
-                conn.execute(
-                    "UPDATE surse_monitorizate SET last_checked_at = ?, next_check_at = ?, fail_count = ?, last_status = ?, last_new_items = 0 WHERE id = ?",
-                    (now_iso, next_err, fails, st_txt, src["id"]),
-                )
-                continue
-            except Exception as e:
-                fails = int(src["fail_count"] or 0) + 1
-                backoff_h = [6, 24, 72][min(fails - 1, 2)]
-                next_err = (now + timedelta(hours=backoff_h)).strftime("%Y-%m-%dT%H:%M:%SZ")
-                st_txt = f"ERR: {str(e)[:45]}"
-                errors.append({"sursa": src["id"], "error": st_txt})
-                conn.execute(
-                    "UPDATE surse_monitorizate SET last_checked_at = ?, next_check_at = ?, fail_count = ?, last_status = ?, last_new_items = 0 WHERE id = ?",
-                    (now_iso, next_err, fails, st_txt, src["id"]),
-                )
-                continue
-
-            if status_code == 304:
+            if res["outcome"] == "304":
                 sources_not_modified += 1
                 conn.execute(
                     "UPDATE surse_monitorizate SET last_checked_at = ?, next_check_at = ?, fail_count = 0, last_status = '304 Not Modified', last_new_items = 0 WHERE id = ?",
@@ -543,16 +762,19 @@ def run_local_crawl(compact: bool = False, force: bool = False, limit: int = 35)
                 )
                 continue
 
-            parser_name = src["parser"]
-            if parser_name == "rss":
-                parsed = parse_rss_items(body, src["url"])
-            elif parser_name == "fest_html":
-                parsed = parse_fest_html_items(body, src["url"])
-            elif parser_name == "telegram_html":
-                parsed = parse_telegram_html(body, src["url"])
-            else:
-                parsed = parse_html_links_and_jsonld(body, src["url"])
+            if res["outcome"] == "error":
+                fails = int(src["fail_count"] or 0) + 1
+                backoff_h = [6, 24, 72][min(fails - 1, 2)]
+                next_err = (now + timedelta(hours=backoff_h)).strftime("%Y-%m-%dT%H:%M:%SZ")
+                st_txt = res["error"]
+                errors.append({"sursa": src["id"], "error": st_txt})
+                conn.execute(
+                    "UPDATE surse_monitorizate SET last_checked_at = ?, next_check_at = ?, fail_count = ?, last_status = ?, last_new_items = 0 WHERE id = ?",
+                    (now_iso, next_err, fails, st_txt, src["id"]),
+                )
+                continue
 
+            new_etag, new_lm, parsed = res["etag"], res["lm"], res["parsed"]
             if not parsed:
                 conn.execute(
                     "UPDATE surse_monitorizate SET etag = ?, last_modified = ?, last_checked_at = ?, next_check_at = ?, fail_count = 0, last_status = '200 OK (0 items)', last_new_items = 0 WHERE id = ?",
@@ -579,7 +801,10 @@ def run_local_crawl(compact: bool = False, force: bool = False, limit: int = 35)
                 items_new_scanned += 1
 
                 rel, evt_id, evt_title, score = match_item(it, src, events_by_id, events_list)
-                d_start, d_end, d_text = extract_romanian_dates(it["date_hint"]) if rel else ("", "", "")
+                d_start, d_end, d_text = (
+                    extract_romanian_dates(it["date_hint"], fallback_year=it.get("pub_year") or None)
+                    if rel else ("", "", "")
+                )
                 is_stale_past = (not evt_id) and bool(d_start) and d_start < today
                 should_queue = rel and not is_stale_past
 
@@ -589,7 +814,7 @@ def run_local_crawl(compact: bool = False, force: bool = False, limit: int = 35)
                 )
 
                 if should_queue:
-                    fp_key = strip_diacritics(evt_id or it["titlu"])[:60]
+                    fp_key = normalize_multilang(evt_id or it["titlu"])[:60]
                     fp = sha256_hex(f"{fp_key}|{d_start}", 24) if (d_start or evt_id) else ""
                     merged = None
                     if fp:
@@ -621,17 +846,17 @@ def run_local_crawl(compact: bool = False, force: bool = False, limit: int = 35)
                         if cur.rowcount > 0:
                             src_matches += 1
                             matches_queued += 1
-                            if len(new_candidates) < 20:
-                                new_candidates.append({
-                                    "id": cur.lastrowid,
-                                    "sursa": src["nume"],
-                                    "tip": src["tip"],
-                                    "eveniment_id": evt_id,
-                                    "titlu": it["titlu"][:160],
-                                    "data_start": d_start,
-                                    "locatie": it["locatie"][:80],
-                                    "url": it["url"][:250],
-                                })
+                            new_candidates.append({
+                                "id": cur.lastrowid,
+                                "sursa": src["nume"],
+                                "tip": src["tip"],
+                                "eveniment_id": evt_id,
+                                "titlu": it["titlu"][:160],
+                                "data_start": d_start,
+                                "locatie": it["locatie"][:80],
+                                "url": it["url"][:250],
+                                "scor": score,
+                            })
 
             conn.execute(
                 """
@@ -642,6 +867,9 @@ def run_local_crawl(compact: bool = False, force: bool = False, limit: int = 35)
                 """,
                 (new_etag, new_lm, now_iso, next_ok, src_new, src_matches, src["id"]),
             )
+
+        new_candidates.sort(key=lambda c: (-int(c.get("scor", 0)), c["id"]))
+        new_candidates = new_candidates[:40]
 
         conn.execute(
             """
@@ -662,7 +890,7 @@ def run_local_crawl(compact: bool = False, force: bool = False, limit: int = 35)
                 FROM cautari_istoric
                 WHERE activ = 1 AND (next_due_at = '' OR next_due_at <= ?)
                 ORDER BY COALESCE(last_run_at, '') ASC
-                LIMIT 2
+                LIMIT 3
                 """,
                 (now_iso,),
             ).fetchall()
@@ -691,7 +919,7 @@ def run_local_crawl(compact: bool = False, force: bool = False, limit: int = 35)
             print(
                 f"SOURCES_CHECKED={sources_checked} NOT_MODIFIED={sources_not_modified} "
                 f"SEEN_SKIPPED={items_seen_skipped} NEW_SCANNED={items_new_scanned} "
-                f"NEW_CANDIDATES={len(new_candidates)} TOTAL_PENDING={total_pending}"
+                f"NEW_CANDIDATES={len(new_candidates)} MATCHES_QUEUED={matches_queued} TOTAL_PENDING={total_pending}"
             )
             print("DUE_WEB_QUERIES=" + json.dumps(due_queries, ensure_ascii=False))
         else:
@@ -705,7 +933,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Crawler local incremental ClubTuristic.md")
     parser.add_argument("--compact", action="store_true", help="Iesire compacta (economiseste tokeni)")
     parser.add_argument("--force", action="store_true", help="Ignora next_check_at / fereastra sezoniera")
-    parser.add_argument("--limit", type=int, default=35, help="Numar maxim surse per rulare")
+    parser.add_argument("--limit", type=int, default=150, help="Numar maxim surse per rulare")
     args = parser.parse_args()
     run_local_crawl(compact=args.compact, force=args.force, limit=args.limit)
 

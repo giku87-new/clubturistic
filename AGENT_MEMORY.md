@@ -116,14 +116,18 @@ Serverul local `server.py` rulează pe portul `8080`:
 - **REST API Calendar**: `http://localhost:8080/api/calendar` (returnează evenimentele programate cu reguli de recurență)
 - **REST API Stats**: `http://localhost:8080/api/stats` (statistici în timp real pe categorii, regiuni, sezoane și luni)
 
-## GitHub / Deploy & Monitorizare v3
+## GitHub / Deploy & Monitorizare v4 (Backend Local Incremental)
 - **Repo:** https://github.com/giku87-new/clubturistic (user `giku87-new`). Autentificare salvată în Windows Credential Manager (`git`) — NU cere din nou tokenul și NU scrie tokenuri sau parole în fișiere.
-- **Cloudflare LIVE:** https://clubturistic.clubturistic.workers.dev (Admin: `/admin`). Cont `ro.gfrunza@gmail.com`, D1 `clubturistic-db`, KV `clubturistic-media`, subdomain `clubturistic`, Worker `clubturistic`. `CLOUDFLARE_API_TOKEN` și `CLOUDFLARE_ACCOUNT_ID` sunt salvate în variabilele de mediu de utilizator Windows (NU le scrie niciodată în repo).
-- **Schema v3 (`cloudflare/schema.sql`):**
+- **Cloudflare LIVE (Worker Pasiv, fără Cron Triggers):** https://clubturistic.clubturistic.workers.dev (Admin: `/admin`). Cont `ro.gfrunza@gmail.com`, D1 `clubturistic-db`, KV `clubturistic-media`, subdomain `clubturistic`, Worker `clubturistic`. `CLOUDFLARE_API_TOKEN` și `CLOUDFLARE_ACCOUNT_ID` sunt salvate în variabilele de mediu de utilizator Windows (NU le scrie niciodată în repo). Site-ul public NU face scraping/căutări în cloud; servește strict portalul, API-ul și `/admin`.
+- **Schema v4 (`cloudflare/schema.sql` & `clubturistic.db`):**
   - `evenimente` (40 evenimente): include `data_start`, `data_end`, `facebook_url`, `instagram_url`, `bilete_url`, `ultima_verificare_la`, `sursa_confirmarii`.
   - `locatii` (18 locații): include `facebook_url`, `instagram_url`.
   - `hramuri_notabile` (7 hramuri) & `search_fts` (65 intrări FTS5).
-  - Tabele de monitorizare: `surse_monitorizate` (33 surse: 5 agende, 8 portaluri știri RSS, 6 radio/TV/presă regională, 4 site-uri oficiale festivaluri/crame, 10 pagini Facebook), `surse_articole_vazute` (registru SHA-256 cu deduplicare incrementală), `actualizari_detectate` (coadă de aprobare `/admin`), `monitor_runs` (istoric rulări).
-- **Monitorizare automată (`cloudflare/monitor.js` + `wrangler.jsonc`):**
-  - Cloudflare Worker Cron Trigger rulează automat `0 */6 * * *` (la fiecare 6 ore), folosind `If-None-Match` / `If-Modified-Since` și maxim o sursă per hostname per rulare pentru a evita HTTP 429.
-  - **REGULĂ PENTRU AGENȚI VIITORI:** Înainte de a face noi căutări pe web, verificați mai întâi `GET /api/admin/monitor/status` și `surse_articole_vazute` din D1 ca să NU repetați căutările pe surse și articole deja procesate!
+  - Tabele de monitorizare locală: `surse_monitorizate` (39 surse: 29 feeduri/agende/Telegram/site-uri HTTP automate cu 0 tokeni AI + 10 pagini Facebook oficiale acoperite prin interogări web programate), `surse_articole_vazute` (registru SHA-256 cu deduplicare incrementală), `cautari_istoric` (6 interogări rare, max 2/zi, recurență 7–14 zile), `actualizari_detectate` (coadă locală de verificare), `monitor_runs` (istoric rulări).
+- **Backend Local Incremental (`scripts/`):**
+  - Deduplicare incrementală prin `ETag` / `If-Modified-Since`, `next_check_at`, fereastră sezonieră (`luni_fereastra`) și registru SHA-256 `surse_articole_vazute`.
+  - `scripts/crawl_local.py`: colectare HTTP locală (0 tokeni AI) + export `data/review_queue.md` și `data/new_candidates.json`.
+  - `scripts/apply_review_triage.py`: triere coadă locală (`--ignore`, `--approve`, `--add-finding`, `--mark-query-done`).
+  - `scripts/publish_cloudflare.py`: deploy controlat pe Cloudflare Workers/D1/KV exclusiv după verificarea și aprobarea utilizatorului.
+- **Automatizare Antigravity (`ClubTuristic Daily Event Monitor`):** Rulează zilnic la `09:00 Europe/Chisinau`, mod economic (fast-exit când `NEW_CANDIDATES=0` și `DUE_WEB_QUERIES=[]`), fără auto-deploy.
+- **REGULĂ PENTRU AGENȚI VIITORI:** Nu repetați căutări pe surse/articole deja aflate în `surse_articole_vazute` sau `cautari_istoric` (`next_due_at`), nu mutați crawlingul în Cloudflare Worker și nu faceți deploy pe Cloudflare fără acordul explicit al utilizatorului.

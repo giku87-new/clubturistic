@@ -99,7 +99,7 @@ def dry_run_sqlite(sql_text: str) -> None:
             conn.execute(f"SELECT COUNT(*) FROM {t}").fetchone()[0]
             for t in ("evenimente", "locatii", "hramuri_notabile", "search_fts", "surse_monitorizate")
         )
-        assert counts == (40, 18, 7, 65, 33), f"Unexpected dry-run counts: {counts}"
+        assert counts == (40, 18, 7, 65, 39), f"Unexpected dry-run counts: {counts}"
         confirmed_cnt = conn.execute(
             "SELECT COUNT(*) FROM evenimente WHERE data_start != ''"
         ).fetchone()[0]

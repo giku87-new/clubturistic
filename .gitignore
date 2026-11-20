@@ -13,3 +13,4 @@ node_modules/
 .wrangler/
 cloudflare/seed.sql
 cloudflare/kv_*.json
+data/new_candidates.json

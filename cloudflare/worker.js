@@ -1200,8 +1200,4 @@ export default {
       return jsonResponse({ detail: "Eroare internă de procesare." }, 500);
     }
   },
-
-  async scheduled(controller, env, ctx) {
-    ctx.waitUntil(runMonitorScan(env, "cron", { limit: 12 }));
-  },
 };

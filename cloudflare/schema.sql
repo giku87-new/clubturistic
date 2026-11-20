@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS cautari_istoric;
 DROP TABLE IF EXISTS monitor_runs;
 DROP TABLE IF EXISTS actualizari_detectate;
 DROP TABLE IF EXISTS surse_articole_vazute;
@@ -124,6 +125,10 @@ CREATE TABLE surse_monitorizate (
     regiune_focus TEXT DEFAULT 'Moldova',
     eveniment_id TEXT DEFAULT '',
     activ INTEGER DEFAULT 1,
+    interval_ore INTEGER DEFAULT 24,
+    next_check_at TEXT DEFAULT '',
+    luni_fereastra TEXT DEFAULT '',
+    fail_count INTEGER DEFAULT 0,
     etag TEXT DEFAULT '',
     last_modified TEXT DEFAULT '',
     last_checked_at TEXT DEFAULT '',
@@ -158,8 +163,22 @@ CREATE TABLE actualizari_detectate (
     descriere_snippet TEXT DEFAULT '',
     url_sursa TEXT NOT NULL,
     scor_relevanta INTEGER DEFAULT 0,
+    event_fingerprint TEXT DEFAULT '',
+    confirmari_count INTEGER DEFAULT 1,
     status TEXT DEFAULT 'De verificat',
     detectat_la DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE cautari_istoric (
+    query_hash TEXT PRIMARY KEY,
+    nume TEXT NOT NULL,
+    categorie TEXT NOT NULL,
+    query_text TEXT NOT NULL,
+    interval_zile INTEGER DEFAULT 7,
+    last_run_at TEXT DEFAULT '',
+    next_due_at TEXT DEFAULT '',
+    last_result_count INTEGER DEFAULT 0,
+    activ INTEGER DEFAULT 1
 );
 
 CREATE TABLE monitor_runs (

@@ -1,0 +1,10 @@
+﻿{
+  "name": "clubturistic",
+  "main": "worker.js",
+  "compatibility_date": "2026-11-20",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "observability": { "enabled": true },
+  "d1_databases": [{ "binding": "DB", "database_name": "clubturistic-db", "database_id": "785be804-a402-4bb0-ad6f-38ad632e45e7" }],
+  "kv_namespaces": [{ "binding": "MEDIA_KV", "id": "36c56dede5934239a6853eb52f89195d" }]
+}

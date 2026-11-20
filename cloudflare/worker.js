@@ -725,6 +725,9 @@ export default {
         const filename = decodeURIComponent(pathname.slice("/static/images/".length));
         return handleImageRequest(request, env, ctx, filename);
       }
+      if (method === "GET" && pathname === "/favicon.ico") {
+        return handleImageRequest(request, env, ctx, "logo.png");
+      }
 
       // Server-rendered SEO detail pages
       if (method === "GET" && pathname.startsWith("/eveniment/")) {

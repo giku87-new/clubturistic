@@ -117,5 +117,5 @@ Serverul local `server.py` rulează pe portul `8080`:
 - **REST API Stats**: `http://localhost:8080/api/stats` (statistici în timp real pe categorii, regiuni, sezoane și luni)
 
 ## GitHub / Deploy
-- Repo: https://github.com/giku87-new/clubturistic (user giku87-new). Autentificare salvata in Windows Credential Manager (git) si gh keyring - NU cere din nou tokenul si NU scrie tokenuri in fisiere.
-- Cloudflare: cont ro.gfrunza@gmail.com, D1 clubturistic-db, KV clubturistic-media, workers.dev subdomain clubturistic; Worker clubturistic inca nedeployat.
+- Repo: https://github.com/giku87-new/clubturistic (user giku87-new). Autentificare salvata in Windows Credential Manager (`git`) — NU cere din nou tokenul și NU scrie tokenuri sau parole în fișiere.
+- Cloudflare: LIVE la https://clubturistic.clubturistic.workers.dev (cont `ro.gfrunza@gmail.com`, D1 `clubturistic-db`, KV `clubturistic-media`, subdomain `clubturistic`, Worker `clubturistic`). `CLOUDFLARE_API_TOKEN` și `CLOUDFLARE_ACCOUNT_ID` sunt salvate în variabilele de mediu de utilizator Windows (NU le scrie niciodată în repo).

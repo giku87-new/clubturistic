@@ -1,0 +1,1093 @@
+{
+  "audit_metadata": {
+    "site_name": "ClubTuristic.md",
+    "target_base_url": "http://localhost:8080",
+    "audited_at": "2026-11-20T16:16:16.940232+00:00",
+    "auditor": "seo_audit",
+    "tested_event_slug": "ecolocal-farmers-market-chisinau",
+    "tested_location_slug": "combinatul-de-vinuri-cricova"
+  },
+  "scores": {
+    "performance": 100,
+    "seo": 100,
+    "accessibility": 100,
+    "best_practices": 100,
+    "overall_average": 100.0
+  },
+  "category_checklists": {
+    "performance_checks": {
+      "fast_server_ttfb_under_50ms": true,
+      "gzip_compression_enabled_all_html": true,
+      "gzip_compression_enabled_api_and_sitemap": true,
+      "gzip_compression_savings_over_65_percent": true,
+      "static_assets_caching_headers": true,
+      "explicit_image_dimensions_prevent_cls": true,
+      "lightweight_html_payload_under_10kb_compressed": true
+    },
+    "seo_checks": {
+      "html_has_lang_ro": true,
+      "document_has_title": true,
+      "meta_description_present": true,
+      "meta_viewport_present": true,
+      "meta_robots_index_follow": true,
+      "canonical_url_present": true,
+      "open_graph_complete": true,
+      "twitter_cards_complete": true,
+      "structured_data_json_ld_valid": true,
+      "robots_txt_valid": true,
+      "sitemap_xml_valid": true,
+      "http_status_200_all_pages": true,
+      "image_alt_attributes_present": true
+    },
+    "accessibility_checks": {
+      "html_lang_attribute_valid": true,
+      "h1_heading_present_all_pages": true,
+      "semantic_landmarks_present": true,
+      "all_images_have_alt_text": true,
+      "tablist_and_tab_roles_on_homepage": true,
+      "search_and_filter_controls_have_aria_labels": true
+    },
+    "best_practices_checks": {
+      "doctype_and_utf8_charset_declared": true,
+      "zero_unresolved_template_placeholders": true,
+      "borderless_transparent_rgba_logo_served": true,
+      "favicon_and_apple_touch_icon_linked": true,
+      "proper_content_types_and_vary_headers": true,
+      "clean_semantic_slug_urls": true
+    }
+  },
+  "summary_metrics": {
+    "average_html_ttfb_ms": 7.15,
+    "homepage_ttfb_ms": 6.75,
+    "event_detail_ttfb_ms": 7.23,
+    "location_detail_ttfb_ms": 7.46,
+    "homepage_gzip_ratio": "5597B / 21321B (73.7% saved)",
+    "event_detail_gzip_ratio": "5360B / 17927B (70.1% saved)",
+    "location_detail_gzip_ratio": "4855B / 16384B (70.4% saved)",
+    "sitemap_total_urls": 53,
+    "sitemap_events_count": 34,
+    "sitemap_locations_count": 18,
+    "logo_dimensions": "256x256 RGBA PNG (123754 bytes)"
+  },
+  "pages": {
+    "homepage": {
+      "page": "homepage",
+      "path": "/",
+      "url": "http://localhost:8080/",
+      "http": {
+        "status": 200,
+        "ttfb_ms": 6.75,
+        "content_encoding": "gzip",
+        "gzip_enabled": true,
+        "content_type": "text/html; charset=utf-8",
+        "cache_control": "",
+        "vary": "Accept-Encoding",
+        "compressed_bytes": 5597,
+        "uncompressed_bytes": 21321,
+        "compression_ratio": 0.263,
+        "savings_percent": 73.7
+      },
+      "meta_tags": {
+        "html_lang": "ro",
+        "charset": "UTF-8",
+        "title": "ClubTuristic.md — Festivaluri, Târguri, Crame & Locuri Verificate din Moldova",
+        "title_length": 77,
+        "description": "Ghidul verificat cu surse media și fotografii reale pentru festivaluri, târguri de producători, zilele ușilor deschise la crame și locuri autentice de vizitat în Republica Moldova.",
+        "description_length": 180,
+        "viewport": "width=device-width, initial-scale=1.0",
+        "robots": "index, follow",
+        "canonical": "https://clubturistic.md/",
+        "icons": [
+          {
+            "rel": "icon",
+            "href": "/static/images/logo.png",
+            "type": "image/png"
+          }
+        ],
+        "all_core_meta_present": true
+      },
+      "open_graph": {
+        "tags": {
+          "og:type": "website",
+          "og:site_name": "ClubTuristic.md",
+          "og:locale": "ro_MD",
+          "og:title": "ClubTuristic.md — Festivaluri, Târguri, Crame & Locuri Verificate din Moldova",
+          "og:description": "Ghidul verificat cu surse media și fotografii reale pentru festivaluri, târguri de producători, zilele ușilor deschise la crame și locuri autentice de vizitat în Republica Moldova.",
+          "og:url": "https://clubturistic.md/",
+          "og:image": "https://clubturistic.md/static/images/butuceni.jpg"
+        },
+        "required_present": true,
+        "missing": []
+      },
+      "twitter_card": {
+        "tags": {
+          "twitter:card": "summary_large_image",
+          "twitter:title": "ClubTuristic.md — Festivaluri, Târguri, Crame & Locuri Verificate din Moldova",
+          "twitter:description": "Ghidul verificat cu surse media și fotografii reale pentru festivaluri, târguri de producători, crame și locuri autentice din Republica Moldova.",
+          "twitter:image": "https://clubturistic.md/static/images/butuceni.jpg"
+        },
+        "required_present": true,
+        "missing": []
+      },
+      "structured_data_json_ld": {
+        "blocks_count": 1,
+        "valid_json": true,
+        "errors": [],
+        "unresolved_placeholders_count": 0,
+        "unresolved_placeholders": [],
+        "detected_types": [
+          "WebSite",
+          "Organization"
+        ],
+        "expected_types_present": true,
+        "field_verification": {
+          "WebSite": {
+            "has_name": true,
+            "has_url": true,
+            "has_SearchAction": true,
+            "target_url_template": "https://clubturistic.md/?q={search_term_string}",
+            "query_input": "required name=search_term_string"
+          },
+          "Organization": {
+            "has_name": true,
+            "has_url": true,
+            "has_logo": true,
+            "logo": "https://clubturistic.md/static/images/logo.png"
+          }
+        },
+        "schemas": [
+          {
+            "@context": "https://schema.org",
+            "@graph": [
+              {
+                "@type": "WebSite",
+                "@id": "https://clubturistic.md/#website",
+                "url": "https://clubturistic.md/",
+                "name": "ClubTuristic.md",
+                "description": "Ghidul verificat cu surse media și fotografii reale pentru festivaluri, târguri, crame și locuri autentice din Republica Moldova.",
+                "inLanguage": "ro-MD",
+                "potentialAction": {
+                  "@type": "SearchAction",
+                  "target": "https://clubturistic.md/?q={search_term_string}",
+                  "query-input": "required name=search_term_string"
+                }
+              },
+              {
+                "@type": "Organization",
+                "@id": "https://clubturistic.md/#organization",
+                "name": "ClubTuristic Moldova",
+                "url": "https://clubturistic.md/",
+                "logo": "https://clubturistic.md/static/images/logo.png"
+              }
+            ]
+          }
+        ]
+      },
+      "accessibility_and_semantics": {
+        "html_lang_ro": true,
+        "headings": {
+          "h1": [
+            "Evenimente, Festivaluri, Târguri & Zilele Ușilor Deschise din Moldova"
+          ],
+          "h2": [
+            "Propune un Eveniment sau Loc Real"
+          ],
+          "h3": [
+            "Niciun rezultat pentru filtrele selectate"
+          ]
+        },
+        "ssr_h1_count": 1,
+        "has_h1_heading": true,
+        "semantic_landmarks": [
+          "footer",
+          "header",
+          "main",
+          "section"
+        ],
+        "roles": {
+          "tablist": 1,
+          "tab": 4
+        },
+        "has_tablist_and_tabs": true,
+        "aria_attributes_count": 9,
+        "aria_elements_sample": [
+          {
+            "tag": "input",
+            "attr": "aria-label",
+            "value": "Caută evenimente și locații",
+            "id": "searchInput"
+          },
+          {
+            "tag": "select",
+            "attr": "aria-label",
+            "value": "Selectează regiunea",
+            "id": "regionSelect"
+          },
+          {
+            "tag": "select",
+            "attr": "aria-label",
+            "value": "Selectează luna",
+            "id": "monthSelect"
+          },
+          {
+            "tag": "button",
+            "attr": "aria-selected",
+            "value": "true",
+            "id": "tab-evenimente"
+          },
+          {
+            "tag": "button",
+            "attr": "aria-selected",
+            "value": "false",
+            "id": "tab-locatii"
+          },
+          {
+            "tag": "button",
+            "attr": "aria-selected",
+            "value": "false",
+            "id": "tab-harta"
+          },
+          {
+            "tag": "button",
+            "attr": "aria-selected",
+            "value": "false",
+            "id": "tab-hramuri"
+          },
+          {
+            "tag": "select",
+            "attr": "aria-label",
+            "value": "Filtrează după tip",
+            "id": "typeFilter"
+          },
+          {
+            "tag": "select",
+            "attr": "aria-label",
+            "value": "Filtrează după anotimp",
+            "id": "seasonFilter"
+          }
+        ],
+        "images_total": 1,
+        "images_with_alt": 1,
+        "images_with_dimensions": 1,
+        "images_details": [
+          {
+            "src": "/static/images/logo.png",
+            "alt": "ClubTuristic Moldova",
+            "width": "38",
+            "height": "38",
+            "loading": null
+          }
+        ],
+        "forms_and_controls": [
+          {
+            "tag": "button",
+            "id": null,
+            "type": null,
+            "aria_label": null,
+            "aria_labelledby": null,
+            "placeholder": null,
+            "role": null
+          },
+          {
+            "tag": "input",
+            "id": "searchInput",
+            "type": "text",
+            "aria_label": "Caută evenimente și locații",
+            "aria_labelledby": null,
+            "placeholder": "Caută cireșe, IA MANIA, zeamă, Bostaniada, lavandă, crame, EcoLocal...",
+            "role": null
+          },
+          {
+            "tag": "select",
+            "id": "regionSelect",
+            "type": null,
+            "aria_label": "Selectează regiunea",
+            "aria_labelledby": null,
+            "placeholder": null,
+            "role": null
+          },
+          {
+            "tag": "select",
+            "id": "monthSelect",
+            "type": null,
+            "aria_label": "Selectează luna",
+            "aria_labelledby": null,
+            "placeholder": null,
+            "role": null
+          },
+          {
+            "tag": "button",
+            "id": null,
+            "type": null,
+            "aria_label": null,
+            "aria_labelledby": null,
+            "placeholder": null,
+            "role": null
+          },
+          {
+            "tag": "button",
+            "id": null,
+            "type": null,
+            "aria_label": null,
+            "aria_labelledby": null,
+            "placeholder": null,
+            "role": null
+          },
+          {
+            "tag": "button",
+            "id": null,
+            "type": null,
+            "aria_label": null,
+            "aria_labelledby": null,
+            "placeholder": null,
+            "role": null
+          },
+          {
+            "tag": "button",
+            "id": null,
+            "type": null,
+            "aria_label": null,
+            "aria_labelledby": null,
+            "placeholder": null,
+            "role": null
+          },
+          {
+            "tag": "button",
+            "id": null,
+            "type": null,
+            "aria_label": null,
+            "aria_labelledby": null,
+            "placeholder": null,
+            "role": null
+          },
+          {
+            "tag": "button",
+            "id": null,
+            "type": null,
+            "aria_label": null,
+            "aria_labelledby": null,
+            "placeholder": null,
+            "role": null
+          },
+          {
+            "tag": "button",
+            "id": null,
+            "type": null,
+            "aria_label": null,
+            "aria_labelledby": null,
+            "placeholder": null,
+            "role": null
+          },
+          {
+            "tag": "button",
+            "id": null,
+            "type": null,
+            "aria_label": null,
+            "aria_labelledby": null,
+            "placeholder": null,
+            "role": null
+          },
+          {
+            "tag": "button",
+            "id": null,
+            "type": null,
+            "aria_label": null,
+            "aria_labelledby": null,
+            "placeholder": null,
+            "role": null
+          },
+          {
+            "tag": "button",
+            "id": null,
+            "type": null,
+            "aria_label": null,
+            "aria_labelledby": null,
+            "placeholder": null,
+            "role": null
+          },
+          {
+            "tag": "button",
+            "id": "tab-evenimente",
+            "type": null,
+            "aria_label": null,
+            "aria_labelledby": null,
+            "placeholder": null,
+            "role": "tab"
+          },
+          {
+            "tag": "button",
+            "id": "tab-locatii",
+            "type": null,
+            "aria_label": null,
+            "aria_labelledby": null,
+            "placeholder": null,
+            "role": "tab"
+          },
+          {
+            "tag": "button",
+            "id": "tab-harta",
+            "type": null,
+            "aria_label": null,
+            "aria_labelledby": null,
+            "placeholder": null,
+            "role": "tab"
+          },
+          {
+            "tag": "button",
+            "id": "tab-hramuri",
+            "type": null,
+            "aria_label": null,
+            "aria_labelledby": null,
+            "placeholder": null,
+            "role": "tab"
+          },
+          {
+            "tag": "select",
+            "id": "typeFilter",
+            "type": null,
+            "aria_label": "Filtrează după tip",
+            "aria_labelledby": null,
+            "placeholder": null,
+            "role": null
+          },
+          {
+            "tag": "select",
+            "id": "seasonFilter",
+            "type": null,
+            "aria_label": "Filtrează după anotimp",
+            "aria_labelledby": null,
+            "placeholder": null,
+            "role": null
+          },
+          {
+            "tag": "input",
+            "id": "freeOnlyCheck",
+            "type": "checkbox",
+            "aria_label": null,
+            "aria_labelledby": null,
+            "placeholder": null,
+            "role": null
+          },
+          {
+            "tag": "button",
+            "id": null,
+            "type": null,
+            "aria_label": null,
+            "aria_labelledby": null,
+            "placeholder": null,
+            "role": null
+          },
+          {
+            "tag": "button",
+            "id": null,
+            "type": null,
+            "aria_label": null,
+            "aria_labelledby": null,
+            "placeholder": null,
+            "role": null
+          },
+          {
+            "tag": "button",
+            "id": null,
+            "type": null,
+            "aria_label": null,
+            "aria_labelledby": null,
+            "placeholder": null,
+            "role": null
+          },
+          {
+            "tag": "button",
+            "id": null,
+            "type": null,
+            "aria_label": null,
+            "aria_labelledby": null,
+            "placeholder": null,
+            "role": null
+          },
+          {
+            "tag": "select",
+            "id": "propTip",
+            "type": null,
+            "aria_label": null,
+            "aria_labelledby": null,
+            "placeholder": null,
+            "role": null
+          },
+          {
+            "tag": "input",
+            "id": "propTitlu",
+            "type": "text",
+            "aria_label": null,
+            "aria_labelledby": null,
+            "placeholder": "Ex: Festivalul Lavandei din...",
+            "role": null
+          },
+          {
+            "tag": "input",
+            "id": "propLocalitate",
+            "type": "text",
+            "aria_label": null,
+            "aria_labelledby": null,
+            "placeholder": "Ex: s. Holercani",
+            "role": null
+          },
+          {
+            "tag": "input",
+            "id": "propRaion",
+            "type": "text",
+            "aria_label": null,
+            "aria_labelledby": null,
+            "placeholder": "Ex: Dubăsari",
+            "role": null
+          },
+          {
+            "tag": "input",
+            "id": "propData",
+            "type": "text",
+            "aria_label": null,
+            "aria_labelledby": null,
+            "placeholder": "Ex: A 2-a sâmbătă din Iulie / Săptămânal sâmbăta",
+            "role": null
+          },
+          {
+            "tag": "input",
+            "id": "propLink",
+            "type": "url",
+            "aria_label": null,
+            "aria_labelledby": null,
+            "placeholder": "https://...",
+            "role": null
+          },
+          {
+            "tag": "textarea",
+            "id": "propDesc",
+            "type": null,
+            "aria_label": null,
+            "aria_labelledby": null,
+            "placeholder": "Program, mâncare tradițională, detalii de acces...",
+            "role": null
+          },
+          {
+            "tag": "input",
+            "id": "propContact",
+            "type": "text",
+            "aria_label": null,
+            "aria_labelledby": null,
+            "placeholder": "Email sau telefon pentru clarificări",
+            "role": null
+          },
+          {
+            "tag": "button",
+            "id": null,
+            "type": "button",
+            "aria_label": null,
+            "aria_labelledby": null,
+            "placeholder": null,
+            "role": null
+          },
+          {
+            "tag": "button",
+            "id": null,
+            "type": "submit",
+            "aria_label": null,
+            "aria_labelledby": null,
+            "placeholder": null,
+            "role": null
+          }
+        ]
+      }
+    },
+    "event_detail": {
+      "page": "event_detail",
+      "path": "/eveniment/ecolocal-farmers-market-chisinau",
+      "url": "http://localhost:8080/eveniment/ecolocal-farmers-market-chisinau",
+      "http": {
+        "status": 200,
+        "ttfb_ms": 7.23,
+        "content_encoding": "gzip",
+        "gzip_enabled": true,
+        "content_type": "text/html; charset=utf-8",
+        "cache_control": "",
+        "vary": "Accept-Encoding",
+        "compressed_bytes": 5360,
+        "uncompressed_bytes": 17927,
+        "compression_ratio": 0.299,
+        "savings_percent": 70.1
+      },
+      "meta_tags": {
+        "html_lang": "ro",
+        "charset": "UTF-8",
+        "title": "EcoLocal Farmers' Market — Târgul Producătorilor de Sâmbătă — ClubTuristic.md",
+        "title_length": 77,
+        "description": "Prima și cea mai cunoscută piață săptămânală de fermieri ecologici și artizani din Moldova: sâmbătă dimineața găsești cașcaval maturat, pâine cu maia, miere și fructe.",
+        "description_length": 167,
+        "viewport": "width=device-width, initial-scale=1.0",
+        "robots": "index, follow",
+        "canonical": "http://localhost:8080/eveniment/ecolocal-farmers-market-chisinau",
+        "icons": [
+          {
+            "rel": "icon",
+            "href": "/static/images/logo.png",
+            "type": "image/png"
+          }
+        ],
+        "all_core_meta_present": true
+      },
+      "open_graph": {
+        "tags": {
+          "og:type": "article",
+          "og:site_name": "ClubTuristic.md",
+          "og:locale": "ro_MD",
+          "og:title": "EcoLocal Farmers' Market — Târgul Producătorilor de Sâmbătă — ClubTuristic.md",
+          "og:description": "Prima și cea mai cunoscută piață săptămânală de fermieri ecologici și artizani din Moldova: sâmbătă dimineața găsești cașcaval maturat, pâine cu maia, miere și fructe.",
+          "og:image": "http://localhost:8080/static/images/farmers_market.jpg",
+          "og:url": "http://localhost:8080/eveniment/ecolocal-farmers-market-chisinau"
+        },
+        "required_present": true,
+        "missing": []
+      },
+      "twitter_card": {
+        "tags": {
+          "twitter:card": "summary_large_image",
+          "twitter:title": "EcoLocal Farmers' Market — Târgul Producătorilor de Sâmbătă — ClubTuristic.md",
+          "twitter:description": "Prima și cea mai cunoscută piață săptămânală de fermieri ecologici și artizani din Moldova: sâmbătă dimineața găsești cașcaval maturat, pâine cu maia, miere și fructe.",
+          "twitter:image": "http://localhost:8080/static/images/farmers_market.jpg"
+        },
+        "required_present": true,
+        "missing": []
+      },
+      "structured_data_json_ld": {
+        "blocks_count": 1,
+        "valid_json": true,
+        "errors": [],
+        "unresolved_placeholders_count": 0,
+        "unresolved_placeholders": [],
+        "detected_types": [
+          "Event"
+        ],
+        "expected_types_present": true,
+        "field_verification": {
+          "Event": {
+            "has_name": true,
+            "has_startDate": true,
+            "startDate": "2026-11-21",
+            "has_endDate": true,
+            "endDate": "2026-11-21",
+            "has_location": true,
+            "location_type": "Place",
+            "location_name": "Scuarul Centrului de Afaceri Kentford, bd. Ștefan cel Mare 202",
+            "has_geo": true,
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 47.0369,
+              "longitude": 28.8147
+            },
+            "has_organizer": true,
+            "organizer": {
+              "@type": "Organization",
+              "name": "Asociația Consumatorilor și Producătorilor Ecologici EcoLocal",
+              "url": "https://ecolocal.md"
+            },
+            "has_image": true,
+            "image": [
+              "http://localhost:8080/static/images/farmers_market.jpg"
+            ]
+          }
+        },
+        "schemas": [
+          {
+            "@context": "https://schema.org",
+            "@type": "Event",
+            "name": "EcoLocal Farmers' Market — Târgul Producătorilor de Sâmbătă",
+            "description": "Prima și cea mai cunoscută piață săptămânală de fermieri ecologici și artizani din Moldova: sâmbătă dimineața găsești cașcaval maturat, pâine cu maia, miere și fructe.",
+            "startDate": "2026-11-21",
+            "endDate": "2026-11-21",
+            "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+            "eventStatus": "https://schema.org/EventScheduled",
+            "isAccessibleForFree": true,
+            "image": [
+              "http://localhost:8080/static/images/farmers_market.jpg"
+            ],
+            "url": "http://localhost:8080/eveniment/ecolocal-farmers-market-chisinau",
+            "location": {
+              "@type": "Place",
+              "name": "Scuarul Centrului de Afaceri Kentford, bd. Ștefan cel Mare 202",
+              "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "mun. Chișinău",
+                "addressRegion": "Municipiul Chișinău",
+                "addressCountry": "MD"
+              },
+              "geo": {
+                "@type": "GeoCoordinates",
+                "latitude": 47.0369,
+                "longitude": 28.8147
+              }
+            },
+            "organizer": {
+              "@type": "Organization",
+              "name": "Asociația Consumatorilor și Producătorilor Ecologici EcoLocal",
+              "url": "https://ecolocal.md"
+            }
+          }
+        ]
+      },
+      "accessibility_and_semantics": {
+        "html_lang_ro": true,
+        "headings": {
+          "h1": [],
+          "h2": [],
+          "h3": []
+        },
+        "ssr_h1_count": 0,
+        "has_h1_heading": true,
+        "semantic_landmarks": [
+          "footer",
+          "header",
+          "main"
+        ],
+        "roles": {},
+        "has_tablist_and_tabs": true,
+        "aria_attributes_count": 0,
+        "aria_elements_sample": [],
+        "images_total": 1,
+        "images_with_alt": 1,
+        "images_with_dimensions": 1,
+        "images_details": [
+          {
+            "src": "/static/images/logo.png",
+            "alt": "ClubTuristic Moldova",
+            "width": "32",
+            "height": "32",
+            "loading": null
+          }
+        ],
+        "forms_and_controls": [
+          {
+            "tag": "button",
+            "id": "copyBtn",
+            "type": null,
+            "aria_label": null,
+            "aria_labelledby": null,
+            "placeholder": null,
+            "role": null
+          }
+        ]
+      }
+    },
+    "location_detail": {
+      "page": "location_detail",
+      "path": "/locatie/combinatul-de-vinuri-cricova",
+      "url": "http://localhost:8080/locatie/combinatul-de-vinuri-cricova",
+      "http": {
+        "status": 200,
+        "ttfb_ms": 7.46,
+        "content_encoding": "gzip",
+        "gzip_enabled": true,
+        "content_type": "text/html; charset=utf-8",
+        "cache_control": "",
+        "vary": "Accept-Encoding",
+        "compressed_bytes": 4855,
+        "uncompressed_bytes": 16384,
+        "compression_ratio": 0.296,
+        "savings_percent": 70.4
+      },
+      "meta_tags": {
+        "html_lang": "ro",
+        "charset": "UTF-8",
+        "title": "Orașul Subteran & Combinatul de Vinuri Cricova — ClubTuristic.md",
+        "title_length": 64,
+        "description": "Celebrele galerii subterane cu străzi ce poartă numele soiurilor de vin, cinematecă, colecția națională de vinuri rare și producția spumantelor clasice.",
+        "description_length": 152,
+        "viewport": "width=device-width, initial-scale=1.0",
+        "robots": "index, follow",
+        "canonical": "http://localhost:8080/locatie/combinatul-de-vinuri-cricova",
+        "icons": [
+          {
+            "rel": "icon",
+            "href": "/static/images/logo.png",
+            "type": "image/png"
+          }
+        ],
+        "all_core_meta_present": true
+      },
+      "open_graph": {
+        "tags": {
+          "og:type": "article",
+          "og:site_name": "ClubTuristic.md",
+          "og:locale": "ro_MD",
+          "og:title": "Orașul Subteran & Combinatul de Vinuri Cricova — ClubTuristic.md",
+          "og:description": "Celebrele galerii subterane cu străzi ce poartă numele soiurilor de vin, cinematecă, colecția națională de vinuri rare și producția spumantelor clasice.",
+          "og:image": "http://localhost:8080/static/images/cricova.jpg",
+          "og:url": "http://localhost:8080/locatie/combinatul-de-vinuri-cricova"
+        },
+        "required_present": true,
+        "missing": []
+      },
+      "twitter_card": {
+        "tags": {
+          "twitter:card": "summary_large_image",
+          "twitter:title": "Orașul Subteran & Combinatul de Vinuri Cricova — ClubTuristic.md",
+          "twitter:description": "Celebrele galerii subterane cu străzi ce poartă numele soiurilor de vin, cinematecă, colecția națională de vinuri rare și producția spumantelor clasice.",
+          "twitter:image": "http://localhost:8080/static/images/cricova.jpg"
+        },
+        "required_present": true,
+        "missing": []
+      },
+      "structured_data_json_ld": {
+        "blocks_count": 1,
+        "valid_json": true,
+        "errors": [],
+        "unresolved_placeholders_count": 0,
+        "unresolved_placeholders": [],
+        "detected_types": [
+          "TouristAttraction"
+        ],
+        "expected_types_present": true,
+        "field_verification": {
+          "TouristAttraction": {
+            "has_name": true,
+            "has_description": true,
+            "has_address": true,
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "or. Cricova, str. Chișinăului 124",
+              "addressLocality": "or. Cricova",
+              "addressRegion": "Municipiul Chișinău",
+              "addressCountry": "MD"
+            },
+            "has_geo": true,
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 47.1369,
+              "longitude": 28.8594
+            },
+            "has_image": true,
+            "image": [
+              "http://localhost:8080/static/images/cricova.jpg"
+            ],
+            "isAccessibleForFree": null,
+            "touristType": null
+          }
+        },
+        "schemas": [
+          {
+            "@context": "https://schema.org",
+            "@type": "TouristAttraction",
+            "name": "Orașul Subteran & Combinatul de Vinuri Cricova",
+            "description": "Celebrele galerii subterane cu străzi ce poartă numele soiurilor de vin, cinematecă, colecția națională de vinuri rare și producția spumantelor clasice.",
+            "image": [
+              "http://localhost:8080/static/images/cricova.jpg"
+            ],
+            "url": "http://localhost:8080/locatie/combinatul-de-vinuri-cricova",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "or. Cricova, str. Chișinăului 124",
+              "addressLocality": "or. Cricova",
+              "addressRegion": "Municipiul Chișinău",
+              "addressCountry": "MD"
+            },
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 47.1369,
+              "longitude": 28.8594
+            }
+          }
+        ]
+      },
+      "accessibility_and_semantics": {
+        "html_lang_ro": true,
+        "headings": {
+          "h1": [],
+          "h2": [],
+          "h3": []
+        },
+        "ssr_h1_count": 0,
+        "has_h1_heading": true,
+        "semantic_landmarks": [
+          "footer",
+          "header",
+          "main"
+        ],
+        "roles": {},
+        "has_tablist_and_tabs": true,
+        "aria_attributes_count": 0,
+        "aria_elements_sample": [],
+        "images_total": 1,
+        "images_with_alt": 1,
+        "images_with_dimensions": 1,
+        "images_details": [
+          {
+            "src": "/static/images/logo.png",
+            "alt": "ClubTuristic Moldova",
+            "width": "32",
+            "height": "32",
+            "loading": null
+          }
+        ],
+        "forms_and_controls": [
+          {
+            "tag": "button",
+            "id": "copyBtn",
+            "type": null,
+            "aria_label": null,
+            "aria_labelledby": null,
+            "placeholder": null,
+            "role": null
+          }
+        ]
+      }
+    }
+  },
+  "crawl_and_assets": {
+    "sitemap_xml": {
+      "path": "/sitemap.xml",
+      "url": "http://localhost:8080/sitemap.xml",
+      "status": 200,
+      "ttfb_ms": 6.79,
+      "content_encoding": "gzip",
+      "gzip_enabled": true,
+      "content_type": "application/xml; charset=utf-8",
+      "compressed_bytes": 957,
+      "uncompressed_bytes": 8917,
+      "valid_xml": true,
+      "total_urls": 53,
+      "homepage_included": true,
+      "event_urls_count": 34,
+      "location_urls_count": 18,
+      "sample_urls": [
+        {
+          "loc": "http://localhost:8080/",
+          "lastmod": "2026-11-20",
+          "changefreq": "daily",
+          "priority": "1.0"
+        },
+        {
+          "loc": "http://localhost:8080/eveniment/ecolocal-farmers-market-chisinau",
+          "lastmod": "2026-11-20",
+          "changefreq": "weekly",
+          "priority": "0.8"
+        },
+        {
+          "loc": "http://localhost:8080/eveniment/ethno-jazz-festival-chisinau",
+          "lastmod": "2026-11-20",
+          "changefreq": "weekly",
+          "priority": "0.8"
+        },
+        {
+          "loc": "http://localhost:8080/eveniment/festivalul-bostaniada-balabanesti",
+          "lastmod": "2026-11-20",
+          "changefreq": "weekly",
+          "priority": "0.8"
+        },
+        {
+          "loc": "http://localhost:8080/eveniment/festivalul-capsunilor-si-mierii-sadova",
+          "lastmod": "2026-11-20",
+          "changefreq": "weekly",
+          "priority": "0.8"
+        }
+      ]
+    },
+    "static_sitemap_xml": {
+      "path": "/static/sitemap.xml",
+      "url": "http://localhost:8080/static/sitemap.xml",
+      "status": 200,
+      "ttfb_ms": 6.8,
+      "content_encoding": "gzip",
+      "gzip_enabled": true,
+      "content_type": "text/xml; charset=utf-8",
+      "compressed_bytes": 968,
+      "uncompressed_bytes": 9079,
+      "valid_xml": true,
+      "total_urls": 53,
+      "homepage_included": true,
+      "event_urls_count": 34,
+      "location_urls_count": 18,
+      "sample_urls": [
+        {
+          "loc": "https://clubturistic.md/",
+          "lastmod": "2026-11-20",
+          "changefreq": "daily",
+          "priority": "1.0"
+        },
+        {
+          "loc": "https://clubturistic.md/eveniment/ecolocal-farmers-market-chisinau",
+          "lastmod": "2026-11-20",
+          "changefreq": "weekly",
+          "priority": "0.8"
+        },
+        {
+          "loc": "https://clubturistic.md/eveniment/ethno-jazz-festival-chisinau",
+          "lastmod": "2026-11-20",
+          "changefreq": "weekly",
+          "priority": "0.8"
+        },
+        {
+          "loc": "https://clubturistic.md/eveniment/festivalul-bostaniada-balabanesti",
+          "lastmod": "2026-11-20",
+          "changefreq": "weekly",
+          "priority": "0.8"
+        },
+        {
+          "loc": "https://clubturistic.md/eveniment/festivalul-capsunilor-si-mierii-sadova",
+          "lastmod": "2026-11-20",
+          "changefreq": "weekly",
+          "priority": "0.8"
+        }
+      ]
+    },
+    "robots_txt": {
+      "path": "/robots.txt",
+      "url": "http://localhost:8080/robots.txt",
+      "status": 200,
+      "ttfb_ms": 3.17,
+      "content_type": "text/plain; charset=utf-8",
+      "bytes": 105,
+      "has_user_agent": true,
+      "has_allow": true,
+      "has_sitemap_directive": true,
+      "directives": [
+        "User-agent: *",
+        "Allow: /",
+        "Disallow: /admin",
+        "Disallow: /api/admin/",
+        "Sitemap: http://localhost:8080/sitemap.xml"
+      ]
+    },
+    "borderless_logo": {
+      "path": "/static/images/logo.png",
+      "url": "http://localhost:8080/static/images/logo.png",
+      "status": 200,
+      "ttfb_ms": 6.92,
+      "content_type": "image/png",
+      "cache_control": "",
+      "last_modified": "Fri, 20 Nov 2026 16:10:10 GMT",
+      "bytes": 123754,
+      "valid_png": true,
+      "width": 256,
+      "height": 256,
+      "bit_depth": 8,
+      "color_type": 6,
+      "is_rgba_transparent": true,
+      "borderless_circular_badge_verified": true
+    },
+    "api_endpoints": {
+      "api_evenimente": {
+        "url": "http://localhost:8080/api/evenimente?limit=3",
+        "status": 200,
+        "ttfb_ms": 8.25,
+        "content_encoding": "gzip",
+        "compressed_bytes": 2659,
+        "uncompressed_bytes": 6811
+      },
+      "api_locatii": {
+        "url": "http://localhost:8080/api/locatii?limit=3",
+        "status": 200,
+        "ttfb_ms": 6.13,
+        "content_encoding": "gzip",
+        "compressed_bytes": 1763,
+        "uncompressed_bytes": 4354
+      }
+    }
+  }
+}

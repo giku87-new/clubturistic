@@ -36,12 +36,12 @@ app = FastAPI(title="ClubTuristic.md", version="2.0.0", docs_url=None, redoc_url
 # Enable GZIP compression for faster transfers
 from fastapi.middleware.gzip import GZipMiddleware
 app.add_middleware(GZipMiddleware, minimum_size=500)
-# Optional HTTPS redirect (if served behind TLS termination)
+# Optional HTTPS redirect (only when behind a reverse proxy terminating TLS, never on localhost)
 @app.middleware("http")
 async def https_redirect(request: Request, call_next):
-    if request.url.scheme != "https":
+    if request.headers.get("x-forwarded-proto") == "http" and request.url.hostname not in ("localhost", "127.0.0.1"):
         url = request.url.replace(scheme="https")
-        return RedirectResponse(url=url, status_code=301)
+        return RedirectResponse(url=str(url), status_code=301)
     return await call_next(request)
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
@@ -249,8 +249,109 @@ def serve_admin():
     return FileResponse(os.path.join(STATIC_DIR, "admin.html"), media_type="text/html; charset=utf-8")
 
 
+@app.get("/robots.txt", include_in_schema=False)
+def serve_robots(request: Request):
+    base_url = str(request.base_url).rstrip("/")
+    body = f"User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /api/admin/\nSitemap: {base_url}/sitemap.xml\n"
+    return Response(content=body, media_type="text/plain; charset=utf-8")
+
+
+@app.get("/sitemap.xml", include_in_schema=False)
+def serve_sitemap(request: Request):
+    base_url = str(request.base_url).rstrip("/")
+    today = datetime.utcnow().strftime("%Y-%m-%d")
+    with get_db_conn() as conn:
+        ev_rows = conn.execute("SELECT slug, actualizat_la FROM evenimente ORDER BY slug").fetchall()
+        loc_rows = conn.execute("SELECT slug, actualizat_la FROM locatii ORDER BY slug").fetchall()
+
+    urls = [
+        f"  <url><loc>{html.escape(base_url)}/</loc><lastmod>{today}</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>"
+    ]
+    for r in ev_rows:
+        lastmod = (r["actualizat_la"] or today)[:10]
+        loc_url = html.escape(f"{base_url}/eveniment/{r['slug']}")
+        urls.append(
+            f"  <url><loc>{loc_url}</loc><lastmod>{lastmod}</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>"
+        )
+    for r in loc_rows:
+        lastmod = (r["actualizat_la"] or today)[:10]
+        loc_url = html.escape(f"{base_url}/locatie/{r['slug']}")
+        urls.append(
+            f"  <url><loc>{loc_url}</loc><lastmod>{lastmod}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>"
+        )
+
+    xml = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        + "\n".join(urls)
+        + "\n</urlset>\n"
+    )
+    return Response(content=xml, media_type="application/xml; charset=utf-8")
+
+
+def _build_json_ld(item_type: str, item: dict[str, Any], desc: str, abs_img: str, canonical: str, base_url: str) -> str:
+    if item_type == "eveniment":
+        start_date = (item.get("urmatoarea_data_estimata") or "2027-06-01")[:10]
+        is_free = "gratuit" in (item.get("pret_intrare") or "").lower()
+        ld_obj = {
+            "@context": "https://schema.org",
+            "@type": "Event",
+            "name": item["titlu"],
+            "description": desc[:300],
+            "startDate": start_date,
+            "endDate": start_date,
+            "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+            "eventStatus": "https://schema.org/EventScheduled",
+            "isAccessibleForFree": is_free,
+            "image": [abs_img],
+            "url": canonical,
+            "location": {
+                "@type": "Place",
+                "name": item.get("locatie_exacta") or item.get("localitate") or "Republica Moldova",
+                "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": item.get("localitate") or "",
+                    "addressRegion": item.get("raion") or item.get("regiune") or "",
+                    "addressCountry": "MD",
+                },
+                "geo": {
+                    "@type": "GeoCoordinates",
+                    "latitude": item.get("lat", 47.0105),
+                    "longitude": item.get("lng", 28.8638),
+                },
+            },
+            "organizer": {
+                "@type": "Organization",
+                "name": item.get("organizator") or "ClubTuristic.md",
+                "url": item.get("link_oficial") or base_url,
+            },
+        }
+    else:
+        ld_obj = {
+            "@context": "https://schema.org",
+            "@type": "TouristAttraction",
+            "name": item["titlu"],
+            "description": desc[:300],
+            "image": [abs_img],
+            "url": canonical,
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": item.get("adresa") or "",
+                "addressLocality": item.get("localitate") or "",
+                "addressRegion": item.get("raion") or item.get("regiune") or "",
+                "addressCountry": "MD",
+            },
+            "geo": {
+                "@type": "GeoCoordinates",
+                "latitude": item.get("lat", 47.0105),
+                "longitude": item.get("lng", 28.8638),
+            },
+        }
+    return json.dumps(ld_obj, ensure_ascii=False).replace("</", "<\\/").replace("<!--", "<\\!--")
+
+
 def _render_detail_page(item_type: str, item: dict[str, Any], request: Request) -> HTMLResponse:
-    """Randează server-side meta tag-urile SEO/OpenGraph și datele inițiale în `static/detail.html`."""
+    """Randează server-side meta tag-urile SEO/OpenGraph, JSON-LD și datele inițiale în `static/detail.html`."""
     detail_path = os.path.join(STATIC_DIR, "detail.html")
     with open(detail_path, "r", encoding="utf-8") as f:
         tpl = f.read()
@@ -265,12 +366,14 @@ def _render_detail_page(item_type: str, item: dict[str, Any], request: Request) 
     payload_json = json.dumps({"item_type": item_type, "item": item}, ensure_ascii=False)
     # Prevenim ieșirea prematură din blocul <script>
     payload_safe = payload_json.replace("</", "<\\/").replace("<!--", "<\\!--")
+    json_ld_safe = _build_json_ld(item_type, item, desc, abs_img, canonical, base_url)
 
     replacements = {
         "__META_TITLE__": html.escape(page_title, quote=True),
         "__META_DESCRIPTION__": html.escape(desc[:220], quote=True),
         "__OG_IMAGE__": html.escape(abs_img, quote=True),
         "__OG_URL__": html.escape(canonical, quote=True),
+        "__JSON_LD__": json_ld_safe,
         "__INITIAL_ITEM_JSON__": payload_safe,
     }
     rendered = tpl

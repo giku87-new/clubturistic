@@ -5,30 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>__META_TITLE__</title>
   <meta name="description" content="__META_DESCRIPTION__">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="__OG_URL__">
+  <link rel="icon" type="image/png" href="/static/images/logo.png">
   <meta property="og:type" content="article">
+  <meta property="og:site_name" content="ClubTuristic.md">
+  <meta property="og:locale" content="ro_MD">
   <meta property="og:title" content="__META_TITLE__">
   <meta property="og:description" content="__META_DESCRIPTION__">
   <meta property="og:image" content="__OG_IMAGE__">
   <meta property="og:url" content="__OG_URL__">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="__META_TITLE__">
+  <meta name="twitter:description" content="__META_DESCRIPTION__">
+  <meta name="twitter:image" content="__OG_IMAGE__">
+  <script type="application/ld+json">__JSON_LD__</script>
   <script src="https://cdn.tailwindcss.com"></script>
-<!-- JSON-LD Structured Data for Event -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Event",
-  "name": "__META_TITLE__",
-  "description": "__META_DESCRIPTION__",
-  "startDate": "{{event_start_iso}}",
-  "endDate": "{{event_end_iso}}",
-  "location": {
-    "@type": "Place",
-    "name": "{{event_location_name}}",
-    "address": "{{event_address}}"
-  },
-  "image": "{{event_image_url}}",
-  "url": "__OG_URL__"
-}
-</script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <style>
@@ -42,8 +34,8 @@
   <header class="bg-white border-b border-stone-200 sticky top-0 z-40">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-3">
       <a href="/" class="inline-flex items-center space-x-2 text-xs sm:text-sm font-bold text-rose-800 hover:text-rose-600 transition">
-        <span>←</span>
-        <span>Înapoi la ClubTuristic.md</span>
+        <img src="/static/images/logo.png" alt="ClubTuristic Moldova" width="32" height="32" class="w-8 h-8 rounded-full object-contain">
+        <span>← Înapoi la ClubTuristic.md</span>
       </a>
       <div class="flex items-center space-x-2 text-xs font-semibold">
         <button onclick="copyShareLink()" id="copyBtn" class="px-3 py-1.5 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-800 transition">

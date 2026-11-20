@@ -243,11 +243,54 @@ def check_static_files() -> None:
         print(f"  Static OK: {rel} ({os.path.getsize(p)} bytes)")
 
 
+def build_static_sitemap() -> None:
+    from datetime import datetime
+    import html
+
+    conn = sqlite3.connect(DB_PATH)
+    conn.row_factory = sqlite3.Row
+    try:
+        ev_rows = conn.execute("SELECT slug, actualizat_la FROM evenimente ORDER BY slug").fetchall()
+        loc_rows = conn.execute("SELECT slug, actualizat_la FROM locatii ORDER BY slug").fetchall()
+    finally:
+        conn.close()
+
+    today = datetime.utcnow().strftime("%Y-%m-%d")
+    base_url = "https://clubturistic.md"
+    urls = [
+        f"  <url><loc>{base_url}/</loc><lastmod>{today}</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>"
+    ]
+    for r in ev_rows:
+        lm = (r["actualizat_la"] or today)[:10]
+        loc_url = html.escape(f"{base_url}/eveniment/{r['slug']}")
+        urls.append(
+            f"  <url><loc>{loc_url}</loc><lastmod>{lm}</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>"
+        )
+    for r in loc_rows:
+        lm = (r["actualizat_la"] or today)[:10]
+        loc_url = html.escape(f"{base_url}/locatie/{r['slug']}")
+        urls.append(
+            f"  <url><loc>{loc_url}</loc><lastmod>{lm}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>"
+        )
+
+    xml = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        + "\n".join(urls)
+        + "\n</urlset>\n"
+    )
+    out_path = os.path.join(STATIC_DIR, "sitemap.xml")
+    with open(out_path, "w", encoding="utf-8") as f:
+        f.write(xml)
+    print(f"Generat {out_path} ({len(urls)} URL-uri)")
+
+
 def main() -> None:
     build_media_sources()
     build_schema_sql()
     build_seed_data()
     build_cf_config()
+    build_static_sitemap()
     check_static_files()
 
 

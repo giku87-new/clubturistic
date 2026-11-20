@@ -207,6 +207,69 @@ async function handleImageRequest(request, env, ctx, filename) {
   return resp;
 }
 
+function buildJsonLd(itemType, item, desc, absImg, canonical, origin) {
+  let ldObj;
+  if (itemType === "eveniment") {
+    const startDate = String(item.urmatoarea_data_estimata || "2027-06-01").slice(0, 10);
+    const isFree = String(item.pret_intrare || "").toLowerCase().includes("gratuit");
+    ldObj = {
+      "@context": "https://schema.org",
+      "@type": "Event",
+      name: item.titlu,
+      description: desc.slice(0, 300),
+      startDate,
+      endDate: startDate,
+      eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+      eventStatus: "https://schema.org/EventScheduled",
+      isAccessibleForFree: isFree,
+      image: [absImg],
+      url: canonical,
+      location: {
+        "@type": "Place",
+        name: item.locatie_exacta || item.localitate || "Republica Moldova",
+        address: {
+          "@type": "PostalAddress",
+          addressLocality: item.localitate || "",
+          addressRegion: item.raion || item.regiune || "",
+          addressCountry: "MD",
+        },
+        geo: {
+          "@type": "GeoCoordinates",
+          latitude: item.lat ?? 47.0105,
+          longitude: item.lng ?? 28.8638,
+        },
+      },
+      organizer: {
+        "@type": "Organization",
+        name: item.organizator || "ClubTuristic.md",
+        url: item.link_oficial || origin,
+      },
+    };
+  } else {
+    ldObj = {
+      "@context": "https://schema.org",
+      "@type": "TouristAttraction",
+      name: item.titlu,
+      description: desc.slice(0, 300),
+      image: [absImg],
+      url: canonical,
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: item.adresa || "",
+        addressLocality: item.localitate || "",
+        addressRegion: item.raion || item.regiune || "",
+        addressCountry: "MD",
+      },
+      geo: {
+        "@type": "GeoCoordinates",
+        latitude: item.lat ?? 47.0105,
+        longitude: item.lng ?? 28.8638,
+      },
+    };
+  }
+  return JSON.stringify(ldObj).replace(/<\//g, "<\\/").replace(/<!--/g, "<\\!--");
+}
+
 async function renderDetailPage(env, requestUrl, itemType, row) {
   if (!row) {
     return new Response("Nu a fost găsit", { status: 404 });
@@ -225,12 +288,14 @@ async function renderDetailPage(env, requestUrl, itemType, row) {
   const payloadSafe = JSON.stringify({ item_type: itemType, item })
     .replace(/<\//g, "<\\/")
     .replace(/<!--/g, "<\\!--");
+  const jsonLdSafe = buildJsonLd(itemType, item, desc, absImg, requestUrl.href, requestUrl.origin);
 
   const replacements = {
     __META_TITLE__: escapeHtmlAttr(pageTitle),
     __META_DESCRIPTION__: escapeHtmlAttr(desc),
     __OG_IMAGE__: escapeHtmlAttr(absImg),
     __OG_URL__: escapeHtmlAttr(requestUrl.href),
+    __JSON_LD__: jsonLdSafe,
     __INITIAL_ITEM_JSON__: payloadSafe,
   };
 
@@ -609,9 +674,43 @@ export default {
     console.log(JSON.stringify({ message: "incoming_request", method, path: pathname }));
 
     try {
-      // Static HTML & JS routes
+      // Static HTML, SEO & JS routes
       if (method === "GET" && (pathname === "/" || pathname === "/index.html")) {
         return serveStaticFromKv(env, "__static__/index.html", "text/html; charset=utf-8", "public, max-age=300");
+      }
+      if (method === "GET" && pathname === "/robots.txt") {
+        const body = `User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /api/admin/\nSitemap: ${url.origin}/sitemap.xml\n`;
+        return new Response(body, {
+          status: 200,
+          headers: { "Content-Type": "text/plain; charset=utf-8", "Cache-Control": "public, max-age=3600" },
+        });
+      }
+      if (method === "GET" && (pathname === "/sitemap.xml" || pathname === "/static/sitemap.xml")) {
+        const today = new Date().toISOString().slice(0, 10);
+        const [evRes, locRes] = await Promise.all([
+          env.DB.prepare("SELECT slug, actualizat_la FROM evenimente ORDER BY slug").all(),
+          env.DB.prepare("SELECT slug, actualizat_la FROM locatii ORDER BY slug").all(),
+        ]);
+        const urls = [
+          `  <url><loc>${escapeHtmlAttr(url.origin)}/</loc><lastmod>${today}</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>`,
+        ];
+        for (const r of evRes.results || []) {
+          const lm = String(r.actualizat_la || today).slice(0, 10);
+          urls.push(
+            `  <url><loc>${escapeHtmlAttr(`${url.origin}/eveniment/${r.slug}`)}</loc><lastmod>${lm}</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>`
+          );
+        }
+        for (const r of locRes.results || []) {
+          const lm = String(r.actualizat_la || today).slice(0, 10);
+          urls.push(
+            `  <url><loc>${escapeHtmlAttr(`${url.origin}/locatie/${r.slug}`)}</loc><lastmod>${lm}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>`
+          );
+        }
+        const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join("\n")}\n</urlset>\n`;
+        return new Response(xml, {
+          status: 200,
+          headers: { "Content-Type": "application/xml; charset=utf-8", "Cache-Control": "public, max-age=3600" },
+        });
       }
       if (method === "GET" && (pathname === "/admin" || pathname === "/admin.html")) {
         return serveStaticFromKv(env, "__static__/admin.html", "text/html; charset=utf-8", "no-store");

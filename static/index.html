@@ -3,8 +3,49 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ClubTuristic.md — Festivaluri, Târguri, Crame & Locuri Verificate din Moldova</title>
+  <title>ClubTuristic.md — Festivaluri, Târguri, Crame &amp; Locuri Verificate din Moldova</title>
   <meta name="description" content="Ghidul verificat cu surse media și fotografii reale pentru festivaluri, târguri de producători, zilele ușilor deschise la crame și locuri autentice de vizitat în Republica Moldova.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://clubturistic.md/">
+  <link rel="icon" type="image/png" href="/static/images/logo.png">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="ClubTuristic.md">
+  <meta property="og:locale" content="ro_MD">
+  <meta property="og:title" content="ClubTuristic.md — Festivaluri, Târguri, Crame &amp; Locuri Verificate din Moldova">
+  <meta property="og:description" content="Ghidul verificat cu surse media și fotografii reale pentru festivaluri, târguri de producători, zilele ușilor deschise la crame și locuri autentice de vizitat în Republica Moldova.">
+  <meta property="og:url" content="https://clubturistic.md/">
+  <meta property="og:image" content="https://clubturistic.md/static/images/butuceni.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ClubTuristic.md — Festivaluri, Târguri, Crame &amp; Locuri Verificate din Moldova">
+  <meta name="twitter:description" content="Ghidul verificat cu surse media și fotografii reale pentru festivaluri, târguri de producători, crame și locuri autentice din Republica Moldova.">
+  <meta name="twitter:image" content="https://clubturistic.md/static/images/butuceni.jpg">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://clubturistic.md/#website",
+        "url": "https://clubturistic.md/",
+        "name": "ClubTuristic.md",
+        "description": "Ghidul verificat cu surse media și fotografii reale pentru festivaluri, târguri, crame și locuri autentice din Republica Moldova.",
+        "inLanguage": "ro-MD",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://clubturistic.md/?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://clubturistic.md/#organization",
+        "name": "ClubTuristic Moldova",
+        "url": "https://clubturistic.md/",
+        "logo": "https://clubturistic.md/static/images/logo.png"
+      }
+    ]
+  }
+  </script>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -21,9 +62,7 @@
   <header class="bg-white/95 backdrop-blur border-b border-stone-200 sticky top-0 z-40">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-3">
       <a href="/" class="flex items-center space-x-2.5 group">
-        <div class="w-9 h-9 rounded-xl bg-rose-900 text-amber-300 flex items-center justify-center font-black text-lg shadow-sm group-hover:bg-rose-800 transition">
-          CT
-        </div>
+        <img src="/static/images/logo.png" alt="ClubTuristic Moldova" width="38" height="38" class="w-9 h-9 rounded-full object-contain transition transform group-hover:scale-105">
         <div>
           <div class="font-extrabold text-base tracking-tight text-stone-900 leading-none">
             ClubTuristic<span class="text-rose-800">.md</span>
@@ -64,14 +103,14 @@
       <div class="bg-white p-2 rounded-2xl shadow-2xl max-w-4xl mx-auto flex flex-col md:flex-row gap-2 text-stone-800 mb-5">
         <div class="flex-1 flex items-center px-3 py-2 border-b md:border-b-0 md:border-r border-stone-200">
           <span class="text-stone-400 mr-2 text-base">🔍</span>
-          <input id="searchInput" type="text"
+          <input id="searchInput" type="text" aria-label="Caută evenimente și locații"
                  placeholder="Caută cireșe, IA MANIA, zeamă, Bostaniada, lavandă, crame, EcoLocal..."
                  class="w-full bg-transparent text-sm focus:outline-none">
         </div>
 
         <div class="flex items-center px-3 py-2 md:border-r border-stone-200 min-w-[140px]">
           <span class="text-stone-400 mr-1.5 text-sm">📍</span>
-          <select id="regionSelect" class="w-full bg-transparent text-xs sm:text-sm font-medium focus:outline-none cursor-pointer">
+          <select id="regionSelect" aria-label="Selectează regiunea" class="w-full bg-transparent text-xs sm:text-sm font-medium focus:outline-none cursor-pointer">
             <option value="Toate">Toată Moldova</option>
             <option value="Chișinău">Chișinău</option>
             <option value="Centru">Centru</option>
@@ -83,7 +122,7 @@
 
         <div class="flex items-center px-3 py-2 min-w-[130px]">
           <span class="text-stone-400 mr-1.5 text-sm">🗓️</span>
-          <select id="monthSelect" class="w-full bg-transparent text-xs sm:text-sm font-medium focus:outline-none cursor-pointer">
+          <select id="monthSelect" aria-label="Selectează luna" class="w-full bg-transparent text-xs sm:text-sm font-medium focus:outline-none cursor-pointer">
             <option value="Toate">Toate Lunile</option>
             <option value="Ianuarie">Ianuarie</option>
             <option value="Februarie">Februarie</option>
@@ -127,19 +166,19 @@
     <!-- 4 PRIMARY SECTION TABS -->
     <div class="flex flex-wrap items-center justify-between gap-4 border-b border-stone-200 pb-4 mb-5">
       <div class="flex flex-wrap gap-2" role="tablist">
-        <button onclick="switchTab('evenimente')" id="tab-evenimente"
+        <button onclick="switchTab('evenimente')" id="tab-evenimente" role="tab" aria-selected="true"
                 class="tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-rose-900 text-white shadow-sm transition">
           🎉 Evenimente, Festivaluri &amp; Târguri (<span id="cnt-evenimente">...</span>)
         </button>
-        <button onclick="switchTab('locatii')" id="tab-locatii"
+        <button onclick="switchTab('locatii')" id="tab-locatii" role="tab" aria-selected="false"
                 class="tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white border border-stone-300 text-stone-700 hover:bg-stone-100 transition">
           🍷 Crame, Pensiuni &amp; Locuri (<span id="cnt-locatii">...</span>)
         </button>
-        <button onclick="switchTab('harta')" id="tab-harta"
+        <button onclick="switchTab('harta')" id="tab-harta" role="tab" aria-selected="false"
                 class="tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white border border-stone-300 text-stone-700 hover:bg-stone-100 transition">
           🗺️ Hartă Interactivă
         </button>
-        <button onclick="switchTab('hramuri')" id="tab-hramuri"
+        <button onclick="switchTab('hramuri')" id="tab-hramuri" role="tab" aria-selected="false"
                 class="tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white border border-stone-300 text-stone-700 hover:bg-stone-100 transition">
           ⛪ Hramuri Notabile (<span id="cnt-hramuri">...</span>)
         </button>
@@ -151,11 +190,11 @@
     <!-- SECONDARY FILTERS ROW -->
     <div id="filtersRow" class="bg-white border border-stone-200 rounded-2xl p-3.5 mb-6 flex flex-wrap items-center justify-between gap-3 shadow-xs">
       <div class="flex flex-wrap items-center gap-2.5 text-xs">
-        <select id="typeFilter" class="bg-stone-50 border border-stone-300 rounded-lg px-3 py-1.5 font-medium text-stone-800 focus:outline-none">
+        <select id="typeFilter" aria-label="Filtrează după tip" class="bg-stone-50 border border-stone-300 rounded-lg px-3 py-1.5 font-medium text-stone-800 focus:outline-none">
           <option value="Toate">Toate tipurile</option>
         </select>
 
-        <select id="seasonFilter" class="bg-stone-50 border border-stone-300 rounded-lg px-3 py-1.5 font-medium text-stone-800 focus:outline-none">
+        <select id="seasonFilter" aria-label="Filtrează după anotimp" class="bg-stone-50 border border-stone-300 rounded-lg px-3 py-1.5 font-medium text-stone-800 focus:outline-none">
           <option value="Toate">Toate anotimpurile</option>
           <option value="Primăvară">🌱 Primăvară</option>
           <option value="Vară">☀️ Vară</option>

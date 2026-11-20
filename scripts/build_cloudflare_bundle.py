@@ -54,7 +54,11 @@ def build_media_sources() -> None:
 
 
 def build_schema_sql() -> None:
-    sql = """DROP TABLE IF EXISTS search_fts;
+    sql = """DROP TABLE IF EXISTS monitor_runs;
+DROP TABLE IF EXISTS actualizari_detectate;
+DROP TABLE IF EXISTS surse_articole_vazute;
+DROP TABLE IF EXISTS surse_monitorizate;
+DROP TABLE IF EXISTS search_fts;
 DROP TABLE IF EXISTS evenimente;
 DROP TABLE IF EXISTS locatii;
 DROP TABLE IF EXISTS hramuri_notabile;
@@ -74,6 +78,8 @@ CREATE TABLE evenimente (
     lng REAL NOT NULL,
     distanta_chisinau_km INTEGER DEFAULT 0,
     data_text TEXT NOT NULL,
+    data_start TEXT DEFAULT '',
+    data_end TEXT DEFAULT '',
     regula_recurenta TEXT NOT NULL,
     tip_recurenta TEXT NOT NULL,
     luna_principala TEXT NOT NULL,
@@ -88,6 +94,11 @@ CREATE TABLE evenimente (
     ce_gusti TEXT NOT NULL,
     taguri TEXT NOT NULL,
     link_oficial TEXT NOT NULL,
+    facebook_url TEXT DEFAULT '',
+    instagram_url TEXT DEFAULT '',
+    bilete_url TEXT DEFAULT '',
+    ultima_verificare_la TEXT DEFAULT '',
+    sursa_confirmarii TEXT DEFAULT '',
     surse_media_json TEXT NOT NULL,
     imagine_url TEXT NOT NULL,
     imagine_credit TEXT NOT NULL,
@@ -116,6 +127,8 @@ CREATE TABLE locatii (
     ce_gusti TEXT NOT NULL,
     taguri TEXT NOT NULL,
     link_oficial TEXT NOT NULL,
+    facebook_url TEXT DEFAULT '',
+    instagram_url TEXT DEFAULT '',
     surse_media_json TEXT NOT NULL,
     imagine_url TEXT NOT NULL,
     imagine_credit TEXT NOT NULL,
@@ -158,6 +171,65 @@ CREATE TABLE propuneri_comunitate (
     creat_la DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE surse_monitorizate (
+    id TEXT PRIMARY KEY,
+    nume TEXT NOT NULL,
+    tip TEXT NOT NULL,
+    url TEXT UNIQUE NOT NULL,
+    parser TEXT NOT NULL,
+    regiune_focus TEXT DEFAULT 'Moldova',
+    eveniment_id TEXT DEFAULT '',
+    activ INTEGER DEFAULT 1,
+    etag TEXT DEFAULT '',
+    last_modified TEXT DEFAULT '',
+    last_checked_at TEXT DEFAULT '',
+    last_status TEXT DEFAULT '',
+    last_new_items INTEGER DEFAULT 0,
+    total_matches INTEGER DEFAULT 0,
+    creat_la DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE surse_articole_vazute (
+    item_hash TEXT PRIMARY KEY,
+    sursa_id TEXT NOT NULL,
+    url TEXT NOT NULL,
+    titlu TEXT DEFAULT '',
+    matched INTEGER DEFAULT 0,
+    first_seen_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE actualizari_detectate (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    dedupe_key TEXT UNIQUE NOT NULL,
+    sursa_id TEXT NOT NULL,
+    sursa_nume TEXT NOT NULL,
+    sursa_tip TEXT NOT NULL,
+    eveniment_id TEXT DEFAULT '',
+    eveniment_titlu TEXT DEFAULT '',
+    titlu_detectat TEXT NOT NULL,
+    data_start_detectata TEXT DEFAULT '',
+    data_end_detectata TEXT DEFAULT '',
+    data_text_detectat TEXT DEFAULT '',
+    locatie_detectata TEXT DEFAULT '',
+    descriere_snippet TEXT DEFAULT '',
+    url_sursa TEXT NOT NULL,
+    scor_relevanta INTEGER DEFAULT 0,
+    status TEXT DEFAULT 'De verificat',
+    detectat_la DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE monitor_runs (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    trigger_type TEXT NOT NULL,
+    sources_checked INTEGER DEFAULT 0,
+    sources_not_modified INTEGER DEFAULT 0,
+    items_seen_skipped INTEGER DEFAULT 0,
+    items_new_scanned INTEGER DEFAULT 0,
+    matches_queued INTEGER DEFAULT 0,
+    errors_json TEXT DEFAULT '[]',
+    ran_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
 CREATE VIRTUAL TABLE search_fts USING fts5(
     item_type UNINDEXED,
     item_id UNINDEXED,
@@ -172,8 +244,11 @@ CREATE INDEX idx_evt_regiune ON evenimente(regiune);
 CREATE INDEX idx_evt_luna ON evenimente(luna_principala);
 CREATE INDEX idx_evt_sezon ON evenimente(sezon);
 CREATE INDEX idx_evt_tip ON evenimente(tip);
+CREATE INDEX idx_evt_data_start ON evenimente(data_start);
 CREATE INDEX idx_loc_regiune ON locatii(regiune);
 CREATE INDEX idx_loc_cat ON locatii(categorie);
+CREATE INDEX idx_vazute_sursa ON surse_articole_vazute(sursa_id);
+CREATE INDEX idx_act_status ON actualizari_detectate(status);
 """
     out_path = os.path.join(CF_DIR, "schema.sql")
     with open(out_path, "w", encoding="utf-8") as f:
@@ -189,6 +264,7 @@ def build_seed_data() -> None:
         locatii = [dict(r) for r in conn.execute("SELECT * FROM locatii").fetchall()]
         hramuri = [dict(r) for r in conn.execute("SELECT * FROM hramuri_notabile").fetchall()]
         search_fts = [dict(r) for r in conn.execute("SELECT * FROM search_fts").fetchall()]
+        surse = [dict(r) for r in conn.execute("SELECT * FROM surse_monitorizate ORDER BY id").fetchall()]
     finally:
         conn.close()
 
@@ -200,6 +276,7 @@ def build_seed_data() -> None:
                 "locatii": locatii,
                 "hramuri_notabile": hramuri,
                 "search_fts": search_fts,
+                "surse_monitorizate": surse,
             },
             f,
             ensure_ascii=False,
@@ -207,7 +284,7 @@ def build_seed_data() -> None:
         )
     print(
         f"Generat {out_path} (evt={len(evenimente)}, loc={len(locatii)}, "
-        f"hram={len(hramuri)}, fts={len(search_fts)})"
+        f"hram={len(hramuri)}, fts={len(search_fts)}, surse={len(surse)})"
     )
 
 

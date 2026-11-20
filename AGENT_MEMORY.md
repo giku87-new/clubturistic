@@ -116,6 +116,14 @@ Serverul local `server.py` rulează pe portul `8080`:
 - **REST API Calendar**: `http://localhost:8080/api/calendar` (returnează evenimentele programate cu reguli de recurență)
 - **REST API Stats**: `http://localhost:8080/api/stats` (statistici în timp real pe categorii, regiuni, sezoane și luni)
 
-## GitHub / Deploy
-- Repo: https://github.com/giku87-new/clubturistic (user giku87-new). Autentificare salvata in Windows Credential Manager (`git`) — NU cere din nou tokenul și NU scrie tokenuri sau parole în fișiere.
-- Cloudflare: LIVE la https://clubturistic.clubturistic.workers.dev (cont `ro.gfrunza@gmail.com`, D1 `clubturistic-db`, KV `clubturistic-media`, subdomain `clubturistic`, Worker `clubturistic`). `CLOUDFLARE_API_TOKEN` și `CLOUDFLARE_ACCOUNT_ID` sunt salvate în variabilele de mediu de utilizator Windows (NU le scrie niciodată în repo).
+## GitHub / Deploy & Monitorizare v3
+- **Repo:** https://github.com/giku87-new/clubturistic (user `giku87-new`). Autentificare salvată în Windows Credential Manager (`git`) — NU cere din nou tokenul și NU scrie tokenuri sau parole în fișiere.
+- **Cloudflare LIVE:** https://clubturistic.clubturistic.workers.dev (Admin: `/admin`). Cont `ro.gfrunza@gmail.com`, D1 `clubturistic-db`, KV `clubturistic-media`, subdomain `clubturistic`, Worker `clubturistic`. `CLOUDFLARE_API_TOKEN` și `CLOUDFLARE_ACCOUNT_ID` sunt salvate în variabilele de mediu de utilizator Windows (NU le scrie niciodată în repo).
+- **Schema v3 (`cloudflare/schema.sql`):**
+  - `evenimente` (40 evenimente): include `data_start`, `data_end`, `facebook_url`, `instagram_url`, `bilete_url`, `ultima_verificare_la`, `sursa_confirmarii`.
+  - `locatii` (18 locații): include `facebook_url`, `instagram_url`.
+  - `hramuri_notabile` (7 hramuri) & `search_fts` (65 intrări FTS5).
+  - Tabele de monitorizare: `surse_monitorizate` (33 surse: 5 agende, 8 portaluri știri RSS, 6 radio/TV/presă regională, 4 site-uri oficiale festivaluri/crame, 10 pagini Facebook), `surse_articole_vazute` (registru SHA-256 cu deduplicare incrementală), `actualizari_detectate` (coadă de aprobare `/admin`), `monitor_runs` (istoric rulări).
+- **Monitorizare automată (`cloudflare/monitor.js` + `wrangler.jsonc`):**
+  - Cloudflare Worker Cron Trigger rulează automat `0 */6 * * *` (la fiecare 6 ore), folosind `If-None-Match` / `If-Modified-Since` și maxim o sursă per hostname per rulare pentru a evita HTTP 429.
+  - **REGULĂ PENTRU AGENȚI VIITORI:** Înainte de a face noi căutări pe web, verificați mai întâi `GET /api/admin/monitor/status` și `surse_articole_vazute` din D1 ca să NU repetați căutările pe surse și articole deja procesate!

@@ -15,6 +15,7 @@ import {
   upsertFtsEntry,
 } from "./search_utils.js";
 import { MEDIA_SOURCES } from "./media_sources.js";
+import { runMonitorScan } from "./monitor.js";
 
 const HTML_HEADERS = {
   "Content-Type": "text/html; charset=utf-8",
@@ -210,7 +211,8 @@ async function handleImageRequest(request, env, ctx, filename) {
 function buildJsonLd(itemType, item, desc, absImg, canonical, origin) {
   let ldObj;
   if (itemType === "eveniment") {
-    const startDate = String(item.urmatoarea_data_estimata || "2027-06-01").slice(0, 10);
+    const startDate = String(item.data_start || item.urmatoarea_data_estimata || "2027-06-01").slice(0, 10);
+    const endDate = String(item.data_end || startDate).slice(0, 10);
     const isFree = String(item.pret_intrare || "").toLowerCase().includes("gratuit");
     ldObj = {
       "@context": "https://schema.org",
@@ -218,7 +220,7 @@ function buildJsonLd(itemType, item, desc, absImg, canonical, origin) {
       name: item.titlu,
       description: desc.slice(0, 300),
       startDate,
-      endDate: startDate,
+      endDate,
       eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
       eventStatus: "https://schema.org/EventScheduled",
       isAccessibleForFree: isFree,
@@ -317,6 +319,7 @@ async function handleGetEvenimente(env, sp) {
   const sezon = (sp.get("sezon") || "").trim();
   const luna = (sp.get("luna") || "").trim();
   const gratuit = (sp.get("gratuit") || "").trim();
+  const doarConfirmate = (sp.get("doar_confirmate") || "").trim();
   const limit = Math.min(Math.max(parseInt(sp.get("limit") || "100", 10) || 100, 1), 500);
   const offset = Math.max(parseInt(sp.get("offset") || "0", 10) || 0, 0);
 
@@ -352,10 +355,21 @@ async function handleGetEvenimente(env, sp) {
   if (["1", "true", "True"].includes(gratuit)) {
     baseFrom += " AND LOWER(e.pret_intrare) LIKE '%gratuit%'";
   }
+  if (["1", "true", "True"].includes(doarConfirmate)) {
+    baseFrom += " AND (e.data_start != '' OR e.status_data LIKE '%Săptămânal%')";
+  }
 
   const orderSql = usedFts
     ? " ORDER BY bm25(search_fts, 10.0, 2.0, 4.0) ASC, e.este_recomandat DESC"
-    : " ORDER BY e.este_recomandat DESC, e.urmatoarea_data_estimata ASC";
+    : ` ORDER BY
+        CASE
+          WHEN e.data_start != '' AND e.data_start >= date('now') THEN 0
+          WHEN e.status_data LIKE '%Săptămânal%' THEN 1
+          WHEN e.data_start != '' THEN 2
+          ELSE 3
+        END ASC,
+        CASE WHEN e.data_start != '' THEN e.data_start ELSE e.urmatoarea_data_estimata END ASC,
+        e.este_recomandat DESC`;
 
   const totalRow = await env.DB.prepare(`SELECT COUNT(*) AS cnt ${baseFrom}`).bind(...args).first();
   const rowsRes = await env.DB.prepare(`SELECT e.* ${baseFrom}${orderSql} LIMIT ? OFFSET ?`)
@@ -489,8 +503,10 @@ async function handleGetHramuri(env, sp) {
 }
 
 async function handleGetStats(env) {
-  const [ev, loc, hrm, prop, tips, regs, sezs, luns] = await Promise.all([
+  const [ev, evConf, monPending, loc, hrm, prop, tips, regs, sezs, luns] = await Promise.all([
     env.DB.prepare("SELECT COUNT(*) AS c FROM evenimente").first(),
+    env.DB.prepare("SELECT COUNT(*) AS c FROM evenimente WHERE data_start != ''").first(),
+    env.DB.prepare("SELECT COUNT(*) AS c FROM actualizari_detectate WHERE status = 'De verificat'").first(),
     env.DB.prepare("SELECT COUNT(*) AS c FROM locatii").first(),
     env.DB.prepare("SELECT COUNT(*) AS c FROM hramuri_notabile").first(),
     env.DB.prepare("SELECT COUNT(*) AS c FROM propuneri_comunitate WHERE status = 'In asteptare'").first(),
@@ -503,6 +519,8 @@ async function handleGetStats(env) {
   const toMap = (res) => Object.fromEntries((res.results || []).map((r) => [r.k, r.c]));
   return jsonResponse({
     evenimente: ev?.c || 0,
+    evenimente_confirmate: evConf?.c || 0,
+    actualizari_de_verificat: monPending?.c || 0,
     locatii: loc?.c || 0,
     hramuri_notabile: hrm?.c || 0,
     propuneri_in_asteptare: prop?.c || 0,
@@ -567,6 +585,8 @@ function normalizeEventPayload(body, existingSlug = null) {
   const titlu = String(body.titlu || "").trim();
   if (titlu.length < 2) throw new Error("Titlul evenimentului este obligatoriu.");
   const slug = String(body.slug || existingSlug || makeSlug(titlu, "evt")).trim();
+  const dataStart = String(body.data_start || "").trim().slice(0, 20);
+  const dataEnd = String(body.data_end || dataStart).trim().slice(0, 20);
   return {
     slug,
     titlu,
@@ -580,20 +600,27 @@ function normalizeEventPayload(body, existingSlug = null) {
     lng: Number.isFinite(Number(body.lng)) ? Number(body.lng) : 28.8638,
     distanta_chisinau_km: parseInt(body.distanta_chisinau_km ?? 0, 10) || 0,
     data_text: String(body.data_text || "Anual (de confirmat)"),
+    data_start: dataStart,
+    data_end: dataEnd,
     regula_recurenta: String(body.regula_recurenta || "Anual"),
     tip_recurenta: String(body.tip_recurenta || "Recurență relativă"),
     luna_principala: String(body.luna_principala || "Iunie"),
     luni_active: String(body.luni_active || body.luna_principala || "Iunie"),
     sezon: String(body.sezon || "Vară"),
     ultima_editie_verificata: String(body.ultima_editie_verificata || "Confirmat prin sursă publică"),
-    urmatoarea_data_estimata: String(body.urmatoarea_data_estimata || "2027-06-15"),
-    status_data: String(body.status_data || "Estimat după tradiție"),
+    urmatoarea_data_estimata: String(body.urmatoarea_data_estimata || dataStart || "2027-06-15"),
+    status_data: String(body.status_data || (dataStart ? "Confirmat" : "Estimat după tradiție")),
     pret_intrare: String(body.pret_intrare || "Gratuit"),
     descriere_scurta: String(body.descriere_scurta || ""),
     cum_a_fost_real: String(body.cum_a_fost_real || ""),
     ce_gusti: String(body.ce_gusti || ""),
     taguri: String(body.taguri || ""),
     link_oficial: String(body.link_oficial || "https://moldova.travel/ro"),
+    facebook_url: String(body.facebook_url || "").trim(),
+    instagram_url: String(body.instagram_url || "").trim(),
+    bilete_url: String(body.bilete_url || "").trim(),
+    ultima_verificare_la: String(body.ultima_verificare_la || new Date().toISOString().slice(0, 10)),
+    sursa_confirmarii: String(body.sursa_confirmarii || "").trim(),
     surse_media_json: JSON.stringify(Array.isArray(body.surse_media) ? body.surse_media : []),
     imagine_url: String(body.imagine_url || "/static/images/chisinau.jpg"),
     imagine_credit: String(body.imagine_credit || "Arhivă verificată ClubTuristic.md"),
@@ -624,6 +651,8 @@ function normalizeLocationPayload(body, existingSlug = null) {
     ce_gusti: String(body.ce_gusti || ""),
     taguri: String(body.taguri || ""),
     link_oficial: String(body.link_oficial || "https://moldova.travel/ro"),
+    facebook_url: String(body.facebook_url || "").trim(),
+    instagram_url: String(body.instagram_url || "").trim(),
     surse_media_json: JSON.stringify(Array.isArray(body.surse_media) ? body.surse_media : []),
     imagine_url: String(body.imagine_url || "/static/images/vineyard_moldova.jpg"),
     imagine_credit: String(body.imagine_credit || "Arhivă verificată ClubTuristic.md"),
@@ -794,19 +823,21 @@ export default {
           await env.DB.prepare(
             `INSERT INTO evenimente (
               id, slug, titlu, tip, organizator, regiune, raion, localitate, locatie_exacta,
-              lat, lng, distanta_chisinau_km, data_text, regula_recurenta, tip_recurenta,
+              lat, lng, distanta_chisinau_km, data_text, data_start, data_end, regula_recurenta, tip_recurenta,
               luna_principala, luni_active, sezon, ultima_editie_verificata, urmatoarea_data_estimata,
               status_data, pret_intrare, descriere_scurta, cum_a_fost_real, ce_gusti, taguri,
-              link_oficial, surse_media_json, imagine_url, imagine_credit, este_recomandat
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+              link_oficial, facebook_url, instagram_url, bilete_url, ultima_verificare_la, sursa_confirmarii,
+              surse_media_json, imagine_url, imagine_credit, este_recomandat
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
           )
             .bind(
               id, d.slug, d.titlu, d.tip, d.organizator, d.regiune, d.raion, d.localitate,
-              d.locatie_exacta, d.lat, d.lng, d.distanta_chisinau_km, d.data_text, d.regula_recurenta,
-              d.tip_recurenta, d.luna_principala, d.luni_active, d.sezon, d.ultima_editie_verificata,
-              d.urmatoarea_data_estimata, d.status_data, d.pret_intrare, d.descriere_scurta,
-              d.cum_a_fost_real, d.ce_gusti, d.taguri, d.link_oficial, d.surse_media_json,
-              d.imagine_url, d.imagine_credit, d.este_recomandat
+              d.locatie_exacta, d.lat, d.lng, d.distanta_chisinau_km, d.data_text, d.data_start, d.data_end,
+              d.regula_recurenta, d.tip_recurenta, d.luna_principala, d.luni_active, d.sezon,
+              d.ultima_editie_verificata, d.urmatoarea_data_estimata, d.status_data, d.pret_intrare,
+              d.descriere_scurta, d.cum_a_fost_real, d.ce_gusti, d.taguri, d.link_oficial,
+              d.facebook_url, d.instagram_url, d.bilete_url, d.ultima_verificare_la, d.sursa_confirmarii,
+              d.surse_media_json, d.imagine_url, d.imagine_credit, d.este_recomandat
             )
             .run();
           await indexEvent(env.DB, id, d);
@@ -824,20 +855,23 @@ export default {
             `UPDATE evenimente SET
               slug = ?, titlu = ?, tip = ?, organizator = ?, regiune = ?, raion = ?,
               localitate = ?, locatie_exacta = ?, lat = ?, lng = ?, distanta_chisinau_km = ?,
-              data_text = ?, regula_recurenta = ?, tip_recurenta = ?, luna_principala = ?,
-              luni_active = ?, sezon = ?, ultima_editie_verificata = ?, urmatoarea_data_estimata = ?,
-              status_data = ?, pret_intrare = ?, descriere_scurta = ?, cum_a_fost_real = ?,
-              ce_gusti = ?, taguri = ?, link_oficial = ?, surse_media_json = ?,
-              imagine_url = ?, imagine_credit = ?, este_recomandat = ?, actualizat_la = CURRENT_TIMESTAMP
+              data_text = ?, data_start = ?, data_end = ?, regula_recurenta = ?, tip_recurenta = ?,
+              luna_principala = ?, luni_active = ?, sezon = ?, ultima_editie_verificata = ?,
+              urmatoarea_data_estimata = ?, status_data = ?, pret_intrare = ?, descriere_scurta = ?,
+              cum_a_fost_real = ?, ce_gusti = ?, taguri = ?, link_oficial = ?,
+              facebook_url = ?, instagram_url = ?, bilete_url = ?, ultima_verificare_la = ?, sursa_confirmarii = ?,
+              surse_media_json = ?, imagine_url = ?, imagine_credit = ?, este_recomandat = ?,
+              actualizat_la = CURRENT_TIMESTAMP
             WHERE id = ?`
           )
             .bind(
               d.slug, d.titlu, d.tip, d.organizator, d.regiune, d.raion, d.localitate,
-              d.locatie_exacta, d.lat, d.lng, d.distanta_chisinau_km, d.data_text, d.regula_recurenta,
-              d.tip_recurenta, d.luna_principala, d.luni_active, d.sezon, d.ultima_editie_verificata,
-              d.urmatoarea_data_estimata, d.status_data, d.pret_intrare, d.descriere_scurta,
-              d.cum_a_fost_real, d.ce_gusti, d.taguri, d.link_oficial, d.surse_media_json,
-              d.imagine_url, d.imagine_credit, d.este_recomandat, itemId
+              d.locatie_exacta, d.lat, d.lng, d.distanta_chisinau_km, d.data_text, d.data_start, d.data_end,
+              d.regula_recurenta, d.tip_recurenta, d.luna_principala, d.luni_active, d.sezon,
+              d.ultima_editie_verificata, d.urmatoarea_data_estimata, d.status_data, d.pret_intrare,
+              d.descriere_scurta, d.cum_a_fost_real, d.ce_gusti, d.taguri, d.link_oficial,
+              d.facebook_url, d.instagram_url, d.bilete_url, d.ultima_verificare_la, d.sursa_confirmarii,
+              d.surse_media_json, d.imagine_url, d.imagine_credit, d.este_recomandat, itemId
             )
             .run();
           await indexEvent(env.DB, itemId, d);
@@ -866,14 +900,15 @@ export default {
               id, slug, titlu, categorie, regiune, raion, localitate, adresa,
               lat, lng, distanta_chisinau_km, program_vizita, rezervare_necesara, buget_orientativ,
               descriere_scurta, ce_merita_vazut, ce_gusti, taguri, link_oficial,
-              surse_media_json, imagine_url, imagine_credit, este_recomandat
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+              facebook_url, instagram_url, surse_media_json, imagine_url, imagine_credit, este_recomandat
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
           )
             .bind(
               id, d.slug, d.titlu, d.categorie, d.regiune, d.raion, d.localitate, d.adresa,
               d.lat, d.lng, d.distanta_chisinau_km, d.program_vizita, d.rezervare_necesara,
               d.buget_orientativ, d.descriere_scurta, d.ce_merita_vazut, d.ce_gusti, d.taguri,
-              d.link_oficial, d.surse_media_json, d.imagine_url, d.imagine_credit, d.este_recomandat
+              d.link_oficial, d.facebook_url, d.instagram_url, d.surse_media_json,
+              d.imagine_url, d.imagine_credit, d.este_recomandat
             )
             .run();
           await indexLocation(env.DB, id, d);
@@ -893,15 +928,16 @@ export default {
               adresa = ?, lat = ?, lng = ?, distanta_chisinau_km = ?, program_vizita = ?,
               rezervare_necesara = ?, buget_orientativ = ?, descriere_scurta = ?,
               ce_merita_vazut = ?, ce_gusti = ?, taguri = ?, link_oficial = ?,
-              surse_media_json = ?, imagine_url = ?, imagine_credit = ?, este_recomandat = ?,
-              actualizat_la = CURRENT_TIMESTAMP
+              facebook_url = ?, instagram_url = ?, surse_media_json = ?, imagine_url = ?,
+              imagine_credit = ?, este_recomandat = ?, actualizat_la = CURRENT_TIMESTAMP
             WHERE id = ?`
           )
             .bind(
               d.slug, d.titlu, d.categorie, d.regiune, d.raion, d.localitate, d.adresa,
               d.lat, d.lng, d.distanta_chisinau_km, d.program_vizita, d.rezervare_necesara,
               d.buget_orientativ, d.descriere_scurta, d.ce_merita_vazut, d.ce_gusti, d.taguri,
-              d.link_oficial, d.surse_media_json, d.imagine_url, d.imagine_credit, d.este_recomandat, itemId
+              d.link_oficial, d.facebook_url, d.instagram_url, d.surse_media_json,
+              d.imagine_url, d.imagine_credit, d.este_recomandat, itemId
             )
             .run();
           await indexLocation(env.DB, itemId, d);
@@ -940,6 +976,222 @@ export default {
           if ((del.meta?.changes || 0) === 0) return jsonResponse({ detail: "Propunerea nu există" }, 404);
           return jsonResponse({ success: true, deleted: pid });
         }
+
+        // ---- Admin Monitor Endpoints ----
+        if (method === "GET" && pathname === "/api/admin/monitor/status") {
+          const statusFilter = (searchParams.get("status") || "De verificat").trim();
+          const [cntPending, cntActive, cntSeen, runsRes, srcRes] = await Promise.all([
+            env.DB.prepare("SELECT COUNT(*) AS c FROM actualizari_detectate WHERE status = 'De verificat'").first(),
+            env.DB.prepare("SELECT COUNT(*) AS c FROM surse_monitorizate WHERE activ = 1").first(),
+            env.DB.prepare("SELECT COUNT(*) AS c FROM surse_articole_vazute").first(),
+            env.DB.prepare("SELECT * FROM monitor_runs ORDER BY id DESC LIMIT 10").all(),
+            env.DB.prepare("SELECT * FROM surse_monitorizate ORDER BY CASE WHEN parser = 'social_manual' THEN 1 ELSE 0 END ASC, tip ASC, nume ASC").all(),
+          ]);
+
+          let updRes;
+          if (!statusFilter || statusFilter === "Toate") {
+            updRes = await env.DB.prepare(
+              "SELECT * FROM actualizari_detectate ORDER BY id DESC LIMIT 100"
+            ).all();
+          } else {
+            updRes = await env.DB.prepare(
+              "SELECT * FROM actualizari_detectate WHERE status = ? ORDER BY scor_relevanta DESC, id DESC LIMIT 100"
+            )
+              .bind(statusFilter)
+              .all();
+          }
+          return jsonResponse({
+            counts: {
+              de_verificat: cntPending?.c || 0,
+              surse_active: cntActive?.c || 0,
+              articole_vazute: cntSeen?.c || 0,
+            },
+            runs: runsRes.results || [],
+            sources: srcRes.results || [],
+            updates: updRes.results || [],
+          });
+        }
+
+        if (method === "POST" && pathname === "/api/admin/monitor/run") {
+          let body = {};
+          try {
+            body = await request.json();
+          } catch {
+            body = {};
+          }
+          const summary = await runMonitorScan(env, "manual", body || {});
+          return jsonResponse(summary);
+        }
+
+        if (method === "POST" && pathname.startsWith("/api/admin/monitor/updates/") && pathname.endsWith("/approve")) {
+          const updId = parseInt(pathname.slice("/api/admin/monitor/updates/".length, -"/approve".length), 10);
+          const upd = await env.DB.prepare("SELECT * FROM actualizari_detectate WHERE id = ?").bind(updId).first();
+          if (!upd) return jsonResponse({ detail: "Actualizarea nu există" }, 404);
+
+          let overrides = {};
+          try {
+            overrides = await request.json();
+          } catch {
+            overrides = {};
+          }
+
+          const today = new Date().toISOString().slice(0, 10);
+          const targetEventId = String(overrides.eveniment_id ?? upd.eveniment_id ?? "").trim();
+          const dataStart = String(overrides.data_start ?? upd.data_start_detectata ?? "").trim().slice(0, 20);
+          const dataEnd = String(overrides.data_end ?? upd.data_end_detectata ?? dataStart).trim().slice(0, 20);
+          const dataText = String(overrides.data_text ?? upd.data_text_detectat ?? dataStart ?? "De confirmat").trim();
+
+          if (targetEventId) {
+            const existingEv = await env.DB.prepare("SELECT * FROM evenimente WHERE id = ?").bind(targetEventId).first();
+            if (!existingEv) return jsonResponse({ detail: "Evenimentul țintă nu există" }, 404);
+
+            let surseArr = [];
+            try {
+              surseArr = JSON.parse(existingEv.surse_media_json || "[]");
+            } catch {
+              surseArr = [];
+            }
+            if (!surseArr.some((s) => s.url === upd.url_sursa)) {
+              surseArr.unshift({
+                titlu: upd.titlu_detectat,
+                publicatie: upd.sursa_nume,
+                url: upd.url_sursa,
+              });
+            }
+
+            const newDataStart = dataStart || existingEv.data_start || "";
+            const newDataEnd = dataEnd || existingEv.data_end || newDataStart;
+            const newNextEst = newDataStart || existingEv.urmatoarea_data_estimata;
+            const newDataText = dataText || existingEv.data_text;
+            const newStatus = newDataStart ? "Confirmat" : existingEv.status_data;
+
+            await env.DB.prepare(
+              `UPDATE evenimente SET
+                data_start = ?, data_end = ?, urmatoarea_data_estimata = ?, data_text = ?,
+                status_data = ?, sursa_confirmarii = ?, ultima_verificare_la = ?,
+                surse_media_json = ?, actualizat_la = CURRENT_TIMESTAMP
+              WHERE id = ?`
+            )
+              .bind(
+                newDataStart,
+                newDataEnd,
+                newNextEst,
+                newDataText,
+                newStatus,
+                upd.url_sursa,
+                today,
+                JSON.stringify(surseArr),
+                targetEventId
+              )
+              .run();
+
+            const updated = await env.DB.prepare("SELECT * FROM evenimente WHERE id = ?").bind(targetEventId).first();
+            await indexEvent(env.DB, targetEventId, updated);
+            await env.DB.prepare("UPDATE actualizari_detectate SET status = 'Aprobat' WHERE id = ?").bind(updId).run();
+            return jsonResponse({ success: true, action: "updated", item: serializeRow(updated) });
+          }
+
+          const payload = normalizeEventPayload({
+            titlu: overrides.titlu || upd.titlu_detectat,
+            tip: overrides.tip || "Festival Cultural & Muzică",
+            organizator: upd.sursa_nume || "Organizator Local",
+            regiune: overrides.regiune || "Chișinău",
+            raion: overrides.raion || "Municipiul Chișinău",
+            localitate: overrides.localitate || upd.locatie_detectata || "mun. Chișinău",
+            locatie_exacta: upd.locatie_detectata || "",
+            data_start: dataStart,
+            data_end: dataEnd,
+            data_text: dataText || (dataStart || "Anual (de confirmat)"),
+            urmatoarea_data_estimata: dataStart || "2027-06-15",
+            status_data: dataStart ? "Confirmat" : "Estimat după tradiție",
+            pret_intrare: overrides.pret_intrare || "Vezi sursa oficială",
+            descriere_scurta: upd.descriere_snippet || upd.titlu_detectat,
+            cum_a_fost_real: upd.descriere_snippet || upd.titlu_detectat,
+            link_oficial: upd.url_sursa,
+            sursa_confirmarii: upd.url_sursa,
+            ultima_verificare_la: today,
+            surse_media: [{ titlu: upd.titlu_detectat, publicatie: upd.sursa_nume, url: upd.url_sursa }],
+          });
+          const suffix = Math.floor(Date.now() / 1000) % 10000;
+          const newId = `evt-${payload.slug}-${suffix}`;
+          const existingSlug = await env.DB.prepare("SELECT 1 FROM evenimente WHERE slug = ?").bind(payload.slug).first();
+          if (existingSlug) payload.slug = `${payload.slug}-${suffix}`;
+
+          await env.DB.prepare(
+            `INSERT INTO evenimente (
+              id, slug, titlu, tip, organizator, regiune, raion, localitate, locatie_exacta,
+              lat, lng, distanta_chisinau_km, data_text, data_start, data_end, regula_recurenta, tip_recurenta,
+              luna_principala, luni_active, sezon, ultima_editie_verificata, urmatoarea_data_estimata,
+              status_data, pret_intrare, descriere_scurta, cum_a_fost_real, ce_gusti, taguri,
+              link_oficial, facebook_url, instagram_url, bilete_url, ultima_verificare_la, sursa_confirmarii,
+              surse_media_json, imagine_url, imagine_credit, este_recomandat
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+          )
+            .bind(
+              newId, payload.slug, payload.titlu, payload.tip, payload.organizator, payload.regiune,
+              payload.raion, payload.localitate, payload.locatie_exacta, payload.lat, payload.lng,
+              payload.distanta_chisinau_km, payload.data_text, payload.data_start, payload.data_end,
+              payload.regula_recurenta, payload.tip_recurenta, payload.luna_principala, payload.luni_active,
+              payload.sezon, payload.ultima_editie_verificata, payload.urmatoarea_data_estimata,
+              payload.status_data, payload.pret_intrare, payload.descriere_scurta, payload.cum_a_fost_real,
+              payload.ce_gusti, payload.taguri, payload.link_oficial, payload.facebook_url,
+              payload.instagram_url, payload.bilete_url, payload.ultima_verificare_la,
+              payload.sursa_confirmarii, payload.surse_media_json, payload.imagine_url,
+              payload.imagine_credit, payload.este_recomandat
+            )
+            .run();
+          await indexEvent(env.DB, newId, payload);
+          await env.DB.prepare("UPDATE actualizari_detectate SET status = 'Aprobat' WHERE id = ?").bind(updId).run();
+          const created = await env.DB.prepare("SELECT * FROM evenimente WHERE id = ?").bind(newId).first();
+          return jsonResponse({ success: true, action: "created", item: serializeRow(created) }, 201);
+        }
+
+        if (method === "POST" && pathname.startsWith("/api/admin/monitor/updates/") && pathname.endsWith("/ignore")) {
+          const updId = parseInt(pathname.slice("/api/admin/monitor/updates/".length, -"/ignore".length), 10);
+          const res = await env.DB.prepare("UPDATE actualizari_detectate SET status = 'Ignorat' WHERE id = ?").bind(updId).run();
+          if ((res.meta?.changes || 0) === 0) return jsonResponse({ detail: "Actualizarea nu există" }, 404);
+          return jsonResponse({ success: true, id: updId, status: "Ignorat" });
+        }
+
+        if (method === "POST" && pathname === "/api/admin/monitor/sources") {
+          const body = await request.json();
+          const nume = String(body.nume || "").trim();
+          const urlStr = String(body.url || "").trim();
+          if (nume.length < 2 || !(urlStr.startsWith("http://") || urlStr.startsWith("https://"))) {
+            return jsonResponse({ detail: "Nume și URL valid (http/https) sunt obligatorii." }, 422);
+          }
+          const id = String(body.id || `src-${makeSlug(nume, "src")}-${Date.now() % 10000}`).trim();
+          const tip = String(body.tip || "Website Oficial").trim();
+          const parser = String(body.parser || (tip === "Facebook" ? "social_manual" : "html_links")).trim();
+          const reg = String(body.regiune_focus || "Moldova").trim();
+          const evtId = String(body.eveniment_id || "").trim();
+          await env.DB.prepare(
+            "INSERT INTO surse_monitorizate (id, nume, tip, url, parser, regiune_focus, eveniment_id, activ) VALUES (?, ?, ?, ?, ?, ?, ?, 1)"
+          )
+            .bind(id, nume, tip, urlStr, parser, reg, evtId)
+            .run();
+          const created = await env.DB.prepare("SELECT * FROM surse_monitorizate WHERE id = ?").bind(id).first();
+          return jsonResponse({ success: true, source: created }, 201);
+        }
+
+        if (method === "POST" && pathname.startsWith("/api/admin/monitor/sources/") && pathname.endsWith("/toggle")) {
+          const sid = decodeURIComponent(pathname.slice("/api/admin/monitor/sources/".length, -"/toggle".length));
+          const res = await env.DB.prepare(
+            "UPDATE surse_monitorizate SET activ = CASE WHEN activ = 1 THEN 0 ELSE 1 END WHERE id = ?"
+          )
+            .bind(sid)
+            .run();
+          if ((res.meta?.changes || 0) === 0) return jsonResponse({ detail: "Sursa nu există" }, 404);
+          const row = await env.DB.prepare("SELECT * FROM surse_monitorizate WHERE id = ?").bind(sid).first();
+          return jsonResponse({ success: true, source: row });
+        }
+
+        if (method === "DELETE" && pathname.startsWith("/api/admin/monitor/sources/")) {
+          const sid = decodeURIComponent(pathname.slice("/api/admin/monitor/sources/".length));
+          const del = await env.DB.prepare("DELETE FROM surse_monitorizate WHERE id = ?").bind(sid).run();
+          if ((del.meta?.changes || 0) === 0) return jsonResponse({ detail: "Sursa nu există" }, 404);
+          return jsonResponse({ success: true, deleted: sid });
+        }
       }
 
       return new Response("Not Found", { status: 404 });
@@ -947,5 +1199,9 @@ export default {
       console.error(JSON.stringify({ message: "request_failed", path: pathname, error: String(err) }));
       return jsonResponse({ detail: "Eroare internă de procesare." }, 500);
     }
+  },
+
+  async scheduled(controller, env, ctx) {
+    ctx.waitUntil(runMonitorScan(env, "cron", { limit: 12 }));
   },
 };

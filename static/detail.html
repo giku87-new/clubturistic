@@ -183,6 +183,12 @@
                   <div>
                     <div class="text-stone-500 font-medium">${isEvent ? "📅 Când se petrece" : "🕒 Program de vizită"}</div>
                     <div class="font-bold text-sm text-stone-900">${escapeHtml(isEvent ? item.data_text : item.program_vizita)}</div>
+                    ${isEvent ? (
+                      item.data_start
+                        ? `<div class="text-[11px] font-semibold text-emerald-700 mt-0.5">✓ Dată exactă confirmată: ${escapeHtml(item.data_start)}${item.data_end && item.data_end !== item.data_start ? ` → ${escapeHtml(item.data_end)}` : ""}</div>`
+                        : `<div class="text-[11px] text-amber-700 mt-0.5">Dată exactă neanunțată încă — monitorizăm sursele oficiale.</div>`
+                    ) : ""}
+                    ${isEvent && item.ultima_verificare_la ? `<div class="text-[10px] text-stone-400 mt-0.5">Ultima verificare: ${escapeHtml(item.ultima_verificare_la)}</div>` : ""}
                   </div>
                   ${isEvent ? `
                   <div>
@@ -217,6 +223,24 @@
                 </div>
 
                 <div class="pt-3 border-t border-stone-200 flex flex-col gap-2">
+                  ${item.facebook_url ? `
+                  <a href="${escapeHtml(safeUrl(item.facebook_url))}" target="_blank" rel="noopener noreferrer"
+                     class="w-full text-center bg-sky-600 hover:bg-sky-500 text-white font-bold py-2.5 rounded-xl transition">
+                    📘 Facebook Oficial ↗
+                  </a>
+                  ` : ""}
+                  ${item.instagram_url ? `
+                  <a href="${escapeHtml(safeUrl(item.instagram_url))}" target="_blank" rel="noopener noreferrer"
+                     class="w-full text-center bg-fuchsia-700 hover:bg-fuchsia-600 text-white font-bold py-2.5 rounded-xl transition">
+                    📸 Instagram Oficial ↗
+                  </a>
+                  ` : ""}
+                  ${item.bilete_url ? `
+                  <a href="${escapeHtml(safeUrl(item.bilete_url))}" target="_blank" rel="noopener noreferrer"
+                     class="w-full text-center bg-rose-700 hover:bg-rose-600 text-white font-bold py-2.5 rounded-xl transition">
+                    🎟️ Bilete / Înregistrare ↗
+                  </a>
+                  ` : ""}
                   ${isEvent ? `
                   <a href="/api/evenimente/${encodeURIComponent(item.slug)}/ics"
                      class="w-full text-center bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold py-2.5 rounded-xl transition">

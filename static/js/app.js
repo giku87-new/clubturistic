@@ -28,15 +28,18 @@ function safeUrl(url) {
   return "#";
 }
 
-function statusBadgeHtml(statusText) {
+function statusBadgeHtml(statusText, dataStart = "") {
   const s = (statusText || "").toLowerCase();
+  if (s.includes("saptamanal") || s.includes("săptămânal")) {
+    return `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-teal-100 text-teal-800 border border-teal-200">🔄 Săptămânal activ</span>`;
+  }
+  if (dataStart && s.includes("confirmat")) {
+    return `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">✓ Dată exactă confirmată</span>`;
+  }
   if (s.includes("confirmat")) {
     return `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">✓ Confirmat</span>`;
   }
-  if (s.includes("saptamanal") || s.includes("săptămânal")) {
-    return `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-teal-100 text-teal-800 border border-teal-200">🔄 Săptămânal</span>`;
-  }
-  return `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-200">🗓️ ${escapeHtml(statusText || "Estimat")}</span>`;
+  return `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-200">🗓️ Dată neanunțată (sezon)</span>`;
 }
 
 async function fetchStats() {
@@ -56,11 +59,13 @@ function updateTypeFilterOptions() {
   const sel = document.getElementById("typeFilter");
   const seasonSel = document.getElementById("seasonFilter");
   const freeWrap = document.getElementById("freeOnlyWrap");
+  const confWrap = document.getElementById("confirmedOnlyWrap");
 
   if (activeTab === "evenimente") {
     sel.classList.remove("hidden");
     seasonSel.classList.remove("hidden");
     freeWrap.classList.remove("hidden");
+    if (confWrap) confWrap.classList.remove("hidden");
     sel.innerHTML = `
       <option value="Toate">Toate tipurile de evenimente</option>
       <option value="Festival Gastronomic">🍲 Festival Gastronomic</option>
@@ -74,6 +79,7 @@ function updateTypeFilterOptions() {
     sel.classList.remove("hidden");
     seasonSel.classList.add("hidden");
     freeWrap.classList.add("hidden");
+    if (confWrap) confWrap.classList.add("hidden");
     sel.innerHTML = `
       <option value="Toate">Toate categoriile de locuri</option>
       <option value="Cramă & Resort Turistic">🍷 Cramă &amp; Resort Turistic</option>
@@ -85,6 +91,7 @@ function updateTypeFilterOptions() {
     sel.classList.add("hidden");
     seasonSel.classList.add("hidden");
     freeWrap.classList.add("hidden");
+    if (confWrap) confWrap.classList.add("hidden");
   }
 }
 
@@ -137,10 +144,13 @@ function resetAllFilters() {
   document.getElementById("typeFilter").value = "Toate";
   document.getElementById("seasonFilter").value = "Toate";
   document.getElementById("freeOnlyCheck").checked = false;
+  const confCheck = document.getElementById("confirmedOnlyCheck");
+  if (confCheck) confCheck.checked = false;
   applyCurrentSearch();
 }
 
 function getCommonFilterParams() {
+  const confCheck = document.getElementById("confirmedOnlyCheck");
   return {
     q: document.getElementById("searchInput").value.trim(),
     regiune: document.getElementById("regionSelect").value,
@@ -148,6 +158,7 @@ function getCommonFilterParams() {
     tip: document.getElementById("typeFilter").value,
     sezon: document.getElementById("seasonFilter").value,
     gratuit: document.getElementById("freeOnlyCheck").checked ? "1" : "",
+    doar_confirmate: confCheck && confCheck.checked ? "1" : "",
   };
 }
 
@@ -167,6 +178,7 @@ async function loadCurrentTab() {
     if (f.sezon !== "Toate") params.set("sezon", f.sezon);
     if (f.luna !== "Toate") params.set("luna", f.luna);
     if (f.gratuit) params.set("gratuit", "1");
+    if (f.doar_confirmate) params.set("doar_confirmate", "1");
   } else if (activeTab === "locatii") {
     endpoint = "/api/locatii";
     if (f.tip !== "Toate") params.set("categorie", f.tip);
@@ -228,7 +240,7 @@ function renderEventCard(e) {
 
         <div class="p-4">
           <div class="flex items-center justify-between gap-2 mb-2">
-            ${statusBadgeHtml(e.status_data)}
+            ${statusBadgeHtml(e.status_data, e.data_start)}
             <span class="text-[11px] font-semibold text-stone-500">${escapeHtml(e.luna_principala)} • ${escapeHtml(e.sezon)}</span>
           </div>
 
@@ -250,7 +262,14 @@ function renderEventCard(e) {
 
           <p class="text-xs text-stone-600 line-clamp-2 mb-2.5">${escapeHtml(e.descriere_scurta)}</p>
 
-          ${e.ce_gusti ? `<div class="text-[11px] text-stone-700 bg-stone-100 rounded-lg px-2.5 py-1.5 line-clamp-2"><span class="font-bold">🍽️ Ce guști:</span> ${escapeHtml(e.ce_gusti)}</div>` : ""}
+          ${e.ce_gusti ? `<div class="text-[11px] text-stone-700 bg-stone-100 rounded-lg px-2.5 py-1.5 line-clamp-2 mb-2"><span class="font-bold">🍽️ Ce guști:</span> ${escapeHtml(e.ce_gusti)}</div>` : ""}
+
+          ${(e.facebook_url || e.bilete_url) ? `
+          <div class="flex flex-wrap gap-1.5 mt-1">
+            ${e.facebook_url ? `<a href="${escapeHtml(safeUrl(e.facebook_url))}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-bold bg-sky-50 text-sky-800 border border-sky-200 hover:bg-sky-100 transition">Facebook ↗</a>` : ""}
+            ${e.bilete_url ? `<a href="${escapeHtml(safeUrl(e.bilete_url))}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-bold bg-rose-50 text-rose-800 border border-rose-200 hover:bg-rose-100 transition">🎟️ Bilete ↗</a>` : ""}
+          </div>
+          ` : ""}
         </div>
       </div>
 
@@ -424,6 +443,8 @@ async function openQuickPreview(kind, slug) {
           <a href="${escapeHtml(detailPath)}" class="flex-1 text-center bg-rose-800 hover:bg-rose-700 text-white font-bold py-2.5 px-4 rounded-xl text-xs transition">
             Deschide Pagina Completă →
           </a>
+          ${item.facebook_url ? `<a href="${escapeHtml(safeUrl(item.facebook_url))}" target="_blank" rel="noopener noreferrer" class="bg-sky-100 hover:bg-sky-200 text-sky-900 font-bold py-2.5 px-4 rounded-xl text-xs transition">📘 Facebook ↗</a>` : ""}
+          ${item.bilete_url ? `<a href="${escapeHtml(safeUrl(item.bilete_url))}" target="_blank" rel="noopener noreferrer" class="bg-rose-100 hover:bg-rose-200 text-rose-900 font-bold py-2.5 px-4 rounded-xl text-xs transition">🎟️ Bilete ↗</a>` : ""}
           ${kind === "eveniment" ? `<a href="/api/evenimente/${encodeURIComponent(item.slug)}/ics" class="bg-amber-100 hover:bg-amber-200 text-amber-950 font-bold py-2.5 px-4 rounded-xl text-xs transition">📅 Calendar (.ics)</a>` : ""}
           <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${item.lat},${item.lng}`)}" target="_blank" rel="noopener noreferrer"
              class="bg-stone-200 hover:bg-stone-300 text-stone-800 font-bold py-2.5 px-4 rounded-xl text-xs transition">
@@ -569,7 +590,8 @@ window.addEventListener("DOMContentLoaded", () => {
     clearTimeout(searchTimer);
     searchTimer = setTimeout(applyCurrentSearch, 220);
   });
-  ["regionSelect", "monthSelect", "typeFilter", "seasonFilter", "freeOnlyCheck"].forEach((id) => {
-    document.getElementById(id).addEventListener("change", applyCurrentSearch);
+  ["regionSelect", "monthSelect", "typeFilter", "seasonFilter", "freeOnlyCheck", "confirmedOnlyCheck"].forEach((id) => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener("change", applyCurrentSearch);
   });
 });

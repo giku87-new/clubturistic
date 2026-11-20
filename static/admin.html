@@ -74,21 +74,27 @@
         <button onclick="switchAdminTab('propuneri')" id="admTab-propuneri" class="adm-tab px-4 py-2 rounded-xl bg-slate-800 text-slate-300 border border-slate-700">
           📬 Propuneri Comunitate (<span id="admCnt-prop">0</span>)
         </button>
+        <button onclick="switchAdminTab('monitor')" id="admTab-monitor" class="adm-tab px-4 py-2 rounded-xl bg-slate-800 text-slate-300 border border-slate-700">
+          📡 Monitorizare &amp; Actualizări (<span id="admCnt-mon">0</span>)
+        </button>
       </div>
 
-      <div class="relative w-full sm:w-80">
-        <input id="adminSearch" type="text" placeholder="Caută live în SQLite (FTS5)..."
+      <div id="searchWrap" class="relative w-full sm:w-80">
+        <input id="adminSearch" type="text" placeholder="Caută live în SQLite / D1 (FTS5)..."
                class="w-full bg-slate-900 border border-slate-700 rounded-xl pl-3 pr-3 py-2 text-xs text-white focus:outline-none focus:border-amber-500">
       </div>
     </div>
 
     <!-- TABLE CONTAINER -->
-    <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-x-auto shadow-lg">
+    <div id="tablePanel" class="bg-slate-900 border border-slate-800 rounded-2xl overflow-x-auto shadow-lg">
       <table class="w-full text-left text-xs">
         <thead id="tableHead" class="bg-slate-800/80 text-slate-400 uppercase text-[11px]"></thead>
         <tbody id="tableBody" class="divide-y divide-slate-800"></tbody>
       </table>
     </div>
+
+    <!-- MONITOR CONTAINER -->
+    <div id="monitorPanel" class="hidden space-y-5"></div>
   </main>
 
   <!-- ADD/EDIT MODAL -->

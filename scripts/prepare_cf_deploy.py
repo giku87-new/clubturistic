@@ -60,10 +60,12 @@ def generate_seed_sql(seed_data: dict) -> str:
         "DELETE FROM evenimente;",
         "DELETE FROM locatii;",
         "DELETE FROM hramuri_notabile;",
+        "DELETE FROM surse_monitorizate;",
     ]
     lines.extend(build_insert_statements("evenimente", seed_data.get("evenimente", [])))
     lines.extend(build_insert_statements("locatii", seed_data.get("locatii", [])))
     lines.extend(build_insert_statements("hramuri_notabile", seed_data.get("hramuri_notabile", [])))
+    lines.extend(build_insert_statements("surse_monitorizate", seed_data.get("surse_monitorizate", [])))
     lines.extend(
         build_insert_statements(
             "search_fts",
@@ -79,6 +81,7 @@ def generate_seed_sql(seed_data: dict) -> str:
         f"evt={len(seed_data.get('evenimente', []))}, "
         f"loc={len(seed_data.get('locatii', []))}, "
         f"hram={len(seed_data.get('hramuri_notabile', []))}, "
+        f"surse={len(seed_data.get('surse_monitorizate', []))}, "
         f"fts={len(seed_data.get('search_fts', []))})"
     )
     return sql_text
@@ -94,14 +97,18 @@ def dry_run_sqlite(sql_text: str) -> None:
         conn.executescript(sql_text)
         counts = tuple(
             conn.execute(f"SELECT COUNT(*) FROM {t}").fetchone()[0]
-            for t in ("evenimente", "locatii", "hramuri_notabile", "search_fts")
+            for t in ("evenimente", "locatii", "hramuri_notabile", "search_fts", "surse_monitorizate")
         )
-        assert counts == (34, 18, 7, 59), f"Unexpected dry-run counts: {counts}"
+        assert counts == (40, 18, 7, 65, 33), f"Unexpected dry-run counts: {counts}"
+        confirmed_cnt = conn.execute(
+            "SELECT COUNT(*) FROM evenimente WHERE data_start != ''"
+        ).fetchone()[0]
+        assert confirmed_cnt >= 11, f"Expected >= 11 events with data_start, got {confirmed_cnt}"
         zeama_hits = conn.execute(
             "SELECT COUNT(*) FROM search_fts WHERE search_fts MATCH 'zeama'"
         ).fetchone()[0]
         assert zeama_hits >= 1, f"Expected >= 1 FTS match for 'zeama', got {zeama_hits}"
-        print(f"Dry-run SQLite OK: counts={counts}, fts('zeama')={zeama_hits}")
+        print(f"Dry-run SQLite OK: counts={counts}, data_start={confirmed_cnt}, fts('zeama')={zeama_hits}")
     finally:
         conn.close()
 

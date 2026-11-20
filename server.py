@@ -155,6 +155,8 @@ class EvenimentPayload(BaseModel):
     lng: float = 28.8638
     distanta_chisinau_km: int = 0
     data_text: str = Field(default="Anual (de confirmat)", max_length=160)
+    data_start: str = Field(default="", max_length=20)
+    data_end: str = Field(default="", max_length=20)
     regula_recurenta: str = Field(default="Anual", max_length=240)
     tip_recurenta: str = Field(default="Recurență relativă", max_length=80)
     luna_principala: str = Field(default="Iunie", max_length=40)
@@ -169,6 +171,11 @@ class EvenimentPayload(BaseModel):
     ce_gusti: str = Field(default="", max_length=500)
     taguri: str = Field(default="", max_length=400)
     link_oficial: str = Field(default="https://moldova.travel/ro", max_length=400)
+    facebook_url: str = Field(default="", max_length=400)
+    instagram_url: str = Field(default="", max_length=400)
+    bilete_url: str = Field(default="", max_length=400)
+    ultima_verificare_la: str = Field(default="", max_length=30)
+    sursa_confirmarii: str = Field(default="", max_length=400)
     surse_media: list[dict[str, str]] = Field(default_factory=list)
     imagine_url: str = Field(default="/static/images/chisinau.jpg", max_length=400)
     imagine_credit: str = Field(default="Arhivă verificată ClubTuristic.md", max_length=200)
@@ -195,6 +202,8 @@ class LocatiePayload(BaseModel):
     ce_gusti: str = Field(default="", max_length=500)
     taguri: str = Field(default="", max_length=400)
     link_oficial: str = Field(default="https://moldova.travel/ro", max_length=400)
+    facebook_url: str = Field(default="", max_length=400)
+    instagram_url: str = Field(default="", max_length=400)
     surse_media: list[dict[str, str]] = Field(default_factory=list)
     imagine_url: str = Field(default="/static/images/vineyard_moldova.jpg", max_length=400)
     imagine_credit: str = Field(default="Arhivă verificată ClubTuristic.md", max_length=200)
@@ -291,7 +300,8 @@ def serve_sitemap(request: Request):
 
 def _build_json_ld(item_type: str, item: dict[str, Any], desc: str, abs_img: str, canonical: str, base_url: str) -> str:
     if item_type == "eveniment":
-        start_date = (item.get("urmatoarea_data_estimata") or "2027-06-01")[:10]
+        start_date = (item.get("data_start") or item.get("urmatoarea_data_estimata") or "2027-06-01")[:10]
+        end_date = (item.get("data_end") or start_date)[:10]
         is_free = "gratuit" in (item.get("pret_intrare") or "").lower()
         ld_obj = {
             "@context": "https://schema.org",
@@ -299,7 +309,7 @@ def _build_json_ld(item_type: str, item: dict[str, Any], desc: str, abs_img: str
             "name": item["titlu"],
             "description": desc[:300],
             "startDate": start_date,
-            "endDate": start_date,
+            "endDate": end_date,
             "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
             "eventStatus": "https://schema.org/EventScheduled",
             "isAccessibleForFree": is_free,
@@ -413,6 +423,7 @@ def api_get_evenimente(
     sezon: str = "",
     luna: str = "",
     gratuit: str = "",
+    doar_confirmate: str = "",
     limit: int = Query(default=100, ge=1, le=500),
     offset: int = Query(default=0, ge=0),
 ):
@@ -437,12 +448,22 @@ def api_get_evenimente(
             args.extend([luna, f"%,{luna},%"])
         if gratuit in ("1", "true", "True"):
             base_from += " AND LOWER(e.pret_intrare) LIKE '%gratuit%'"
+        if doar_confirmate in ("1", "true", "True"):
+            base_from += " AND (e.data_start != '' OR e.status_data LIKE '%Săptămânal%')"
 
         total = conn.execute(f"SELECT COUNT(*) {base_from}", args).fetchone()[0]
         order_sql = (
             " ORDER BY bm25(search_fts, 10.0, 2.0, 4.0) ASC, e.este_recomandat DESC"
             if used_fts
-            else " ORDER BY e.este_recomandat DESC, e.urmatoarea_data_estimata ASC"
+            else """ ORDER BY
+                CASE
+                    WHEN e.data_start != '' AND e.data_start >= date('now') THEN 0
+                    WHEN e.status_data LIKE '%Săptămânal%' THEN 1
+                    WHEN e.data_start != '' THEN 2
+                    ELSE 3
+                END ASC,
+                CASE WHEN e.data_start != '' THEN e.data_start ELSE e.urmatoarea_data_estimata END ASC,
+                e.este_recomandat DESC"""
         )
         rows = conn.execute(
             f"SELECT e.* {base_from}{order_sql} LIMIT ? OFFSET ?",
@@ -585,6 +606,13 @@ def api_get_stats():
     with get_db_conn() as conn:
         c = conn.cursor()
         ev_cnt = c.execute("SELECT COUNT(*) FROM evenimente").fetchone()[0]
+        ev_conf = c.execute("SELECT COUNT(*) FROM evenimente WHERE data_start != ''").fetchone()[0]
+        try:
+            mon_pending = c.execute(
+                "SELECT COUNT(*) FROM actualizari_detectate WHERE status = 'De verificat'"
+            ).fetchone()[0]
+        except sqlite3.OperationalError:
+            mon_pending = 0
         loc_cnt = c.execute("SELECT COUNT(*) FROM locatii").fetchone()[0]
         hrm_cnt = c.execute("SELECT COUNT(*) FROM hramuri_notabile").fetchone()[0]
         prop_pending = c.execute("SELECT COUNT(*) FROM propuneri_comunitate WHERE status = 'In asteptare'").fetchone()[0]
@@ -597,6 +625,8 @@ def api_get_stats():
         }
     return {
         "evenimente": ev_cnt,
+        "evenimente_confirmate": ev_conf,
+        "actualizari_de_verificat": mon_pending,
         "locatii": loc_cnt,
         "hramuri_notabile": hrm_cnt,
         "propuneri_in_asteptare": prop_pending,
@@ -660,21 +690,24 @@ def admin_create_eveniment(payload: EvenimentPayload, user: str = Depends(requir
                 """
                 INSERT INTO evenimente (
                     id, slug, titlu, tip, organizator, regiune, raion, localitate, locatie_exacta,
-                    lat, lng, distanta_chisinau_km, data_text, regula_recurenta, tip_recurenta,
+                    lat, lng, distanta_chisinau_km, data_text, data_start, data_end, regula_recurenta, tip_recurenta,
                     luna_principala, luni_active, sezon, ultima_editie_verificata, urmatoarea_data_estimata,
                     status_data, pret_intrare, descriere_scurta, cum_a_fost_real, ce_gusti, taguri,
-                    link_oficial, surse_media_json, imagine_url, imagine_credit, este_recomandat
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    link_oficial, facebook_url, instagram_url, bilete_url, ultima_verificare_la, sursa_confirmarii,
+                    surse_media_json, imagine_url, imagine_credit, este_recomandat
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """,
                 (
                     item_id, slug, data["titlu"], data["tip"], data["organizator"], data["regiune"],
                     data["raion"], data["localitate"], data["locatie_exacta"], data["lat"], data["lng"],
-                    data["distanta_chisinau_km"], data["data_text"], data["regula_recurenta"], data["tip_recurenta"],
+                    data["distanta_chisinau_km"], data["data_text"], data["data_start"], data["data_end"],
+                    data["regula_recurenta"], data["tip_recurenta"],
                     data["luna_principala"], data["luni_active"], data["sezon"], data["ultima_editie_verificata"],
                     data["urmatoarea_data_estimata"], data["status_data"], data["pret_intrare"],
                     data["descriere_scurta"], data["cum_a_fost_real"], data["ce_gusti"], data["taguri"],
-                    data["link_oficial"], surse_json, data["imagine_url"], data["imagine_credit"],
-                    data["este_recomandat"],
+                    data["link_oficial"], data["facebook_url"], data["instagram_url"], data["bilete_url"],
+                    data["ultima_verificare_la"], data["sursa_confirmarii"], surse_json, data["imagine_url"],
+                    data["imagine_credit"], data["este_recomandat"],
                 ),
             )
             _index_event(conn, item_id, data)
@@ -700,10 +733,11 @@ def admin_update_eveniment(item_id: str, payload: EvenimentPayload, user: str = 
             UPDATE evenimente SET
                 slug = ?, titlu = ?, tip = ?, organizator = ?, regiune = ?, raion = ?,
                 localitate = ?, locatie_exacta = ?, lat = ?, lng = ?, distanta_chisinau_km = ?,
-                data_text = ?, regula_recurenta = ?, tip_recurenta = ?, luna_principala = ?,
+                data_text = ?, data_start = ?, data_end = ?, regula_recurenta = ?, tip_recurenta = ?, luna_principala = ?,
                 luni_active = ?, sezon = ?, ultima_editie_verificata = ?, urmatoarea_data_estimata = ?,
                 status_data = ?, pret_intrare = ?, descriere_scurta = ?, cum_a_fost_real = ?,
-                ce_gusti = ?, taguri = ?, link_oficial = ?, surse_media_json = ?,
+                ce_gusti = ?, taguri = ?, link_oficial = ?, facebook_url = ?, instagram_url = ?,
+                bilete_url = ?, ultima_verificare_la = ?, sursa_confirmarii = ?, surse_media_json = ?,
                 imagine_url = ?, imagine_credit = ?, este_recomandat = ?,
                 actualizat_la = CURRENT_TIMESTAMP
             WHERE id = ?
@@ -711,10 +745,12 @@ def admin_update_eveniment(item_id: str, payload: EvenimentPayload, user: str = 
             (
                 slug, data["titlu"], data["tip"], data["organizator"], data["regiune"], data["raion"],
                 data["localitate"], data["locatie_exacta"], data["lat"], data["lng"], data["distanta_chisinau_km"],
-                data["data_text"], data["regula_recurenta"], data["tip_recurenta"], data["luna_principala"],
-                data["luni_active"], data["sezon"], data["ultima_editie_verificata"], data["urmatoarea_data_estimata"],
-                data["status_data"], data["pret_intrare"], data["descriere_scurta"], data["cum_a_fost_real"],
-                data["ce_gusti"], data["taguri"], data["link_oficial"], surse_json,
+                data["data_text"], data["data_start"], data["data_end"], data["regula_recurenta"], data["tip_recurenta"],
+                data["luna_principala"], data["luni_active"], data["sezon"], data["ultima_editie_verificata"],
+                data["urmatoarea_data_estimata"], data["status_data"], data["pret_intrare"],
+                data["descriere_scurta"], data["cum_a_fost_real"], data["ce_gusti"], data["taguri"],
+                data["link_oficial"], data["facebook_url"], data["instagram_url"], data["bilete_url"],
+                data["ultima_verificare_la"], data["sursa_confirmarii"], surse_json,
                 data["imagine_url"], data["imagine_credit"], data["este_recomandat"], item_id,
             ),
         )
@@ -754,16 +790,16 @@ def admin_create_locatie(payload: LocatiePayload, user: str = Depends(require_ad
                     id, slug, titlu, categorie, regiune, raion, localitate, adresa,
                     lat, lng, distanta_chisinau_km, program_vizita, rezervare_necesara, buget_orientativ,
                     descriere_scurta, ce_merita_vazut, ce_gusti, taguri,
-                    link_oficial, surse_media_json, imagine_url, imagine_credit, este_recomandat
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    link_oficial, facebook_url, instagram_url, surse_media_json, imagine_url, imagine_credit, este_recomandat
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """,
                 (
                     item_id, slug, data["titlu"], data["categorie"], data["regiune"], data["raion"],
                     data["localitate"], data["adresa"], data["lat"], data["lng"], data["distanta_chisinau_km"],
                     data["program_vizita"], data["rezervare_necesara"], data["buget_orientativ"],
                     data["descriere_scurta"], data["ce_merita_vazut"], data["ce_gusti"], data["taguri"],
-                    data["link_oficial"], surse_json, data["imagine_url"], data["imagine_credit"],
-                    data["este_recomandat"],
+                    data["link_oficial"], data["facebook_url"], data["instagram_url"], surse_json,
+                    data["imagine_url"], data["imagine_credit"], data["este_recomandat"],
                 ),
             )
             _index_location(conn, item_id, data)
@@ -791,7 +827,8 @@ def admin_update_locatie(item_id: str, payload: LocatiePayload, user: str = Depe
                 adresa = ?, lat = ?, lng = ?, distanta_chisinau_km = ?, program_vizita = ?,
                 rezervare_necesara = ?, buget_orientativ = ?, descriere_scurta = ?,
                 ce_merita_vazut = ?, ce_gusti = ?, taguri = ?, link_oficial = ?,
-                surse_media_json = ?, imagine_url = ?, imagine_credit = ?, este_recomandat = ?,
+                facebook_url = ?, instagram_url = ?, surse_media_json = ?,
+                imagine_url = ?, imagine_credit = ?, este_recomandat = ?,
                 actualizat_la = CURRENT_TIMESTAMP
             WHERE id = ?
             """,
@@ -800,8 +837,8 @@ def admin_update_locatie(item_id: str, payload: LocatiePayload, user: str = Depe
                 data["localitate"], data["adresa"], data["lat"], data["lng"], data["distanta_chisinau_km"],
                 data["program_vizita"], data["rezervare_necesara"], data["buget_orientativ"],
                 data["descriere_scurta"], data["ce_merita_vazut"], data["ce_gusti"], data["taguri"],
-                data["link_oficial"], surse_json, data["imagine_url"], data["imagine_credit"],
-                data["este_recomandat"], item_id,
+                data["link_oficial"], data["facebook_url"], data["instagram_url"], surse_json,
+                data["imagine_url"], data["imagine_credit"], data["este_recomandat"], item_id,
             ),
         )
         _index_location(conn, item_id, data)
